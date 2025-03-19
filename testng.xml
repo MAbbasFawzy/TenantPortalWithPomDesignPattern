@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="SuiteName" parallel="false">
+    <test name="TestGroup">
+        <classes>
+            <class name="org.example.LoginAndNavigation_Test"/> <!-- Replace with your actual class names -->
+            <class name="org.example.SubmitRequest_Test"/>
+            <class name="org.example.ContactUs_Test"/>
+            <!-- Add more classes as needed -->
+        </classes>
+    </test>
+</suite>
