@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class ServiceSubscription_Test {
+public class ChangeCredentials_Test {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -23,6 +23,10 @@ public class ServiceSubscription_Test {
     private String tenantpassword;
     private String tenant;
     private String tenantUrl;
+    private String tenantnewpassword;
+    private String confirmtenantnewpassword;
+    private String newtenantusername;
+    private String confirmnewtenantusername;
 
     @BeforeClass
     public void setup() throws InterruptedException {
@@ -35,14 +39,16 @@ public class ServiceSubscription_Test {
     }
 
 
-
-
+    /*
     @AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
     }
+
+     */
+
 
     public void loadProperties() {
         Properties properties = new Properties();
@@ -56,6 +62,10 @@ public class ServiceSubscription_Test {
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
             tenant = properties.getProperty("tenant");
+            tenantnewpassword = properties.getProperty("newpassword");
+            confirmtenantnewpassword = properties.getProperty("newpassword");
+            newtenantusername = properties.getProperty("newtenantusername");
+            confirmnewtenantusername = properties.getProperty("newtenantusername");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,30 +102,41 @@ public class ServiceSubscription_Test {
     }
 
     @Test(priority = 0)
-    public void openServicesPageSearch() throws InterruptedException {
+    public void openProfile() throws InterruptedException {
 
+        Thread.sleep(6000);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
+        Profile pr = new Profile(driver);
 
-        lp.servicesPage();
-        Thread.sleep(2000);
-        sr.servicesPageOpenAndSearch();
+        pr.openProfile();
 
     }
-
     @Test(priority = 1)
-    public void submitSubscription() throws InterruptedException {
+    public void changeCreds() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
+        Thread.sleep(2000);
+        Profile pr = new Profile(driver);
+        pr.editPassword(tenantpassword, tenantnewpassword, confirmtenantnewpassword);
+        pr.editUsername(newtenantusername, confirmnewtenantusername);
 
-        sr.openSubmitRequestForm();
-        sr.selectServiceAndSubscribe();
-        sr.checkSubscriptionAdded();
+
 
     }
 
+    @Test(priority = 2)
+    public void loginWithNewCreds() throws InterruptedException {
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        Thread.sleep(2000);
+        Profile pr = new Profile(driver);
+        pr.logoutAndLoginWithNewCreds();
 
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+
+        Thread.sleep(6000);
+        lp.setUsername(newtenantusername);
+        lp.setPassword(tenantnewpassword);
+        lp.clickLogin();
+    }
 }
