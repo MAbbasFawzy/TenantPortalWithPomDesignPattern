@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class ChangeCredentials_Test {
+public class ChangeProfileInfo_Test {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -38,7 +38,7 @@ public class ChangeCredentials_Test {
         login();
     }
 
-
+    
     @AfterClass
     public void tearDown() {
         if (driver != null) {
@@ -87,6 +87,7 @@ public class ChangeCredentials_Test {
 
 
     public void login() throws InterruptedException {
+
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
@@ -103,33 +104,7 @@ public class ChangeCredentials_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         Profile pr = new Profile(driver);
 
-        pr.openProfile();
-    }
-
-    @Test(priority = 1)
-    public void changeCreds() throws InterruptedException {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        Thread.sleep(2000);
-        Profile pr = new Profile(driver);
-        pr.editPassword(tenantpassword, tenantnewpassword, confirmtenantnewpassword);
-        pr.editUsername(newtenantusername, confirmnewtenantusername);
-    }
-
-    @Test(priority = 2)
-    public void loginWithNewCreds() throws InterruptedException {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        Thread.sleep(2000);
-        Profile pr = new Profile(driver);
-        pr.logoutAndLoginWithNewCreds();
-
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-
-        Thread.sleep(6000);
-        lp.setUsername(newtenantusername);
-        lp.setPassword(tenantnewpassword);
-        lp.clickLogin();
+        pr.editProfileInfo();
     }
 
 }

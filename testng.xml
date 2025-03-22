@@ -5,6 +5,9 @@
             <class name="org.example.LoginAndNavigation_Test"/> <!-- Replace with your actual class names -->
             <class name="org.example.SubmitRequest_Test"/>
             <class name="org.example.ContactUs_Test"/>
+            <class name="org.example.ChangeCredentials_Test"/>
+            <class name="org.example.ServiceSubscription_Test"/>
+            <class name="org.example.ChangeProfileInfo_Test"/>
             <!-- Add more classes as needed -->
         </classes>
     </test>

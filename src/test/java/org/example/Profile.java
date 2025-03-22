@@ -1,7 +1,12 @@
 package org.example;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
+
+import java.time.Duration;
 
 public class Profile {
 
@@ -39,14 +44,18 @@ public class Profile {
 
     By submitUsername = By.xpath("//button[@type='submit']");
 
+    By editProfileButton = By.xpath("//button[normalize-space()='Edit profile']");
 
+    By userInfo = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[2]/div[1]/div[1]/form[1]/div[4]/input[1]");
+
+    By submitUserInfo = By.xpath("//button[@type='submit']");
 
     // Action Methods
     public void openProfile() {
 
         driver.findElement(userProfile).click();
         driver.findElement(profileSettings).click();
-        driver.findElement(editProfile).click();
+
     }
 
     public void editPassword(String oldpassword, String newpassword, String confirmnewpassword) throws InterruptedException {
@@ -76,6 +85,22 @@ public class Profile {
 
         Thread.sleep(6000);
         driver.findElement(logoutButton).click();
+
+    }
+
+    public void editProfileInfo() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        driver.findElement(userProfile).click();
+        driver.findElement(editProfileButton).click();
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        Thread.sleep(6000);
+        Actions actions = new Actions(driver);
+        actions.sendKeys(Keys.END).build().perform();
+
+        driver.findElement(userInfo).sendKeys("Test");
+        driver.findElement(submitUserInfo).click();
 
     }
 }
