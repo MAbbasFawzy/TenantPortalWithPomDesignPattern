@@ -1,8 +1,8 @@
-package org.example;
+package org.example.PageObjects;
 
+import org.example.randomGenerator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 public class ContactUs extends randomGenerator {
 

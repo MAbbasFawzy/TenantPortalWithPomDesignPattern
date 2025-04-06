@@ -1,19 +1,19 @@
-package org.example;
+package org.example.TestCases;
 
-import org.openqa.selenium.WebDriver;
+import org.example.PageObjects.LoginAndNavigation;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class ServiceSubscription_Test {
+public class LoginAndNavigation_Test {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -23,6 +23,7 @@ public class ServiceSubscription_Test {
     private String tenantpassword;
     private String tenant;
     private String tenantUrl;
+    private String version;
 
     @BeforeClass
     public void setup() throws InterruptedException {
@@ -33,9 +34,6 @@ public class ServiceSubscription_Test {
         driver.navigate().to(tenantUrl);
         login();
     }
-
-
-
 
     @AfterClass
     public void tearDown() {
@@ -56,6 +54,7 @@ public class ServiceSubscription_Test {
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
             tenant = properties.getProperty("tenant");
+            version = properties.getProperty("version");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,40 +81,100 @@ public class ServiceSubscription_Test {
 
     public void login() throws InterruptedException {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
+        ((JavascriptExecutor) driver).executeScript("localStorage.setItem('app_version', arguments[0]);", version);
 
-        Thread.sleep(6000);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+        Thread.sleep(4000);
         lp.setUsername(tenantusername);
+
         lp.setPassword(tenantpassword);
+        
         lp.clickLogin();
+
     }
 
-    @Test(priority = 0)
-    public void openServicesPageSearch() throws InterruptedException {
+
+    @Test
+    public void checkServicesPageOpen() {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        System.out.println("We logged in!....");
+
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+        lp.servicesPage();
+    }
+
+    @Test
+    public void checkMyInvoicesPageOpen() {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
-
-        lp.servicesPage();
-        Thread.sleep(2000);
-        sr.servicesPageOpenAndSearch();
-
+        lp.myInvoicesPage();
     }
 
-    @Test(priority = 1)
-    public void submitSubscription() throws InterruptedException {
+    @Test
+    public void checkMyVisitorsPageOpen() {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
-
-        sr.openSubmitRequestForm();
-        sr.selectServiceAndSubscribe();
-        sr.checkSubscriptionAdded();
-
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+        lp.myVisitorsPage();
     }
 
+    @Test
+    public void checkMyViolationsPageOpen() {
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+        lp.myViolationsPage();
+    }
 
+    @Test
+    public void checkMyDocumentsPageOpen() {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+        lp.myDocumentsPage();
+    }
+
+    @Test
+    public void checkMyDependentsPageOpen() {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+        lp.myDependents();
+    }
+
+    @Test
+    public void checkMyPetsPageOpen() {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+        lp.myPetsPage();
+    }
+
+    @Test
+    public void checkMyVehiclesPageOpen() {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+        lp.myVehiclesPage();
+    }
+
+    @Test
+    public void checkContactUsPageOpen() {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+        lp.contactUsPage();
+    }
+
+    @Test
+    public void checkCommunityChatPageOpen() {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+        lp.communityNewsPage();
+    }
 }

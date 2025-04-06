@@ -1,10 +1,12 @@
-package org.example;
+package org.example.TestCases;
 
+import org.example.PageObjects.LoginAndNavigation;
+import org.example.PageObjects.Visitor;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -13,7 +15,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class SubmitRequest_Test {
+public class AddNewVisitorGroup_Test {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -23,6 +25,7 @@ public class SubmitRequest_Test {
     private String tenantpassword;
     private String tenant;
     private String tenantUrl;
+    private String version;
 
     @BeforeClass
     public void setup() throws InterruptedException {
@@ -34,16 +37,14 @@ public class SubmitRequest_Test {
         login();
     }
 
-
-
+    /*
     @AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
     }
-
-
+     */
 
     public void loadProperties() {
         Properties properties = new Properties();
@@ -57,6 +58,7 @@ public class SubmitRequest_Test {
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
             tenant = properties.getProperty("tenant");
+            version = properties.getProperty("version");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,36 +85,26 @@ public class SubmitRequest_Test {
 
     public void login() throws InterruptedException {
 
+        ((JavascriptExecutor) driver).executeScript("localStorage.setItem('app_version', arguments[0]);", version);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        Thread.sleep(6000);
         lp.setUsername(tenantusername);
+
         lp.setPassword(tenantpassword);
+
         lp.clickLogin();
+        lp.myVisitorsPage();
+
     }
 
-    @Test (priority = 0)
-    public void openServicesPageSearch() throws InterruptedException {
+    @Test(priority = 0)
+    public void addVisitor() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
+        Visitor visitor = new Visitor(driver);
+        visitor.addNewVisitorsGroup();
 
-        lp.servicesPage();
-        Thread.sleep(4000);
-        sr.servicesPageOpenAndSearch();
-
-    }
-
-    @Test (priority = 1)
-    public void submitRequest() throws InterruptedException {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
-
-        sr.openSubmitRequestForm();
-        sr.selectServiceAndRequest();
-        sr.assertRequest();
     }
 }

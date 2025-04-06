@@ -1,5 +1,8 @@
-package org.example;
+package org.example.TestCases;
 
+import org.example.PageObjects.LoginAndNavigation;
+import org.example.PageObjects.SubmitRequestSubmitSubscription;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -13,7 +16,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class ChangeCredentials_Test {
+public class SubmitRequest_Test {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -23,10 +26,7 @@ public class ChangeCredentials_Test {
     private String tenantpassword;
     private String tenant;
     private String tenantUrl;
-    private String tenantnewpassword;
-    private String confirmtenantnewpassword;
-    private String newtenantusername;
-    private String confirmnewtenantusername;
+    private String version;
 
     @BeforeClass
     public void setup() throws InterruptedException {
@@ -39,12 +39,15 @@ public class ChangeCredentials_Test {
     }
 
 
+
     @AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
     }
+
+
 
     public void loadProperties() {
         Properties properties = new Properties();
@@ -58,10 +61,8 @@ public class ChangeCredentials_Test {
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
             tenant = properties.getProperty("tenant");
-            tenantnewpassword = properties.getProperty("newpassword");
-            confirmtenantnewpassword = properties.getProperty("newpassword");
-            newtenantusername = properties.getProperty("newtenantusername");
-            confirmnewtenantusername = properties.getProperty("newtenantusername");
+            version = properties.getProperty("version");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,6 +88,9 @@ public class ChangeCredentials_Test {
 
 
     public void login() throws InterruptedException {
+
+        ((JavascriptExecutor) driver).executeScript("localStorage.setItem('app_version', arguments[0]);", version);
+
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
@@ -96,40 +100,27 @@ public class ChangeCredentials_Test {
         lp.clickLogin();
     }
 
-    @Test(priority = 0)
-    public void openProfile() throws InterruptedException {
+    @Test (priority = 0)
+    public void openServicesPageSearch() throws InterruptedException {
 
-        Thread.sleep(6000);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        Profile pr = new Profile(driver);
-
-        pr.openProfile();
-    }
-
-    @Test(priority = 1)
-    public void changeCreds() throws InterruptedException {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        Thread.sleep(2000);
-        Profile pr = new Profile(driver);
-        pr.editPassword(tenantpassword, tenantnewpassword, confirmtenantnewpassword);
-        pr.editUsername(newtenantusername, confirmnewtenantusername);
-    }
-
-    @Test(priority = 2)
-    public void loginWithNewCreds() throws InterruptedException {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        Thread.sleep(2000);
-        Profile pr = new Profile(driver);
-        pr.logoutAndLoginWithNewCreds();
-
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
+        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
 
-        Thread.sleep(6000);
-        lp.setUsername(newtenantusername);
-        lp.setPassword(tenantnewpassword);
-        lp.clickLogin();
+        lp.servicesPage();
+        Thread.sleep(4000);
+        sr.servicesPageOpenAndSearch();
+
     }
 
+    @Test (priority = 1)
+    public void submitRequest() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
+
+        sr.openSubmitRequestForm();
+        sr.selectServiceAndRequest();
+        sr.assertRequest();
+    }
 }

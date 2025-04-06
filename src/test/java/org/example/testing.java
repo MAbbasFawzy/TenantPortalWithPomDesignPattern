@@ -129,7 +129,7 @@ public class testing {
             deleteAction.click();
 
             // Confirm delete
-            WebElement confirmDelete = driver.findElement(By.xpath("//button[contains(text(),'تم')]"));
+            WebElement confirmDelete = driver.findElement(By.xpath("//button[contains(text(),'موافق')]"));
             confirmDelete.click();
 
 
