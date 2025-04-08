@@ -39,15 +39,12 @@ public class SubmitRequest_Test {
     }
 
 
-
     @AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
     }
-
-
 
     public void loadProperties() {
         Properties properties = new Properties();
@@ -121,8 +118,8 @@ public class SubmitRequest_Test {
 
         sr.openSubmitRequestForm();
         sr.selectServiceAndRequest();
-        /*
+
         sr.assertRequest();
-         */
+
     }
 }

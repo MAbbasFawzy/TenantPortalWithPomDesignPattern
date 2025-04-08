@@ -92,7 +92,7 @@ public class ServiceSubscription_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        Thread.sleep(6000);
+
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();
@@ -119,6 +119,7 @@ public class ServiceSubscription_Test {
 
         sr.openSubmitRequestForm();
         sr.selectServiceAndSubscribe();
+        Thread.sleep(2000);
         sr.checkSubscriptionAdded();
 
     }

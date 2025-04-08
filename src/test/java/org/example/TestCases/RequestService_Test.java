@@ -40,17 +40,12 @@ public class RequestService_Test {
     }
 
 
-    /*
     @AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
     }
-
-     */
-
-
 
     public void loadProperties() {
         Properties properties = new Properties();
@@ -103,16 +98,16 @@ public class RequestService_Test {
         lp.clickLogin();
     }
 
-    @Test(priority = 0)
+    @Test (priority = 0)
     public void openServicesPageSearch() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-        Request sr = new Request(driver);
+        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
 
-        lp.servicesPage();
-
-        sr.servicesPageOpenAndSearch();
+        lp.myRequestsPage();
+        Thread.sleep(4000);
+        sr.servicesPageOpenAndSearcFromMyRequests();
 
     }
 
@@ -120,10 +115,10 @@ public class RequestService_Test {
     public void submitRequest() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        Request sr = new Request(driver);
-
+        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
         sr.openSubmitRequestForm();
         sr.selectServiceAndRequest();
+
         sr.assertRequest();
     }
 }

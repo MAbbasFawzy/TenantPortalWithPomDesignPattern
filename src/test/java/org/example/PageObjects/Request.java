@@ -134,6 +134,7 @@ public class Request {
         }
     }
 
+
     private void selectRandomDate(WebDriverWait wait, Random random) {
         // Wait for date picker and select random day
         List<WebElement> enabledDays = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(

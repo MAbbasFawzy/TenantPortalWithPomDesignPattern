@@ -60,11 +60,17 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
 
     By preferredVisitDateInput = By.xpath("//input[@class='vdatetime-input w-full my-wrapper-class rounded-3xl ps-3 border-2']");
 
-    By submitButton = By.xpath("//button[@type='submit']");
+    By submitButton = By.xpath("/html[1]/body[1]/div[4]/div[1]/div[2]/div[1]/div[2]/div[1]/form[1]/div[7]/button[1]");
+
+    By submitSubscription = By.xpath("/html[1]/body[1]/div[4]/div[1]/div[2]/div[1]/div[2]/div[1]/form[1]/div[8]/button[1]");
 
     By txt_myRequestsPage = By.linkText("My Requests");
 
     By serviceCategoryListSubscribe = By.xpath("/html[1]/body[1]/div[4]/div[1]/div[2]/div[1]/div[2]/div[1]/form[1]/div[1]/div[1]");
+
+    By addButton = By.xpath("//button[@type='button']");
+
+    By servicesTab = By.xpath("//div//div//div//div[2]//div[1]//a[1]");
 
     String requestSubscriptionDescription = "Test!...." + visitor.numbers;
 
@@ -74,6 +80,19 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         driver.findElement(txt_servicesPage).click();
+        driver.findElement(servicesSearchTextBox).click();
+        driver.findElement(servicesSearchTextBox).sendKeys("Internet");
+        driver.findElement(service).click();
+
+    }
+
+    public void servicesPageOpenAndSearcFromMyRequests() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        driver.findElement(txt_myRequestsPage).click();
+        driver.findElement(addButton).click();
+        driver.findElement(servicesTab).click();
+        Thread.sleep(500);
         driver.findElement(servicesSearchTextBox).click();
         driver.findElement(servicesSearchTextBox).sendKeys("Internet");
         driver.findElement(service).click();
@@ -90,9 +109,10 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
     public void selectServiceAndRequest() throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         Random random = new Random();
+        JavascriptExecutor js = (JavascriptExecutor) driver;
 
         try {
-            // Service selection flow
+            // Existing service selection flow
             wait.until(ExpectedConditions.elementToBeClickable(serviceDropDownList)).click();
             wait.until(ExpectedConditions.elementToBeClickable(serviceDropDownListRequest)).click();
 
@@ -108,38 +128,84 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
             wait.until(ExpectedConditions.visibilityOfElementLocated(serviceDescription))
                     .sendKeys(requestSubscriptionDescription);
 
+            // Scroll within the pop-up dialog
+            WebElement popupContent = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.cssSelector("div.p-dialog-content")));
+            js.executeScript("arguments[0].scrollTop = arguments[0].scrollHeight", popupContent);
+
+            Thread.sleep(2000);
+
             // Date/Time selection
-            WebElement preferredVisitDateInput = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//input[@class='vdatetime-input w-full my-wrapper-class rounded-3xl ps-3 border-2']")));
-            preferredVisitDateInput.click();
+            WebElement dateInput = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//input[@placeholder='Select date']")));
+            dateInput.click();
 
-            Thread.sleep(500);
-            // Random date selection
-            selectRandomDate(wait, random);
+            // Wait for the date picker to be visible
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("vdatetime-popup")));
 
-            Thread.sleep(500);
-            // Random time selection
-            selectRandomTime(wait, random);
+            // Select a random date
+            List<WebElement> days = driver.findElements(By.xpath("//div[contains(@class, 'vdatetime-calendar__month__day') and not(contains(@class, 'vdatetime-calendar__month__day--disabled'))]"));
+            if (days.isEmpty()) {
+                throw new RuntimeException("No available days found in the date picker.");
+            }
+            int randomIndex = random.nextInt(days.size());
+            WebElement selectedDay = days.get(randomIndex);
+            selectedDay.click();
 
-            Thread.sleep(500);
+            // Click the "Continue" button to proceed to the time picker
+            WebElement continueButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//div[contains(@class, 'vdatetime-popup__actions__button--confirm')]")));
+            continueButton.click();
 
-            // Ensure the submit button is visible and interactable
+            // Wait for the time picker to be visible
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("vdatetime-time-picker")));
+
+            // Select a random hour
+            List<WebElement> hours = driver.findElements(By.xpath("//div[contains(@class, 'vdatetime-time-picker__list--hours')]/div[contains(@class, 'vdatetime-time-picker__item') and not(contains(@class, 'vdatetime-time-picker__item--disabled'))]"));
+            if (hours.isEmpty()) {
+                throw new RuntimeException("No available hours found in the time picker.");
+            }
+            int randomHourIndex = random.nextInt(hours.size());
+            WebElement selectedHour = hours.get(randomHourIndex);
+            selectedHour.click();
+
+            // Select a random minute
+            List<WebElement> minutes = driver.findElements(By.xpath("//div[contains(@class, 'vdatetime-time-picker__list--minutes')]/div[contains(@class, 'vdatetime-time-picker__item') and not(contains(@class, 'vdatetime-time-picker__item--disabled'))]"));
+            if (minutes.isEmpty()) {
+                throw new RuntimeException("No available minutes found in the time picker.");
+            }
+            int randomMinuteIndex = random.nextInt(minutes.size());
+            WebElement selectedMinute = minutes.get(randomMinuteIndex);
+            selectedMinute.click();
+
+            // Select AM/PM
+            List<WebElement> suffixes = driver.findElements(By.xpath("//div[contains(@class, 'vdatetime-time-picker__list--suffix')]/div[contains(@class, 'vdatetime-time-picker__item')]"));
+            if (suffixes.isEmpty()) {
+                throw new RuntimeException("No available AM/PM options found in the time picker.");
+            }
+            int randomSuffixIndex = random.nextInt(suffixes.size());
+            WebElement selectedSuffix = suffixes.get(randomSuffixIndex);
+            selectedSuffix.click();
+
+            // Scroll to the submit button and click it
             WebElement submitButtonElement = wait.until(ExpectedConditions.elementToBeClickable(submitButton));
+            js.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", submitButtonElement);
+            Thread.sleep(500); // Optional: Add a small delay to allow the scroll to complete
 
-            // Scroll to the submit button using JavaScript
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", submitButtonElement);
-
-            // Add a small delay to allow the scroll to complete
-            Thread.sleep(500);
-
-            // Submit form
-            wait.until(ExpectedConditions.elementToBeClickable(submitButtonElement)).click();
+            try {
+                submitButtonElement.click();
+            } catch (Exception e) {
+                // Fallback to JavaScript click if regular click fails
+                js.executeScript("arguments[0].click();", submitButtonElement);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to select service and request: " + e.getMessage());
         }
     }
+
+    /* Component for date time picker that maybe used later
 
     private void selectRandomDate(WebDriverWait wait, Random random) {
         // Wait for date picker and select random day
@@ -175,7 +241,9 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
                 By.cssSelector("div.vdatetime-popup__actions__button--confirm"))).click();
     }
 
-    /*
+     */
+
+
     public void assertRequest() throws InterruptedException {
 
         Thread.sleep(2000);
@@ -214,11 +282,14 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
         Assert.assertEquals(description, requestSubscriptionDescription);
     }
 
-     */
 
     public void selectServiceAndSubscribe() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        Random random = new Random();
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+
         driver.findElement(serviceDropDownList).click();
         driver.findElement(serviceDropDownListSubscribe).click();
 
@@ -235,6 +306,31 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
 
         // Create an instance of WebDriverWait
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        // Date/Time selection
+        WebElement dateInput = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//input[@placeholder='Select date']")));
+        dateInput.click();
+
+        // Wait for the date picker to be visible
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("vdatetime-popup")));
+
+        // Select a random date
+        List<WebElement> days = driver.findElements(By.xpath("//div[contains(@class, 'vdatetime-calendar__month__day') and not(contains(@class, 'vdatetime-calendar__month__day--disabled'))]"));
+        if (days.isEmpty()) {
+            throw new RuntimeException("No available days found in the date picker.");
+        }
+        int randomIndex = random.nextInt(days.size());
+        WebElement selectedDay = days.get(randomIndex);
+        selectedDay.click();
+
+        // Click the "Continue" button to proceed to the time picker
+        WebElement continueButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//div[contains(@class, 'vdatetime-popup__actions__button--confirm')]")));
+        continueButton.click();
+
+
+        /*
 
         // Click on the Preferred visit date input to open the date picker
         WebElement preferredVisitDateInput = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@class='vdatetime-input w-full my-wrapper-class rounded-3xl ps-3 border-2']")));
@@ -255,8 +351,21 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
         preferredVisitDateInput.sendKeys(Keys.ENTER); // First Enter key press
         preferredVisitDateInput.sendKeys(Keys.ENTER); // Second Enter key press
 
+         */
+
         Thread.sleep(2000);
-        driver.findElement(submitButton).click();
+        // Scroll to the submit button and click it
+        WebElement submitButtonElement = wait.until(ExpectedConditions.elementToBeClickable(submitSubscription));
+        js.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", submitButtonElement);
+        Thread.sleep(500); // Optional: Add a small delay to allow the scroll to complete
+
+        try {
+            submitButtonElement.click();
+        } catch (Exception e) {
+            // Fallback to JavaScript click if regular click fails
+            js.executeScript("arguments[0].click();", submitButtonElement);
+        }
+
     }
 
     public void checkSubscriptionAdded() throws InterruptedException {
