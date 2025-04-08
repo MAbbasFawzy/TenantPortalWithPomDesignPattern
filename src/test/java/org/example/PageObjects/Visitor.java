@@ -33,9 +33,10 @@ public class Visitor extends randomGenerator {
 
     By entryTypeSingle = By.xpath("//input[@id='single']");
 
+    By entryTypeMultiple = By.xpath("//input[@id='multiple']");
+
     By visitEndDate = By.xpath("//div[@class='vdatetime-calendar__month']");
 
-    By entryTypeMultiple = By.xpath("//input[@id='multiple']");
 
     By visitDate = By.xpath("//div[@class='vdatetime-calendar__month']");
 
@@ -80,6 +81,9 @@ public class Visitor extends randomGenerator {
     By vehicleExtraVisitor = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[3]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/span[2]");
 
 
+    String documentOption;
+
+    String docNumber;
 
 
     // Action Methods
@@ -118,24 +122,27 @@ public class Visitor extends randomGenerator {
         driver.findElement(visitorFirstName).sendKeys(visitor.firstName);
         driver.findElement(visitorSecondName).sendKeys(visitor.lastName);
 
+        /*---------------------------------------------------------*/
         driver.findElement(documentType).click();
         // Wait for the dropdown options to be visible
         List<WebElement> optionsDocument = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(documentTypeOption));
-
         Thread.sleep(500);
-
         // Generate a random index for document type
         int randomIndexDocument = random.nextInt(optionsDocument.size());
-
         // Scroll to the selected document option
         WebElement selectedOptionDocument = optionsDocument.get(randomIndexDocument);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectedOptionDocument);
         Thread.sleep(500); // Optional: wait for the scroll to complete
-
+        // Save the selected document type in a variable
+        documentOption = selectedOptionDocument.getText().trim();
         // Select the random document option
         selectedOptionDocument.click();
 
-        driver.findElement(documentNumber).sendKeys(visitor.numbers);
+        docNumber = visitor.numbers;
+        driver.findElement(documentNumber).sendKeys(docNumber);
+        /*---------------------------------------------------------*/
+
+
 
         Thread.sleep(500);
         // Scroll to the dropdown element
@@ -398,7 +405,7 @@ public class Visitor extends randomGenerator {
 
     }
 
-    
+    /*
     public void addVisitorExistingValidResubmit() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
@@ -428,7 +435,7 @@ public class Visitor extends randomGenerator {
         // Select the random option
         selectedOption.click();
 
-        driver.findElement(entryTypeSingle).click();
+        driver.findElement(entryTypeMultiple).click();
 
         driver.findElement(visitorFirstName).sendKeys(visitor.firstName);
         driver.findElement(visitorSecondName).sendKeys(visitor.lastName);
@@ -505,9 +512,142 @@ public class Visitor extends randomGenerator {
         driver.findElement(visitorStatus).getText();
 
         Assert.assertEquals("Pending", driver.findElement(visitorStatus).getText());
+    }
+
+     */
+
+    public void addVisitorWithoutResubmission() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        randomGenerator.Visitor visitor = randomGenerator.generateRandomContact();
+
+
+        driver.findElement(addVisitor).click();
+        Thread.sleep(1000);
+        driver.findElement(visitType).click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        Thread.sleep(500);
+
+        // Wait for the dropdown options to be visible
+        List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(visitTypeOption));
+
+        // Generate a random index to select an option
+        Random random = new Random();
+        int randomIndex = random.nextInt(options.size());
+
+        // Scroll to the selected option
+        WebElement selectedOption = options.get(randomIndex);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectedOption);
+        Thread.sleep(500); // Optional: wait for the scroll to complete
+
+        // Select the random option
+        selectedOption.click();
+
+        driver.findElement(entryTypeSingle).click();
+
+        driver.findElement(visitorFirstName).sendKeys(visitor.firstName);
+        driver.findElement(visitorSecondName).sendKeys(visitor.lastName);
+
+        /*---------------------------------------------------------*/
+
+        // Use the stored documentOption and docNumber variables
+        driver.findElement(documentType).click();
+
+        // Wait for the dropdown options to be visible
+        List<WebElement> optionsDocument = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(documentTypeOption));
+        Thread.sleep(500);
+
+        // Find the option that matches the stored documentOption
+        WebElement selectedOptionDocument = null;
+        for (WebElement option : optionsDocument) {
+            if (option.getText().trim().equals(documentOption)) {
+                selectedOptionDocument = option;
+                break;
+            }
+        }
+
+        // If the matching option is found, select it
+        if (selectedOptionDocument != null) {
+            // Scroll to the selected document option
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectedOptionDocument);
+            Thread.sleep(500); // Optional: wait for the scroll to complete
+
+            // Select the document option
+            selectedOptionDocument.click();
+        } else {
+            throw new RuntimeException("Document type '" + documentOption + "' not found in the dropdown.");
+        }
+
+        // Use the stored docNumber variable
+        driver.findElement(documentNumber).sendKeys(docNumber);
+
+        /*---------------------------------------------------------*/
+
+        /*
+
+        Thread.sleep(500);
+        // Scroll to the dropdown element
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(nationalityList));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdown);
+
+        // Wait for the dropdown to be clickable
+        wait.until(ExpectedConditions.elementToBeClickable(nationalityList));
+
+        // Click the dropdown using JavaScript
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", dropdown);
+
+        // Wait for the dropdown options to be visible
+        List<WebElement> countryOptions = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(nationalityListOption));
+
+        // Generate a random index to select an option
+        Random randomCountry = new Random();
+        int randomIndexCountry = random.nextInt(countryOptions.size());
+
+        // Select the random option
+        WebElement selectedOptionCountry = countryOptions.get(randomIndexCountry);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectedOptionCountry); // Scroll to the selected option
+        Thread.sleep(500); // Optional: wait for the scroll to complete
+        selectedOptionCountry.click();
+
+        Thread.sleep(500);
+        // Scroll to the dropdown element
+        WebElement dropdownGender = wait.until(ExpectedConditions.elementToBeClickable(genderList));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownGender);
+
+        // Wait for the dropdown to be clickable
+        wait.until(ExpectedConditions.elementToBeClickable(genderList));
+
+        // Click the dropdown using JavaScript
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", dropdownGender);
+
+        // Wait for the dropdown options to be visible
+        List<WebElement> genderOptions = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(genderListOption));
+
+        // Generate a random index to select an option
+        Random randomGender = new Random();
+        int randomIndexGender = randomGender.nextInt(genderOptions.size());
+
+        // Select the random option
+        WebElement selectedOptionGender = genderOptions.get(randomIndexGender); // Fixed: Use genderOptions here
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectedOptionGender); // Scroll to the selected option
+        Thread.sleep(500); // Optional: wait for the scroll to complete
+        selectedOptionGender.click(); // Click the selected gender option
+
+         */
+
+
+
+        /*
+        driver.findElement(submitVisitor).click();
+
+        driver.findElement(visitorStatus).getText();
+
+        Assert.assertEquals("Pending", driver.findElement(visitorStatus).getText());
+
+         */
 
 
     }
-
-
 }

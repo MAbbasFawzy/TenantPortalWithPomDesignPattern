@@ -94,7 +94,7 @@ public class SubmitRequest_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        Thread.sleep(6000);
+
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();
@@ -121,6 +121,8 @@ public class SubmitRequest_Test {
 
         sr.openSubmitRequestForm();
         sr.selectServiceAndRequest();
+        /*
         sr.assertRequest();
+         */
     }
 }

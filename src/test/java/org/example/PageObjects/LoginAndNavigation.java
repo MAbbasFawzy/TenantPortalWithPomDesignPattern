@@ -47,6 +47,10 @@ public class LoginAndNavigation {
 
     //Action methods
 
+    public void checkUsername () {
+        driver.findElement(txt_tenantUsername).getText();
+    }
+
     public void setUsername(String username) {
         driver.findElement(txt_email).sendKeys(username);
     }
@@ -58,11 +62,6 @@ public class LoginAndNavigation {
     public void clickLogin() {
         driver.findElement(btn_loginButton).click();
     }
-
-    public void checkUsername () {
-        driver.findElement(txt_tenantUsername).getText();
-    }
-
 
     public void servicesPage() {
         driver.findElement(txt_servicesPage).click();

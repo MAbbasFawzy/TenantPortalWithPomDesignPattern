@@ -12,14 +12,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
 
-public class SubmitRequestSubmitSubscription extends randomGenerator {
+public class Request {
 
     public WebDriver driver;
 
     randomGenerator.Visitor visitor = randomGenerator.generateRandomContact();
 
     // Constructor
-    public SubmitRequestSubmitSubscription(WebDriver driver) {
+    public Request(WebDriver driver) {
 
         this.driver = driver;
     }
@@ -88,6 +88,7 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
     }
 
     public void selectServiceAndRequest() throws InterruptedException {
+
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         Random random = new Random();
 
@@ -96,11 +97,9 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
             wait.until(ExpectedConditions.elementToBeClickable(serviceDropDownList)).click();
             wait.until(ExpectedConditions.elementToBeClickable(serviceDropDownListRequest)).click();
 
-            Thread.sleep(2000);
             wait.until(ExpectedConditions.elementToBeClickable(serviceCategoryList)).click();
             wait.until(ExpectedConditions.elementToBeClickable(serviceCategoryListOption)).click();
 
-            Thread.sleep(2000);
             wait.until(ExpectedConditions.elementToBeClickable(serviceCategories)).click();
             wait.until(ExpectedConditions.elementToBeClickable(serviceCategoriesOption)).click();
 
@@ -123,17 +122,11 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
 
             Thread.sleep(500);
 
-            // Ensure the submit button is visible and interactable
-            WebElement submitButtonElement = wait.until(ExpectedConditions.elementToBeClickable(submitButton));
-
             // Scroll to the submit button using JavaScript
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", submitButtonElement);
-
-            // Add a small delay to allow the scroll to complete
-            Thread.sleep(500);
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", submitButton);
 
             // Submit form
-            wait.until(ExpectedConditions.elementToBeClickable(submitButtonElement)).click();
+            wait.until(ExpectedConditions.elementToBeClickable(submitButton)).click();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -175,7 +168,6 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
                 By.cssSelector("div.vdatetime-popup__actions__button--confirm"))).click();
     }
 
-    /*
     public void assertRequest() throws InterruptedException {
 
         Thread.sleep(2000);
@@ -213,8 +205,6 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
 
         Assert.assertEquals(description, requestSubscriptionDescription);
     }
-
-     */
 
     public void selectServiceAndSubscribe() throws InterruptedException {
 
