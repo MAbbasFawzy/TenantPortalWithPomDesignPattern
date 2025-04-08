@@ -118,7 +118,7 @@ public class RequestService_Test {
         SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
         sr.openSubmitRequestForm();
         sr.selectServiceAndRequest();
-
+        Thread.sleep(2000);
         sr.assertRequest();
     }
 }

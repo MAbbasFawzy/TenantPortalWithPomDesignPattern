@@ -38,9 +38,6 @@ public class ServiceSubscription_Test {
         login();
     }
 
-
-
-
     @AfterClass
     public void tearDown() {
         if (driver != null) {

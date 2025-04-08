@@ -118,7 +118,7 @@ public class SubmitRequest_Test {
 
         sr.openSubmitRequestForm();
         sr.selectServiceAndRequest();
-
+        Thread.sleep(2000);
         sr.assertRequest();
 
     }

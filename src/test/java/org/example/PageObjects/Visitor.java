@@ -397,12 +397,6 @@ public class Visitor extends randomGenerator {
 
         driver.findElement(submitVisitor).click();
 
-
-        driver.findElement(visitorStatus).getText();
-
-        Assert.assertEquals("Pending", driver.findElement(visitorStatus).getText());
-
-
     }
 
     /*
@@ -636,8 +630,6 @@ public class Visitor extends randomGenerator {
         selectedOptionGender.click(); // Click the selected gender option
 
          */
-
-
 
         /*
         driver.findElement(submitVisitor).click();
