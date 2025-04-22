@@ -1,7 +1,7 @@
 package org.example.TestCases;
 
+import org.example.PageObjects.ContactUs_Tenant;
 import org.example.PageObjects.LoginAndNavigation;
-import org.example.PageObjects.ContactUs;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class ContactUs_Test {
+public class ContactUs_Tenant_Test {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -112,7 +112,7 @@ public class ContactUs_Test {
     public void openContactUsPage() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        ContactUs cu = new ContactUs(driver);
+        ContactUs_Tenant cu = new ContactUs_Tenant(driver);
 
         Thread.sleep(2000);
         cu.clickCategoryList();
@@ -122,7 +122,7 @@ public class ContactUs_Test {
     public void enterDataInForm() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        ContactUs cu = new ContactUs(driver);
+        ContactUs_Tenant cu = new ContactUs_Tenant(driver);
 
         cu.enterDataInContactUsForm();
         cu.openContactUsHistoryPage();

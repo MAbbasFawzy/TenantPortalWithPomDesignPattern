@@ -3,13 +3,14 @@ package org.example.PageObjects;
 import org.example.randomGenerator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-public class ContactUs extends randomGenerator {
+public class ContactUs_Tenant extends randomGenerator {
 
     public WebDriver driver;
 
     // Constructor
-    public ContactUs(WebDriver driver) {
+    public ContactUs_Tenant(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -28,7 +29,7 @@ public class ContactUs extends randomGenerator {
 
     By contactUsHistoryButton = By.xpath("//button[normalize-space()='Contact Request History']");
 
-
+    By submitContactUs = By.xpath("//button[@type='submit']");
 
 
     //Action methods
@@ -38,7 +39,7 @@ public class ContactUs extends randomGenerator {
         driver.findElement(categoryList).click();
     }
 
-    public void enterDataInContactUsForm() {
+    public void enterDataInContactUsForm() throws InterruptedException {
 
         randomGenerator.Visitor visitor = randomGenerator.generateRandomContact();
 
@@ -51,13 +52,19 @@ public class ContactUs extends randomGenerator {
 
         driver.findElement(contactUsAttachment).sendKeys("C:\\Users\\Electronica Care\\Yarn\\Pom\\logo-white.png");
 
+        Thread.sleep(2000);
+        driver.findElement(submitContactUs).click();
+        Thread.sleep(2000);
+        driver.navigate().refresh();
+
     }
 
-    public void openContactUsHistoryPage() {
+    public void openContactUsHistoryPage() throws InterruptedException {
 
+        Thread.sleep(8000);
         driver.findElement(contactUsHistoryButton).click();
 
-        /*
+        Thread.sleep(2000);
         // Locate the first row of the contact request history
         WebElement firstRow = driver.findElement(By.xpath("(//a[contains(@class, 'justify-between items-center gap-4 border-t py-2')])[1]"));
 
@@ -73,6 +80,5 @@ public class ContactUs extends randomGenerator {
         System.out.println("Message: " + message);
         System.out.println("Created at: " + createdAt);
 
-         */
     }
 }

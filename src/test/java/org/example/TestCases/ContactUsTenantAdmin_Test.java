@@ -1,23 +1,30 @@
 package org.example.TestCases;
 
-import com.reporting.ClickUpNotifier;
+import org.example.PageObjects.ContactUs_Admin;
+import org.example.PageObjects.ContactUs_Tenant;
 import org.example.PageObjects.LoginAndNavigation;
-import org.openqa.selenium.*;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class LoginAndNavigation_Test extends ClickUpNotifier {
+public class ContactUsTenantAdmin_Test {
 
     WebDriver driver;
     WebDriverWait wait;
+
+    public String adminWindow;
+    public String tenantWindow;
 
     private String baseUrl;
     private String tenantusername;
@@ -25,6 +32,8 @@ public class LoginAndNavigation_Test extends ClickUpNotifier {
     private String tenant;
     private String tenantUrl;
     private String version;
+    private String username;
+    private String password;
 
     @BeforeClass
     public void setup() throws InterruptedException {
@@ -36,22 +45,14 @@ public class LoginAndNavigation_Test extends ClickUpNotifier {
         login();
     }
 
+
     @AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
-
-        String resultMessage = generateTestResultsMessage();
-        ClickUpNotifier.sendNotification(resultMessage);
-        System.out.println("Test");
     }
 
-    private String generateTestResultsMessage() {
-        // Logic to generate a summary of test results
-        // You can read the test-output/index.html or use TestNG's IReporter interface
-        return "Test results summary: ..."; // Replace with actual results
-    }
 
     public void loadProperties() {
         Properties properties = new Properties();
@@ -65,6 +66,8 @@ public class LoginAndNavigation_Test extends ClickUpNotifier {
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
             tenant = properties.getProperty("tenant");
+            password = properties.getProperty("password");
+            username = properties.getProperty("username");
             version = properties.getProperty("version");
         } catch (IOException e) {
             e.printStackTrace();
@@ -107,100 +110,68 @@ public class LoginAndNavigation_Test extends ClickUpNotifier {
     }
 
 
-    @Test
-    public void checkServicesPageOpen() {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        System.out.println("We logged in!....");
-
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        lp.servicesPage();
-    }
-
-    @Test
-    public void checkMyInvoicesPageOpen() {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        lp.myInvoicesPage();
-    }
-
-    @Test
-    public void checkMyVisitorsPageOpen() {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        lp.myVisitorsPage();
-    }
-
-    @Test
-    public void checkMyViolationsPageOpen() {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        lp.myViolationsPage();
-    }
-
-    @Test
-    public void checkMyDocumentsPageOpen() {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        lp.myDocumentsPage();
-    }
-
-    @Test
-    public void checkMyDependentsPageOpen() {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        lp.myDependents();
-    }
-
-    @Test
-    public void checkMyPetsPageOpen() {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        lp.myPetsPage();
-    }
-
-    @Test
-    public void checkMyVehiclesPageOpen() {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        lp.myVehiclesPage();
-    }
-
-    @Test
+    @Test(priority = 0)
     public void checkContactUsPageOpen() {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
-        try {
-            lp.contactUsPage();
-        } catch (StaleElementReferenceException e) {
-            // Retry the action if a StaleElementReferenceException occurs
-            System.out.println("StaleElementReferenceException caught. Retrying...");
-            lp = new LoginAndNavigation(driver); // Re-instantiate the page object
-            lp.contactUsPage(); // Retry the action
-        }
+        lp.contactUsPage();
     }
 
-    @Test
-    public void checkCommunityChatPageOpen() {
+    @Test (priority = 1)
+    public void openContactUsPage() throws InterruptedException {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        lp.communityNewsPage();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        ContactUs_Tenant cu = new ContactUs_Tenant(driver);
+
+        Thread.sleep(2000);
+        cu.clickCategoryList();
     }
 
-    @Test
-    public void checkMyRequestsPageOpen() {
+    @Test (priority = 2)
+    public void enterDataInForm() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        ContactUs_Tenant cu = new ContactUs_Tenant(driver);
+
+        cu.enterDataInContactUsForm();
+
+        Thread.sleep(2000);
+
+        cu.openContactUsHistoryPage();
+
+        Thread.sleep(2000);
+
+    }
+
+    @Test(priority = 3)
+    public void loginAdmin() throws InterruptedException {
+
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        lp.myRequestsPage();
+
+        adminWindow = driver.getWindowHandle();
+
+        driver.switchTo().newWindow(WindowType.TAB);
+
+        driver.get("https://automation.yarncloud.dev/");
+
+        ContactUs_Admin ad = new ContactUs_Admin(driver);
+
+        ad.setUsername(username);
+        ad.setPassword(password);
+        ad.clickLogin();
+
+    }
+
+    @Test(priority = 4)
+    public void checkContactUsRequest() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        ContactUs_Admin ad = new ContactUs_Admin(driver);
+
+        ad.openContactUsPage();
+        ad.openContactUsRequestDetails();
+
     }
 }

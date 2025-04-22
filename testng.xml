@@ -2,15 +2,19 @@
 <suite name="SuiteName" parallel="false">
     <test name="TestGroup">
         <classes>
+
             <class name="org.example.TestCases.LoginAndNavigation_Test"/>
             <class name="org.example.TestCases.SubmitRequest_Test"/>
+
             <class name="org.example.TestCases.RequestService_Test"/>
-            <class name="org.example.TestCases.ContactUs_Test"/>
+            <class name="org.example.TestCases.ContactUs_Tenant_Test"/>
             <class name="org.example.TestCases.ServiceSubscription_Test"/>
             <class name="org.example.TestCases.ChangeProfileInfo_Test"/>
             <class name="org.example.TestCases.AddNewVisitor_Test"/>
             <class name="org.example.TestCases.AddNewVisitorGroup_Test"/>
+
             <class name="org.example.TestCases.ChangeCredentials_Test"/>
+
         </classes>
     </test>
 </suite>
