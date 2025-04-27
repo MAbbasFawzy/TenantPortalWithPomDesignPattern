@@ -3,6 +3,7 @@ package org.example.TestCases;
 import org.example.PageObjects.Connect_Admin;
 import org.example.PageObjects.ContactUs_Admin;
 import org.example.PageObjects.LoginAndNavigation;
+import org.example.PageObjects.Violations_Admin;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
@@ -18,7 +19,8 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class Messages_Test {
+public class Violations_Admin_Test {
+
 
     WebDriver driver;
     WebDriverWait wait;
@@ -93,7 +95,7 @@ public class Messages_Test {
         }
     }
 
-    
+
     public void loginAdmin() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
@@ -109,18 +111,23 @@ public class Messages_Test {
     }
 
     @Test(priority = 0)
-    public void openMessages() throws InterruptedException {
+    public void openViolations() throws InterruptedException {
 
-        Connect_Admin cd = new Connect_Admin(driver);
+        Violations_Admin va = new Violations_Admin(driver);
 
-        cd.openMessagesFromAdmin();
-        Thread.sleep(500);
-        cd.fillInMessageDetails(tenantusername);
-
+        va.openAddNewViolation();
 
     }
 
     @Test(priority = 1)
+    public void fillInViolationDetails() throws InterruptedException {
+
+        Violations_Admin va = new Violations_Admin(driver);
+        va.addViolationDetails();
+        Thread.sleep(2000);
+    }
+
+    @Test(priority = 2)
     public void loginTenant() {
 
         tenantWindow = driver.getWindowHandle();
@@ -140,13 +147,19 @@ public class Messages_Test {
         lp.setPassword(tenantpassword);
 
         lp.clickLogin();
+
+        lp.myViolationsPage();
+
     }
 
-    @Test(priority = 2)
-    public void openMessagesAndCheckDetails() throws InterruptedException {
+    @Test(priority = 3)
+    public void checkViolationDataAdded() {
 
-        Connect_Admin cd = new Connect_Admin(driver);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
-        cd.openMessagesTenant();
+        Violations_Admin va = new Violations_Admin(driver);
+
+        va.checkViolationAddedInTenant();
+
     }
 }

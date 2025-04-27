@@ -1,8 +1,8 @@
 package org.example.TestCases;
 
-import org.example.PageObjects.Connect_Admin;
 import org.example.PageObjects.ContactUs_Admin;
 import org.example.PageObjects.LoginAndNavigation;
+import org.example.PageObjects.User_Admin;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
@@ -18,7 +18,8 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class Messages_Test {
+public class UserCreds_Test {
+
 
     WebDriver driver;
     WebDriverWait wait;
@@ -34,6 +35,8 @@ public class Messages_Test {
     private String version;
     private String username;
     private String password;
+    private String newtenantusername;
+    private String newtenantpassword;
 
     @BeforeClass
     public void setup() throws InterruptedException {
@@ -46,13 +49,15 @@ public class Messages_Test {
     }
 
 
-
+    /*
     @AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
     }
+
+     */
 
 
     public void loadProperties() {
@@ -66,9 +71,12 @@ public class Messages_Test {
             tenantUrl = properties.getProperty("tenant.url");
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
+            newtenantusername = properties.getProperty("newtenantusername");
+            newtenantpassword = properties.getProperty("newpassword");
             tenant = properties.getProperty("tenant");
             password = properties.getProperty("password");
             username = properties.getProperty("username");
+
             version = properties.getProperty("version");
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,7 +101,7 @@ public class Messages_Test {
         }
     }
 
-    
+
     public void loginAdmin() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
@@ -109,20 +117,21 @@ public class Messages_Test {
     }
 
     @Test(priority = 0)
-    public void openMessages() throws InterruptedException {
+    public void openPeopleModule() throws InterruptedException {
 
-        Connect_Admin cd = new Connect_Admin(driver);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
-        cd.openMessagesFromAdmin();
-        Thread.sleep(500);
-        cd.fillInMessageDetails(tenantusername);
+        User_Admin ud = new User_Admin(driver);
 
-
+        ud.openPeopleModuleAndViewUser(tenantusername);
+        ud.changeCreds(newtenantusername, newtenantpassword);
+        Thread.sleep(2000);
     }
 
     @Test(priority = 1)
-    public void loginTenant() {
+    public void loginWithNewCreds() throws InterruptedException {
 
+        Thread.sleep(2000);
         tenantWindow = driver.getWindowHandle();
 
         driver.switchTo().newWindow(WindowType.TAB);
@@ -135,18 +144,11 @@ public class Messages_Test {
 
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        lp.setUsername(tenantusername);
+        lp.setUsername(newtenantusername);
 
-        lp.setPassword(tenantpassword);
+        lp.setPassword(newtenantpassword);
 
         lp.clickLogin();
-    }
 
-    @Test(priority = 2)
-    public void openMessagesAndCheckDetails() throws InterruptedException {
-
-        Connect_Admin cd = new Connect_Admin(driver);
-
-        cd.openMessagesTenant();
     }
 }

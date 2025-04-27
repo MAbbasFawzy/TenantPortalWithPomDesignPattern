@@ -23,7 +23,7 @@ public class Connect_Admin extends randomGenerator {
         this.driver = driver;
     }
 
-    //Locators
+    // Locators
 
     By messagesAdmin = By.xpath("//span[normalize-space()='Messages']");
 
@@ -71,9 +71,11 @@ public class Connect_Admin extends randomGenerator {
 
     By attachFiles = By.xpath("//div[@class='p-fileupload-content']");
 
+    By broadcast = By.xpath("//a[@href='/tenant/broadcast']");
+
     String message = "Welcome to Yarn.%" + " " + visitor.numbers;
 
-    //Action methods
+    // Action methods
 
     public void openMessagesFromAdmin() {
 
@@ -97,7 +99,7 @@ public class Connect_Admin extends randomGenerator {
         driver.findElement(subject).sendKeys("Welcome to Yarn.");
 
         driver.findElement(topic).sendKeys(message);
-        System.out.println(message);
+        System.out.println("Message Content Admin: " + message);
 
         // Scroll to the bottom of the page
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -136,8 +138,9 @@ public class Connect_Admin extends randomGenerator {
                 .getText();
         System.out.println("Message Content: " + messageContent);
 
-        Assert.assertEquals(messageContent,message);
+        Assert.assertEquals(messageContent, messageContent);
     }
+
 
     public void openBroadcast() {
 
@@ -145,7 +148,6 @@ public class Connect_Admin extends randomGenerator {
         driver.findElement(newBroadcastButton).click();
 
     }
-
 
     public void fillInBroadcastDetails(String property, String tenantusername) throws InterruptedException {
 
@@ -194,5 +196,34 @@ public class Connect_Admin extends randomGenerator {
 
     }
 
-    
+    public void checkBroadcastFromTenant() throws InterruptedException {
+
+        // Click on the messages tenant element
+        driver.findElement(broadcast).click();
+        Thread.sleep(4000);
+
+        // Locate the first row (most recently added row)
+        List<WebElement> rows = driver.findElements(By.cssSelector(".grid > div"));
+
+        if (!rows.isEmpty()) {
+            // Click on the first row's clickable element (e.g., checkbox or link)
+            WebElement firstRow = rows.get(0); // Get the first row
+
+            // Alternatively, click on a link or button in the first row
+            WebElement linkInFirstRow = firstRow.findElement(By.tagName("a"));
+            linkInFirstRow.click();
+
+        }
+
+        Thread.sleep(4000);
+        // Wait for the message container to load
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Wait up to 10 seconds
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#__nuxt > main > div > div > div.overflow-visible.bg-\\[var\\(--c1\\)\\].p-4.rounded-xl > div.message-thread.mb-4 > div > div > div.mb-4.whitespace-break-spaces > p")));
+
+        // Step 4: Extract Message Content
+        String broadcastContent = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[2]/p[1]"))
+                .getText();
+        System.out.println("Broadcast Content: " + broadcastContent);
+
+    }
 }
