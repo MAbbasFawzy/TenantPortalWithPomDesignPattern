@@ -1,16 +1,14 @@
 package org.example.TestCases;
 
-import org.example.PageObjects.Connect_Admin;
 import org.example.PageObjects.ContactUs_Admin;
 import org.example.PageObjects.LoginAndNavigation;
-import org.example.PageObjects.Violations_Admin;
+import org.example.PageObjects.User_Admin;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -19,7 +17,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class Violations_Admin_Test {
+public class Test_Case_26_UserCreds_Test {
 
 
     WebDriver driver;
@@ -36,6 +34,8 @@ public class Violations_Admin_Test {
     private String version;
     private String username;
     private String password;
+    private String newtenantusername;
+    private String newtenantpassword;
 
     @BeforeClass
     public void setup() throws InterruptedException {
@@ -48,13 +48,15 @@ public class Violations_Admin_Test {
     }
 
 
-
+    /*
     @AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
     }
+
+     */
 
 
     public void loadProperties() {
@@ -68,9 +70,12 @@ public class Violations_Admin_Test {
             tenantUrl = properties.getProperty("tenant.url");
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
+            newtenantusername = properties.getProperty("newtenantusername");
+            newtenantpassword = properties.getProperty("newpassword");
             tenant = properties.getProperty("tenant");
             password = properties.getProperty("password");
             username = properties.getProperty("username");
+
             version = properties.getProperty("version");
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,25 +116,21 @@ public class Violations_Admin_Test {
     }
 
     @Test(priority = 0)
-    public void openViolations() throws InterruptedException {
+    public void openPeopleModule() throws InterruptedException {
 
-        Violations_Admin va = new Violations_Admin(driver);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
-        va.openAddNewViolation();
+        User_Admin ud = new User_Admin(driver);
 
-    }
-
-    @Test(priority = 1)
-    public void fillInViolationDetails() throws InterruptedException {
-
-        Violations_Admin va = new Violations_Admin(driver);
-        va.addViolationDetails();
+        ud.openPeopleModuleAndViewUser(tenantusername);
+        ud.changeCreds(newtenantusername, newtenantpassword);
         Thread.sleep(2000);
     }
 
-    @Test(priority = 2)
-    public void loginTenant() {
+    @Test(priority = 1)
+    public void loginWithNewCreds() throws InterruptedException {
 
+        Thread.sleep(2000);
         tenantWindow = driver.getWindowHandle();
 
         driver.switchTo().newWindow(WindowType.TAB);
@@ -142,24 +143,10 @@ public class Violations_Admin_Test {
 
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        lp.setUsername(tenantusername);
+        lp.setUsername(newtenantusername);
 
-        lp.setPassword(tenantpassword);
+        lp.setPassword(newtenantpassword);
 
         lp.clickLogin();
-
-        lp.myViolationsPage();
-
-    }
-
-    @Test(priority = 3)
-    public void checkViolationDataAdded() {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
-        Violations_Admin va = new Violations_Admin(driver);
-
-        va.checkViolationAddedInTenant();
-
     }
 }

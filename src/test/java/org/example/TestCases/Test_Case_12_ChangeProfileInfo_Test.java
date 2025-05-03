@@ -1,7 +1,7 @@
 package org.example.TestCases;
 
-import org.example.PageObjects.ContactUs_Tenant;
 import org.example.PageObjects.LoginAndNavigation;
+import org.example.PageObjects.Profile;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class ContactUs_Tenant_Test {
+public class Test_Case_12_ChangeProfileInfo_Test {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -26,6 +26,10 @@ public class ContactUs_Tenant_Test {
     private String tenantpassword;
     private String tenant;
     private String tenantUrl;
+    private String tenantnewpassword;
+    private String confirmtenantnewpassword;
+    private String newtenantusername;
+    private String confirmnewtenantusername;
     private String version;
 
     @BeforeClass
@@ -38,7 +42,7 @@ public class ContactUs_Tenant_Test {
         login();
     }
 
-
+    
     @AfterClass
     public void tearDown() {
         if (driver != null) {
@@ -58,6 +62,10 @@ public class ContactUs_Tenant_Test {
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
             tenant = properties.getProperty("tenant");
+            tenantnewpassword = properties.getProperty("newpassword");
+            confirmtenantnewpassword = properties.getProperty("newpassword");
+            newtenantusername = properties.getProperty("newtenantusername");
+            confirmnewtenantusername = properties.getProperty("newtenantusername");
             version = properties.getProperty("version");
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,42 +98,20 @@ public class ContactUs_Tenant_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        Thread.sleep(4000);
+        Thread.sleep(6000);
         lp.setUsername(tenantusername);
-
         lp.setPassword(tenantpassword);
-
         lp.clickLogin();
-
     }
 
+    @Test(priority = 0)
+    public void openProfile() throws InterruptedException {
 
-    @Test (priority = 0)
-    public void checkContactUsPageOpen() {
+        Thread.sleep(6000);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        Profile pr = new Profile(driver);
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        lp.contactUsPage();
+        pr.editProfileInfo();
     }
 
-    @Test (priority = 1)
-    public void openContactUsPage() throws InterruptedException {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        ContactUs_Tenant cu = new ContactUs_Tenant(driver);
-
-        Thread.sleep(2000);
-        cu.clickCategoryList();
-    }
-
-    @Test (priority = 2)
-    public void enterDataInForm() throws InterruptedException {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        ContactUs_Tenant cu = new ContactUs_Tenant(driver);
-
-        cu.enterDataInContactUsForm();
-        cu.openContactUsHistoryPage();
-
-    }
 }

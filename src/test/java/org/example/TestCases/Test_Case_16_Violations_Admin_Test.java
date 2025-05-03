@@ -1,9 +1,11 @@
 package org.example.TestCases;
 
+import org.example.PageObjects.ContactUs_Admin;
 import org.example.PageObjects.LoginAndNavigation;
-import org.example.PageObjects.SubmitRequestSubmitSubscription;
+import org.example.PageObjects.Violations_Admin;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,10 +18,14 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class ServiceSubscription_Test {
+public class Test_Case_16_Violations_Admin_Test {
+
 
     WebDriver driver;
     WebDriverWait wait;
+
+    public String adminWindow;
+    public String tenantWindow;
 
     private String baseUrl;
     private String tenantusername;
@@ -27,6 +33,8 @@ public class ServiceSubscription_Test {
     private String tenant;
     private String tenantUrl;
     private String version;
+    private String username;
+    private String password;
 
     @BeforeClass
     public void setup() throws InterruptedException {
@@ -35,8 +43,10 @@ public class ServiceSubscription_Test {
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         driver.navigate().to(tenantUrl);
-        login();
+        loginAdmin();
     }
+
+
 
     @AfterClass
     public void tearDown() {
@@ -44,6 +54,7 @@ public class ServiceSubscription_Test {
             driver.quit();
         }
     }
+
 
     public void loadProperties() {
         Properties properties = new Properties();
@@ -57,6 +68,8 @@ public class ServiceSubscription_Test {
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
             tenant = properties.getProperty("tenant");
+            password = properties.getProperty("password");
+            username = properties.getProperty("username");
             version = properties.getProperty("version");
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,45 +95,70 @@ public class ServiceSubscription_Test {
     }
 
 
-    public void login() throws InterruptedException {
-
-        ((JavascriptExecutor) driver).executeScript("localStorage.setItem('app_version', arguments[0]);", version);
+    public void loginAdmin() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
 
+        driver.get("https://automation.yarncloud.dev/");
 
-        lp.setUsername(tenantusername);
-        lp.setPassword(tenantpassword);
-        lp.clickLogin();
+        ContactUs_Admin ad = new ContactUs_Admin(driver);
+
+        ad.setUsername(username);
+        ad.setPassword(password);
+        ad.clickLogin();
+
     }
 
     @Test(priority = 0)
-    public void openServicesPageSearch() throws InterruptedException {
+    public void openViolations() throws InterruptedException {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
-        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
+        Violations_Admin va = new Violations_Admin(driver);
 
-        lp.servicesPage();
-        Thread.sleep(2000);
-        sr.servicesPageOpenAndSearch();
+        va.openAddNewViolation();
 
     }
 
     @Test(priority = 1)
-    public void submitSubscription() throws InterruptedException {
+    public void fillInViolationDetails() throws InterruptedException {
+
+        Violations_Admin va = new Violations_Admin(driver);
+        va.addViolationDetails();
+        Thread.sleep(2000);
+    }
+
+    @Test(priority = 2)
+    public void loginTenant() {
+
+        tenantWindow = driver.getWindowHandle();
+
+        driver.switchTo().newWindow(WindowType.TAB);
+
+        driver.get("https://automation.yarncloud.dev/tenant/auth/login");
+
+        ((JavascriptExecutor) driver).executeScript("localStorage.setItem('app_version', arguments[0]);", version);
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
 
-        sr.openSubmitRequestForm();
-        sr.selectServiceAndSubscribe();
-        Thread.sleep(2000);
-        sr.checkSubscriptionAdded();
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+
+        lp.setUsername(tenantusername);
+
+        lp.setPassword(tenantpassword);
+
+        lp.clickLogin();
+
+        lp.myViolationsPage();
 
     }
 
+    @Test(priority = 3)
+    public void checkViolationDataAdded() {
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
+        Violations_Admin va = new Violations_Admin(driver);
+
+        va.checkViolationAddedInTenant();
+
+    }
 }

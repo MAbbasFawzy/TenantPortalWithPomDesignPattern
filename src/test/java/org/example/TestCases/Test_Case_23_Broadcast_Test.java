@@ -1,15 +1,14 @@
 package org.example.TestCases;
 
+import org.example.PageObjects.Connect_Admin;
 import org.example.PageObjects.ContactUs_Admin;
 import org.example.PageObjects.LoginAndNavigation;
-import org.example.PageObjects.User_Admin;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -18,8 +17,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class UserCreds_Test {
-
+public class Test_Case_23_Broadcast_Test {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -35,8 +33,7 @@ public class UserCreds_Test {
     private String version;
     private String username;
     private String password;
-    private String newtenantusername;
-    private String newtenantpassword;
+    private String property;
 
     @BeforeClass
     public void setup() throws InterruptedException {
@@ -56,7 +53,6 @@ public class UserCreds_Test {
             driver.quit();
         }
     }
-
      */
 
 
@@ -71,13 +67,12 @@ public class UserCreds_Test {
             tenantUrl = properties.getProperty("tenant.url");
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
-            newtenantusername = properties.getProperty("newtenantusername");
-            newtenantpassword = properties.getProperty("newpassword");
             tenant = properties.getProperty("tenant");
             password = properties.getProperty("password");
             username = properties.getProperty("username");
-
+            property = properties.getProperty("property");
             version = properties.getProperty("version");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,21 +112,20 @@ public class UserCreds_Test {
     }
 
     @Test(priority = 0)
-    public void openPeopleModule() throws InterruptedException {
+    public void openMessages() throws InterruptedException {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        Connect_Admin cd = new Connect_Admin(driver);
 
-        User_Admin ud = new User_Admin(driver);
-
-        ud.openPeopleModuleAndViewUser(tenantusername);
-        ud.changeCreds(newtenantusername, newtenantpassword);
+        cd.openBroadcast();
         Thread.sleep(2000);
+        cd.fillInBroadcastDetails(property, tenantusername);
+
     }
 
-    @Test(priority = 1)
-    public void loginWithNewCreds() throws InterruptedException {
 
-        Thread.sleep(2000);
+    @Test(priority = 1)
+    public void loginTenant() {
+
         tenantWindow = driver.getWindowHandle();
 
         driver.switchTo().newWindow(WindowType.TAB);
@@ -144,11 +138,19 @@ public class UserCreds_Test {
 
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        lp.setUsername(newtenantusername);
+        lp.setUsername(tenantusername);
 
-        lp.setPassword(newtenantpassword);
+        lp.setPassword(tenantpassword);
 
         lp.clickLogin();
+    }
 
+
+    @Test(priority = 2)
+    public void openMessagesAndCheckDetails() throws InterruptedException {
+
+        Connect_Admin cd = new Connect_Admin(driver);
+
+        cd.checkBroadcastFromTenant();
     }
 }

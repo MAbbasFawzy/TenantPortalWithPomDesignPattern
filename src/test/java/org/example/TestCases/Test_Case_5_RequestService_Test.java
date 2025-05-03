@@ -1,7 +1,7 @@
 package org.example.TestCases;
 
 import org.example.PageObjects.LoginAndNavigation;
-import org.example.PageObjects.Profile;
+import org.example.PageObjects.SubmitRequestSubmitSubscription;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class ChangeProfileInfo_Test {
+public class Test_Case_5_RequestService_Test {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -26,10 +26,6 @@ public class ChangeProfileInfo_Test {
     private String tenantpassword;
     private String tenant;
     private String tenantUrl;
-    private String tenantnewpassword;
-    private String confirmtenantnewpassword;
-    private String newtenantusername;
-    private String confirmnewtenantusername;
     private String version;
 
     @BeforeClass
@@ -42,7 +38,7 @@ public class ChangeProfileInfo_Test {
         login();
     }
 
-    
+
     @AfterClass
     public void tearDown() {
         if (driver != null) {
@@ -62,11 +58,8 @@ public class ChangeProfileInfo_Test {
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
             tenant = properties.getProperty("tenant");
-            tenantnewpassword = properties.getProperty("newpassword");
-            confirmtenantnewpassword = properties.getProperty("newpassword");
-            newtenantusername = properties.getProperty("newtenantusername");
-            confirmnewtenantusername = properties.getProperty("newtenantusername");
             version = properties.getProperty("version");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,20 +91,33 @@ public class ChangeProfileInfo_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        Thread.sleep(6000);
+
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();
     }
 
-    @Test(priority = 0)
-    public void openProfile() throws InterruptedException {
+    @Test (priority = 0)
+    public void openServicesPageSearch() throws InterruptedException {
 
-        Thread.sleep(6000);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        Profile pr = new Profile(driver);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
 
-        pr.editProfileInfo();
+        lp.myRequestsPage();
+        Thread.sleep(4000);
+        sr.servicesPageOpenAndSearcFromMyRequests();
+
     }
 
+    @Test (priority = 1)
+    public void submitRequest() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
+        sr.openSubmitRequestForm();
+        sr.selectServiceAndRequest();
+        Thread.sleep(2000);
+        sr.assertRequest();
+    }
 }

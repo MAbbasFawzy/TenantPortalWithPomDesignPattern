@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class SubmitRequest_Test {
+public class Test_Case_2_SubmitRequest_Test {
 
     WebDriver driver;
     WebDriverWait wait;

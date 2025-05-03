@@ -1,11 +1,9 @@
 package org.example.TestCases;
 
-import org.example.PageObjects.ContactUs_Admin;
-import org.example.PageObjects.ContactUs_Tenant;
 import org.example.PageObjects.LoginAndNavigation;
+import org.example.PageObjects.Profile;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -18,22 +16,21 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class ContactUsTenantAdmin_Test {
+public class Test_Case_13_ChangeCredentials_Test {
 
     WebDriver driver;
     WebDriverWait wait;
-
-    public String adminWindow;
-    public String tenantWindow;
 
     private String baseUrl;
     private String tenantusername;
     private String tenantpassword;
     private String tenant;
     private String tenantUrl;
+    private String tenantnewpassword;
+    private String confirmtenantnewpassword;
+    private String newtenantusername;
+    private String confirmnewtenantusername;
     private String version;
-    private String username;
-    private String password;
 
     @BeforeClass
     public void setup() throws InterruptedException {
@@ -53,7 +50,6 @@ public class ContactUsTenantAdmin_Test {
         }
     }
 
-
     public void loadProperties() {
         Properties properties = new Properties();
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
@@ -66,8 +62,10 @@ public class ContactUsTenantAdmin_Test {
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
             tenant = properties.getProperty("tenant");
-            password = properties.getProperty("password");
-            username = properties.getProperty("username");
+            tenantnewpassword = properties.getProperty("newpassword");
+            confirmtenantnewpassword = properties.getProperty("newpassword");
+            newtenantusername = properties.getProperty("newtenantusername");
+            confirmnewtenantusername = properties.getProperty("newtenantusername");
             version = properties.getProperty("version");
         } catch (IOException e) {
             e.printStackTrace();
@@ -94,84 +92,51 @@ public class ContactUsTenantAdmin_Test {
 
 
     public void login() throws InterruptedException {
-
         ((JavascriptExecutor) driver).executeScript("localStorage.setItem('app_version', arguments[0]);", version);
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
+        Thread.sleep(6000);
         lp.setUsername(tenantusername);
-
         lp.setPassword(tenantpassword);
-
         lp.clickLogin();
-
     }
-
 
     @Test(priority = 0)
-    public void checkContactUsPageOpen() {
+    public void openProfile() throws InterruptedException {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        Thread.sleep(6000);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        Profile pr = new Profile(driver);
+
+        pr.openProfile();
+    }
+
+    @Test(priority = 1)
+    public void changeCreds() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        Thread.sleep(2000);
+        Profile pr = new Profile(driver);
+        pr.editPassword(tenantpassword, tenantnewpassword, confirmtenantnewpassword);
+        pr.editUsername(newtenantusername, confirmnewtenantusername);
+    }
+
+    @Test(priority = 2)
+    public void loginWithNewCreds() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        Thread.sleep(2000);
+        Profile pr = new Profile(driver);
+        pr.logoutAndLoginWithNewCreds();
+
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-        lp.contactUsPage();
+
+        Thread.sleep(6000);
+        lp.setUsername(newtenantusername);
+        lp.setPassword(tenantnewpassword);
+        lp.clickLogin();
     }
 
-    @Test (priority = 1)
-    public void openContactUsPage() throws InterruptedException {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
-        ContactUs_Tenant cu = new ContactUs_Tenant(driver);
-
-        Thread.sleep(2000);
-        cu.clickCategoryList();
-    }
-
-    @Test (priority = 2)
-    public void enterDataInForm() throws InterruptedException {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        ContactUs_Tenant cu = new ContactUs_Tenant(driver);
-
-        cu.enterDataInContactUsForm();
-
-        Thread.sleep(2000);
-
-        cu.openContactUsHistoryPage();
-
-        Thread.sleep(2000);
-
-    }
-
-    @Test(priority = 3)
-    public void loginAdmin() throws InterruptedException {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
-        adminWindow = driver.getWindowHandle();
-
-        driver.switchTo().newWindow(WindowType.TAB);
-
-        driver.get("https://automation.yarncloud.dev/");
-
-        ContactUs_Admin ad = new ContactUs_Admin(driver);
-
-        ad.setUsername(username);
-        ad.setPassword(password);
-        ad.clickLogin();
-
-    }
-
-    @Test(priority = 4)
-    public void checkContactUsRequest() throws InterruptedException {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
-        ContactUs_Admin ad = new ContactUs_Admin(driver);
-
-        ad.openContactUsPage();
-        ad.openContactUsRequestDetails();
-
-    }
 }

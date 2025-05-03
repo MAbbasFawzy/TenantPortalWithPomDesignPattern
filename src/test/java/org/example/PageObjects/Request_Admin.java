@@ -65,10 +65,79 @@ public class Request_Admin {
 
     By serviceCategoryListSubscribe = By.xpath("/html[1]/body[1]/div[4]/div[1]/div[2]/div[1]/div[2]/div[1]/form[1]/div[1]/div[1]");
 
+    By requestsAdminModule = By.xpath("//span[contains(text(),'Tenant Requests')]");
+
+    By requestsSubModule = By.xpath("//a[@href='/request']");
+
+    By usernameAdmin = By.xpath("//input[@placeholder='Username']");
+
+    By passwordAdmin = By.xpath("//input[@placeholder='Password']");
+
+    By loginButton = By.xpath("//button[@type='submit']");
+
+    By allRequests = By.xpath("//span[normalize-space()='All Requests']");
+
+    By search = By.xpath("//input[@id='RequestTable_searchbar']//input[@id='RequestTable_searchbar']");
+
+    By idColumn = By.xpath("//th[2]//div[1]");
+
+    By viewButton = By.xpath("//tbody/tr[1]/td[36]/a[1]");
+
+    By assignedToDropDownList = By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[3]/div[1]/div[2]/div[1]/div[1]/div[1]");
+
+    By assignedToSearch = By.xpath("//input[@role='searchbox']");
+
+    By assignedToOption = By.xpath("//ul[@class='p-dropdown-items']//li[1]");
+
+    By fromDate = By.xpath("//body/div[@id='__nuxt']/div[@id='wrapper']/div[@id='page-wrapper']/div[@class='page-container']/div[@class='wrapper wrapper-content animate__animated animate__fadeIn container']/div[@class='grid grid-cols-12 gap-y-4 gap-x-6']/div[@class='col-span-12 xl:col-span-4']/div[@class='card request-view-page h-full']/div[@class='card-body']/div[@class='row gap-y-4']/div[2]/div[1]/span[1]");
+
+    By todayFromDate = By.xpath("/html[1]/body[1]/div[19]/div[1]/div[3]/button[1]");
+
+    By toDate = By.xpath("//body/div[@id='__nuxt']/div[@id='wrapper']/div[@id='page-wrapper']/div[@class='page-container']/div[@class='wrapper wrapper-content animate__animated animate__fadeIn container']/div[@class='grid grid-cols-12 gap-y-4 gap-x-6']/div[@class='col-span-12 xl:col-span-4']/div[@class='card request-view-page h-full']/div[@class='card-body']/div[@class='row gap-y-4']/div[3]/div[1]/span[1]");
+
+    By todayToDate = By.xpath("/html[1]/body[1]/div[19]/div[1]/div[3]/button[1]");
+
+    By expectedHours = By.xpath("//input[@placeholder='Hours']");
+
+    By submitStaffScheduleButton = By.xpath("//span[@class='p-button-label'][normalize-space()='Submit']");
+
+    By startButton = By.xpath("//button[normalize-space()='Start']");
+
+    By confirmStartButton = By.xpath("//button[@class='swal2-confirm swal2-styled swal2-default-outline']");
+
+    By statusBadge = By.xpath("//body/div/main[@dir='ltr']/div/div/div/a[1]/div[1]/div[2]/span[1]");
+
+    By statusMenu = By.xpath("//div[@class='dropdown print:hidden']//button[@id='dropdownMenuButton']");
+
+    By pauseStatus = By.xpath("//button[normalize-space()='Pause']");
+
+    By confirmPause = By.xpath("//button[@type='button'][normalize-space()='Pause']");
+
+    By cancelRequest = By.xpath("//button[@class='dropdown-item text-center p-2'][normalize-space()='Cancel']");
+
+    By confirmCancelRequest = By.xpath("//button[@type='button'][normalize-space()='Cancel']");
+
+    By completeRequest = By.xpath("//button[normalize-space()='Complete']");
+
+    By confirmCompleteRequest = By.xpath("//button[@type='button'][normalize-space()='Complete']");
+
     String requestSubscriptionDescription = "Test!...." + visitor.numbers;
 
 
     //Action methods
+
+    public void setUsername(String username) {
+        driver.findElement(usernameAdmin).sendKeys(username);
+    }
+
+    public void setPassword(String password) {
+        driver.findElement(passwordAdmin).sendKeys(password);
+    }
+
+    public void clickLogin() {
+        driver.findElement(loginButton).click();
+    }
+
     public void servicesPageOpenAndSearch() {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
@@ -203,6 +272,7 @@ public class Request_Admin {
         System.out.println("Start Date: " + startDate);
         System.out.println("Date and Time: " + dateTime);
 
+
         Assert.assertEquals(description, requestSubscriptionDescription);
     }
 
@@ -297,4 +367,157 @@ public class Request_Admin {
 
         Assert.assertEquals(description, requestSubscriptionDescription);
     }
+
+    public void openRequests() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+
+        driver.findElement(requestsAdminModule).click();
+
+        driver.findElement(requestsSubModule).click();
+
+        driver.findElement(allRequests).click();
+
+        Thread.sleep(2000);
+
+    }
+
+    public void searchRequestAndView() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        Thread.sleep(500);
+        driver.findElement(idColumn).click();
+
+        Thread.sleep(500);
+        driver.findElement(idColumn).click();
+
+        Thread.sleep(500);
+        driver.findElement(viewButton).click();
+
+        Thread.sleep(500);
+        driver.findElement(assignedToDropDownList).click();
+
+        Thread.sleep(500);
+        driver.findElement(assignedToSearch).sendKeys("IT manager");
+
+        Thread.sleep(2000);
+        driver.findElement(assignedToOption).click();
+
+        Thread.sleep(500);
+        driver.findElement(fromDate).click();
+
+        Thread.sleep(500);
+        driver.findElement(todayFromDate).click();
+
+        Thread.sleep(500);
+        driver.findElement(toDate).click();
+
+        Thread.sleep(500);
+        driver.findElement(todayToDate).click();
+
+        driver.findElement(expectedHours).clear();
+        driver.findElement(expectedHours).sendKeys("5");
+
+        driver.findElement(submitStaffScheduleButton).click();
+
+        Thread.sleep(2000);
+        driver.findElement(startButton).click();
+
+        driver.findElement(confirmStartButton).click();
+    }
+
+    public void checkStatusInProgress() {
+
+        // Initialize WebDriverWait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+        // Step 1: Locate the first card's status
+        WebElement requestStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusBadge));
+
+        // Step 2: Extract and print the status
+        String status = requestStatus.getText();
+        System.out.println("Status of the first card: " + status);
+
+        Assert.assertEquals(status, "In Progress");
+
+    }
+
+    public void pauseRequest() {
+
+        driver.findElement(statusMenu).click();
+
+        driver.findElement(pauseStatus).click();
+
+        driver.findElement(confirmPause).click();
+    }
+
+    public void checkPauseTenant() {
+
+        // Initialize WebDriverWait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+        // Step 1: Locate the first card's status
+        WebElement requestStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusBadge));
+
+        // Step 2: Extract and print the status
+        String status = requestStatus.getText();
+        System.out.println("Status of the first card: " + status);
+
+        Assert.assertEquals(status, "Paused");
+
+    }
+
+    public void cancelRequest() {
+
+        driver.findElement(statusMenu).click();
+
+        driver.findElement(cancelRequest).click();
+
+        driver.findElement(confirmCancelRequest).click();
+    }
+
+    public void checkCancelledRequestTenant() {
+
+        // Initialize WebDriverWait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+        // Step 1: Locate the first card's status
+        WebElement requestStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusBadge));
+
+        // Step 2: Extract and print the status
+        String status = requestStatus.getText();
+        System.out.println("Status of the first card: " + status);
+
+        Assert.assertEquals(status, "Cancelled");
+
+
+    }
+
+    public void completeRequest() {
+
+        driver.findElement(statusMenu).click();
+
+        driver.findElement(completeRequest).click();
+
+        driver.findElement(confirmCompleteRequest).click();
+
+    }
+
+    public void checkCompleteRequestTenant() {
+
+        // Initialize WebDriverWait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+        // Step 1: Locate the first card's status
+        WebElement requestStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusBadge));
+
+        // Step 2: Extract and print the status
+        String status = requestStatus.getText();
+        System.out.println("Status of the first card: " + status);
+
+        Assert.assertEquals(status, "Completed");
+
+    }
+
 }

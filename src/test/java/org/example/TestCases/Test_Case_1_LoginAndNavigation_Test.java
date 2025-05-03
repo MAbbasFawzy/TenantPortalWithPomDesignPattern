@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class LoginAndNavigation_Test extends ClickUpNotifier {
+public class Test_Case_1_LoginAndNavigation_Test extends ClickUpNotifier {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -91,6 +91,7 @@ public class LoginAndNavigation_Test extends ClickUpNotifier {
 
 
     public void login() throws InterruptedException {
+
 
         ((JavascriptExecutor) driver).executeScript("localStorage.setItem('app_version', arguments[0]);", version);
 

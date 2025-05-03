@@ -1,7 +1,7 @@
 package org.example.TestCases;
 
 import org.example.PageObjects.LoginAndNavigation;
-import org.example.PageObjects.Visitor;
+import org.example.PageObjects.SubmitRequestSubmitSubscription;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class AddNewVisitorGroup_Test {
+public class Test_Case_4_ServiceSubscription_Test {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -37,7 +37,6 @@ public class AddNewVisitorGroup_Test {
         driver.navigate().to(tenantUrl);
         login();
     }
-
 
     @AfterClass
     public void tearDown() {
@@ -86,25 +85,42 @@ public class AddNewVisitorGroup_Test {
     public void login() throws InterruptedException {
 
         ((JavascriptExecutor) driver).executeScript("localStorage.setItem('app_version', arguments[0]);", version);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
+
         lp.setUsername(tenantusername);
-
         lp.setPassword(tenantpassword);
-
         lp.clickLogin();
-        lp.myVisitorsPage();
-
     }
 
     @Test(priority = 0)
-    public void addVisitor() throws InterruptedException {
+    public void openServicesPageSearch() throws InterruptedException {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
-        Visitor visitor = new Visitor(driver);
-        visitor.addNewVisitorsGroup();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
+
+        lp.servicesPage();
+        Thread.sleep(2000);
+        sr.servicesPageOpenAndSearch();
 
     }
+
+    @Test(priority = 1)
+    public void submitSubscription() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
+
+        sr.openSubmitRequestForm();
+        sr.selectServiceAndSubscribe();
+        Thread.sleep(2000);
+        sr.checkSubscriptionAdded();
+
+    }
+
+
+
 }

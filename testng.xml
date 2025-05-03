@@ -3,17 +3,17 @@
     <test name="TestGroup">
         <classes>
 
-            <class name="org.example.TestCases.LoginAndNavigation_Test"/>
-            <class name="org.example.TestCases.SubmitRequest_Test"/>
+            <class name="org.example.TestCases.Test_Case_1_LoginAndNavigation_Test"/>
+            <class name="org.example.TestCases.Test_Case_2_SubmitRequest_Test"/>
 
-            <class name="org.example.TestCases.RequestService_Test"/>
-            <class name="org.example.TestCases.ContactUs_Tenant_Test"/>
-            <class name="org.example.TestCases.ServiceSubscription_Test"/>
-            <class name="org.example.TestCases.ChangeProfileInfo_Test"/>
-            <class name="org.example.TestCases.AddNewVisitor_Test"/>
-            <class name="org.example.TestCases.AddNewVisitorGroup_Test"/>
+            <class name="org.example.TestCases.Test_Case_5_RequestService_Test"/>
+            <class name="org.example.TestCases.Test_Case_3_ContactUs_Tenant_Test"/>
+            <class name="org.example.TestCases.Test_Case_4_ServiceSubscription_Test"/>
+            <class name="org.example.TestCases.Test_Case_12_ChangeProfileInfo_Test"/>
+            <class name="org.example.TestCases.Test_Case_6_AddNewVisitor_Test"/>
+            <class name="org.example.TestCases.Test_Case_7_AddNewVisitorGroup_Test"/>
 
-            <class name="org.example.TestCases.ChangeCredentials_Test"/>
+            <class name="org.example.TestCases.Test_Case_13_ChangeCredentials_Test"/>
 
         </classes>
     </test>

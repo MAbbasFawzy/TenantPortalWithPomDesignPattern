@@ -1,9 +1,11 @@
 package org.example.TestCases;
 
+import org.example.PageObjects.Connect_Admin;
+import org.example.PageObjects.ContactUs_Admin;
 import org.example.PageObjects.LoginAndNavigation;
-import org.example.PageObjects.Profile;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,21 +18,22 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class ChangeCredentials_Test {
+public class Test_Case_22_Messages_Test {
 
     WebDriver driver;
     WebDriverWait wait;
+
+    public String adminWindow;
+    public String tenantWindow;
 
     private String baseUrl;
     private String tenantusername;
     private String tenantpassword;
     private String tenant;
     private String tenantUrl;
-    private String tenantnewpassword;
-    private String confirmtenantnewpassword;
-    private String newtenantusername;
-    private String confirmnewtenantusername;
     private String version;
+    private String username;
+    private String password;
 
     @BeforeClass
     public void setup() throws InterruptedException {
@@ -39,8 +42,9 @@ public class ChangeCredentials_Test {
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         driver.navigate().to(tenantUrl);
-        login();
+        loginAdmin();
     }
+
 
 
     @AfterClass
@@ -49,6 +53,7 @@ public class ChangeCredentials_Test {
             driver.quit();
         }
     }
+
 
     public void loadProperties() {
         Properties properties = new Properties();
@@ -62,10 +67,8 @@ public class ChangeCredentials_Test {
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
             tenant = properties.getProperty("tenant");
-            tenantnewpassword = properties.getProperty("newpassword");
-            confirmtenantnewpassword = properties.getProperty("newpassword");
-            newtenantusername = properties.getProperty("newtenantusername");
-            confirmnewtenantusername = properties.getProperty("newtenantusername");
+            password = properties.getProperty("password");
+            username = properties.getProperty("username");
             version = properties.getProperty("version");
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,53 +93,60 @@ public class ChangeCredentials_Test {
         }
     }
 
-
-    public void login() throws InterruptedException {
-        ((JavascriptExecutor) driver).executeScript("localStorage.setItem('app_version', arguments[0]);", version);
+    
+    public void loginAdmin() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        Thread.sleep(6000);
-        lp.setUsername(tenantusername);
-        lp.setPassword(tenantpassword);
-        lp.clickLogin();
+        driver.get("https://automation.yarncloud.dev/");
+
+        ContactUs_Admin ad = new ContactUs_Admin(driver);
+
+        ad.setUsername(username);
+        ad.setPassword(password);
+        ad.clickLogin();
+
     }
 
     @Test(priority = 0)
-    public void openProfile() throws InterruptedException {
+    public void openMessages() throws InterruptedException {
 
-        Thread.sleep(6000);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        Profile pr = new Profile(driver);
+        Connect_Admin cd = new Connect_Admin(driver);
 
-        pr.openProfile();
+        cd.openMessagesFromAdmin();
+        Thread.sleep(500);
+        cd.fillInMessageDetails(tenantusername);
+
+
     }
 
     @Test(priority = 1)
-    public void changeCreds() throws InterruptedException {
+    public void loginTenant() {
+
+        tenantWindow = driver.getWindowHandle();
+
+        driver.switchTo().newWindow(WindowType.TAB);
+
+        driver.get("https://automation.yarncloud.dev/tenant/auth/login");
+
+        ((JavascriptExecutor) driver).executeScript("localStorage.setItem('app_version', arguments[0]);", version);
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        Thread.sleep(2000);
-        Profile pr = new Profile(driver);
-        pr.editPassword(tenantpassword, tenantnewpassword, confirmtenantnewpassword);
-        pr.editUsername(newtenantusername, confirmnewtenantusername);
-    }
-
-    @Test(priority = 2)
-    public void loginWithNewCreds() throws InterruptedException {
-
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        Thread.sleep(2000);
-        Profile pr = new Profile(driver);
-        pr.logoutAndLoginWithNewCreds();
 
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        Thread.sleep(6000);
-        lp.setUsername(newtenantusername);
-        lp.setPassword(tenantnewpassword);
+        lp.setUsername(tenantusername);
+
+        lp.setPassword(tenantpassword);
+
         lp.clickLogin();
     }
 
+    @Test(priority = 2)
+    public void openMessagesAndCheckDetails() throws InterruptedException {
+
+        Connect_Admin cd = new Connect_Admin(driver);
+
+        cd.openMessagesTenant();
+    }
 }
