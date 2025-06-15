@@ -62,7 +62,7 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
 
     By submitButton = By.xpath("/html[1]/body[1]/div[4]/div[1]/div[2]/div[1]/div[2]/div[1]/form[1]/div[7]/button[1]");
 
-    By submitSubscription = By.xpath("/html[1]/body[1]/div[4]/div[1]/div[2]/div[1]/div[2]/div[1]/form[1]/div[8]/button[1]");
+    By submitSubscription = By.xpath("//button[@type='submit']");
 
     By txt_myRequestsPage = By.linkText("My Requests");
 
@@ -246,8 +246,10 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
 
     public void assertRequest() throws InterruptedException {
 
-        Thread.sleep(2000);
+
         driver.findElement(txt_myRequestsPage).click();
+
+        Thread.sleep(4000);
 
         driver.navigate().refresh();
 

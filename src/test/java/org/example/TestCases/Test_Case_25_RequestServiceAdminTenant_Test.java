@@ -9,6 +9,7 @@ import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -44,7 +45,7 @@ public class Test_Case_25_RequestServiceAdminTenant_Test {
         login();
     }
 
-    /*
+
     @AfterClass
     public void tearDown() {
         if (driver != null) {
@@ -52,7 +53,6 @@ public class Test_Case_25_RequestServiceAdminTenant_Test {
         }
     }
 
-     */
 
     public void loadProperties() {
         Properties properties = new Properties();

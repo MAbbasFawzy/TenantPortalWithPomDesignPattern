@@ -2,7 +2,7 @@ package org.example.TestCases;
 
 import org.example.PageObjects.ContactUs_Admin;
 import org.example.PageObjects.LoginAndNavigation;
-import org.example.PageObjects.User_Admin;
+import org.example.PageObjects.Tenants_Admin;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
@@ -18,8 +18,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class Test_Case_26_UserCreds_Test {
-
+public class Test_Case_17_Documents_Tenant {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -35,8 +34,8 @@ public class Test_Case_26_UserCreds_Test {
     private String version;
     private String username;
     private String password;
-    private String newtenantusername;
-    private String newtenantpassword;
+
+
 
     @BeforeClass
     public void setup() throws InterruptedException {
@@ -49,12 +48,14 @@ public class Test_Case_26_UserCreds_Test {
     }
 
 
+    /*
     @AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
     }
+     */
 
 
     public void loadProperties() {
@@ -68,12 +69,9 @@ public class Test_Case_26_UserCreds_Test {
             tenantUrl = properties.getProperty("tenant.url");
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
-            newtenantusername = properties.getProperty("newtenantusername");
-            newtenantpassword = properties.getProperty("newpassword");
             tenant = properties.getProperty("tenant");
             password = properties.getProperty("password");
             username = properties.getProperty("username");
-
             version = properties.getProperty("version");
         } catch (IOException e) {
             e.printStackTrace();
@@ -103,6 +101,8 @@ public class Test_Case_26_UserCreds_Test {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
+        adminWindow = driver.getWindowHandle();
+
         driver.get("https://automation.yarncloud.dev/");
 
         ContactUs_Admin ad = new ContactUs_Admin(driver);
@@ -113,22 +113,33 @@ public class Test_Case_26_UserCreds_Test {
 
     }
 
-    @Test(priority = 0)
-    public void openPeopleModule() throws InterruptedException {
+    @Test (priority = 0)
+    public void openTenantsAndView() {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
-        User_Admin ud = new User_Admin(driver);
+        Tenants_Admin ta = new Tenants_Admin(driver);
 
-        ud.openPeopleModuleAndViewUser(tenantusername);
-        ud.changeCreds(newtenantusername, newtenantpassword);
-        Thread.sleep(2000);
+        ta.openTenantsAndView();
+
+
     }
 
-    @Test(priority = 1)
-    public void loginWithNewCreds() throws InterruptedException {
+    @Test (priority = 1)
+    public void uploadFiles() throws InterruptedException {
 
-        Thread.sleep(2000);
+        Tenants_Admin ta = new Tenants_Admin(driver);
+
+        ta.uploadDocuments();
+
+        adminWindow = driver.getWindowHandle();
+    }
+
+    @Test (priority = 2)
+    public void login() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
         tenantWindow = driver.getWindowHandle();
 
         driver.switchTo().newWindow(WindowType.TAB);
@@ -138,13 +149,33 @@ public class Test_Case_26_UserCreds_Test {
         ((JavascriptExecutor) driver).executeScript("localStorage.setItem('app_version', arguments[0]);", version);
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        lp.setUsername(newtenantusername);
-
-        lp.setPassword(newtenantpassword);
-
+        lp.setUsername(tenantusername);
+        lp.setPassword(tenantpassword);
         lp.clickLogin();
     }
+
+    @Test (priority = 3)
+    public void checkDocsAddedInTenant() {
+
+        Tenants_Admin ta = new Tenants_Admin(driver);
+
+        ta.checkDocumentsInTenant();
+
+        tenantWindow = driver.getWindowHandle();
+
+    }
+
+    @Test (priority = 4)
+    public void deleteDocumentsFromAdmin() {
+
+        driver.switchTo().window(adminWindow);
+
+        Tenants_Admin ta = new Tenants_Admin(driver);
+
+        ta.deleteDocumentsFromAdmin();
+
+    }
+
 }

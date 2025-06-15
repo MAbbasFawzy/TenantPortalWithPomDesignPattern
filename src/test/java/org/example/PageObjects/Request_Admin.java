@@ -1,5 +1,6 @@
 package org.example.PageObjects;
 
+import com.sun.jdi.ThreadReference;
 import org.example.randomGenerator;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,6 +12,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
 
 public class Request_Admin {
 
@@ -121,7 +124,54 @@ public class Request_Admin {
 
     By confirmCompleteRequest = By.xpath("//button[@type='button'][normalize-space()='Complete']");
 
+    By subscriptionsModule = By.xpath("//span[normalize-space()='Subscriptions']");
+
+    By subscriptionIDColumn = By.xpath("//th[2]//div[1]");
+
+    By viewSubscriptionButton = By.xpath("//tbody/tr[1]/td[42]/a[1]");
+
+    By startSubscriptionButton = By.xpath("//button[normalize-space()='Start']");
+
+    By startDate = By.xpath("//body[1]/div[5]/div[1]/div[2]/div[2]/div[1]/div[1]/div[1]/div[1]");
+
+    By todayStartDate = By.xpath("//div[@class='e-footer-container']//button[@aria-label='Today']");
+
+    By endDate = By.xpath("/html[1]/body[1]/div[19]/div[1]/div[2]/div[2]/div[2]/div[1]/div[1]/div[1]/span[1]");
+
+    By todayEndDate = By.xpath("/html[1]/body[1]/div[20]/div[1]/div[3]/button[1]");
+
+    By recurrence = By.xpath("/html[1]/body[1]/div[4]/div[1]/div[2]/div[2]/div[3]/div[1]/div[1]/div[1]/span[1]");
+
+    String optionToSelect = "Daily";
+
+    By option = By.xpath("/html[1]/body[1]/div[20]/div[1]/ul[1]/li[1]");
+
+    By activateButton = By.xpath("//span[normalize-space()='Activate']");
+
+    By statusOfSubscription = By.xpath(".//span[contains(@class, 'badge')]");
+
+    By statusList = By.xpath("//div[@class='dropdown']//button[@id='dropdownMenuButton']");
+
+    By pauseSubStatus = By.xpath("//button[normalize-space()='Paused']");
+
+    By pauseConfirm = By.xpath("//button[normalize-space()='Pause']");
+
+    By okayPauseTenant = By.xpath("//button[normalize-space()='Ok']");
+
+    By endSubStatus = By.xpath("//button[normalize-space()='Ended']");
+
+    By confirmEndStatus = By.xpath("//button[normalize-space()='End']");
+
+    By terminateStatus = By.xpath("//button[normalize-space()='Terminate']");
+
+    By terminatedStatus = By.xpath("//button[normalize-space()='Terminated']");
+
+    By cancelledSubStatus = By.xpath("//button[normalize-space()='Cancelled']");
+
+    By cancelStatus = By.xpath("//button[@type='button'][normalize-space()='Cancel']");
+
     String requestSubscriptionDescription = "Test!...." + visitor.numbers;
+
 
 
     //Action methods
@@ -450,6 +500,8 @@ public class Request_Admin {
         driver.findElement(pauseStatus).click();
 
         driver.findElement(confirmPause).click();
+
+        driver.findElement(okayPauseTenant).click();
     }
 
     public void checkPauseTenant() {
@@ -517,6 +569,323 @@ public class Request_Admin {
         System.out.println("Status of the first card: " + status);
 
         Assert.assertEquals(status, "Completed");
+
+    }
+
+    /*======================================================*/
+
+    public void openSubscriptions() throws InterruptedException {
+
+
+        Thread.sleep(1000);
+        driver.findElement(requestsAdminModule).click();
+
+        Thread.sleep(1000);
+        driver.findElement(subscriptionsModule).click();
+
+        Thread.sleep(1000);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollTo(0, 0)");
+
+        Thread.sleep(3000);
+        driver.findElement(subscriptionIDColumn).click();
+
+        Thread.sleep(3000);
+        driver.findElement(subscriptionIDColumn).click();
+
+        Thread.sleep(1000);
+        driver.findElement(viewSubscriptionButton).click();
+
+    }
+
+    public void startSubscription() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        driver.findElement(startButton).click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Step 3: Wait for the pop-up dialog to appear
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".p-dialog-header"))); // Ensure the pop-up dialog is visible
+
+        // Step 4: Generate dynamic start and end dates
+        LocalDate today = LocalDate.now();
+        LocalDate startDate = today.plusDays(1); // Start date: tomorrow
+        LocalDate endDate = today.plusMonths(6); // End date: 6 months from today
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedStartDate = startDate.format(formatter);
+        String formattedEndDate = endDate.format(formatter);
+
+        // Step 5: Interact with the Start Date field
+        WebElement startDateInput = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".e-datepicker.e-input")));
+        startDateInput.clear();
+        startDateInput.sendKeys(formattedStartDate); // Use the dynamically generated start date
+        startDateInput.sendKeys("\n"); // Simulate pressing Enter
+
+        // Step 6: Interact with the End Date field
+        WebElement endDateInput = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//input[@class='e-control e-datepicker e-lib e-input e-keyboard'])[2]")));
+        endDateInput.clear();
+        endDateInput.sendKeys(formattedEndDate); // Use the dynamically generated end date
+        endDateInput.sendKeys("\n"); // Simulate pressing Enter
+
+        // Step 7: Select the Billing Recurrence from the dropdown
+        WebElement billingRecurrenceDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html[1]/body[1]/div[19]/div[1]/div[2]/div[2]/div[3]/div[1]/div[1]/div[1]")));
+        billingRecurrenceDropdown.click();
+
+        // Wait for the dropdown options to load and select an option
+        WebElement billingRecurrenceOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html[1]/body[1]/div[20]/div[1]/ul[1]/li[3]"))); // Replace with the actual text
+        billingRecurrenceOption.click();
+
+        /*
+        Thread.sleep(3000);
+        driver.findElement(startDate).click();
+
+        Thread.sleep(3000);
+        driver.findElement(todayStartDate).click();
+
+        Thread.sleep(3000);
+        driver.findElement(endDate).click();
+
+        Thread.sleep(3000);
+        driver.findElement(todayEndDate).click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+        WebElement billingRecurrenceDropdown = wait.until(ExpectedConditions
+                .elementToBeClickable(By.xpath("/html[1]/body[1]/div[5]/div[1]/div[2]/div[2]/div[3]/div[1]/div[1]/div[1]")));
+        billingRecurrenceDropdown.click();
+
+        WebElement billingRecurrenceOption = wait.until(
+                ExpectedConditions.elementToBeClickable(By.xpath("//li[@role='option' and @aria-label='Monthly']"))); // Replace with your desired option
+
+        billingRecurrenceOption.click();
+
+         */
+        driver.findElement(activateButton).click();
+
+    }
+
+    public void checkActiveTenant() {
+
+        // Initialize WebDriverWait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        try {
+            // Step 1: Wait for the grid container to load
+            By gridContainer = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[4]");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(gridContainer));
+
+            // Step 2: Locate the first card's status
+            By statusOfSubscription = By.xpath("//body/div/main[@dir='ltr']/div/div/div/a[1]/div[1]/div[2]/span[1]");
+            WebElement subscriptionStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusOfSubscription));
+
+            // Step 3: Scroll the element into view (optional, if needed)
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", subscriptionStatus);
+
+            // Step 4: Extract and print the status
+            String status = subscriptionStatus.getText();
+            System.out.println("Status of the first card: " + status);
+
+            // Step 5: Assert the status
+            Assert.assertEquals(status, "Active");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while checking the active tenant.");
+        }
+
+    }
+
+    public void pauseSubsriptionAdmin() throws InterruptedException {
+
+        Thread.sleep(500);
+        driver.findElement(statusList).click();
+
+        Thread.sleep(500);
+        driver.findElement(pauseSubStatus).click();
+
+        Thread.sleep(500);
+        driver.findElement(pauseConfirm).click();
+
+        driver.navigate().refresh();
+
+        Thread.sleep(2000);
+
+    }
+
+    public void checkPauseSubTenant() {
+
+        // Initialize WebDriverWait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        try {
+            // Step 1: Wait for the grid container to load
+            By gridContainer = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[4]");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(gridContainer));
+
+            // Step 2: Locate the first card's status
+            By statusOfSubscription = By.xpath("//body/div/main[@dir='ltr']/div/div/div/a[1]/div[1]/div[2]/span[1]");
+            WebElement subscriptionStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusOfSubscription));
+
+            // Step 3: Scroll the element into view (optional, if needed)
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", subscriptionStatus);
+
+            // Step 4: Extract and print the status
+            String status = subscriptionStatus.getText();
+            System.out.println("Status of the first card: " + status);
+
+            // Step 5: Assert the status
+            Assert.assertEquals(status, "Paused");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while checking the active tenant.");
+        }
+
+    }
+
+    public void endSubsriptionAdmin() throws InterruptedException {
+
+        driver.findElement(statusList).click();
+
+        driver.findElement(endSubStatus).click();
+
+        driver.findElement(confirmEndStatus).click();
+
+        Thread.sleep(2000);
+
+        driver.navigate().refresh();
+
+        Thread.sleep(2000);
+
+    }
+
+
+    public void checkEndSubTenant() {
+
+        // Initialize WebDriverWait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        try {
+            // Step 1: Wait for the grid container to load
+            By gridContainer = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[4]");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(gridContainer));
+
+            // Step 2: Locate the first card's status
+            By statusOfSubscription = By.xpath("//body/div/main[@dir='ltr']/div/div/div/a[1]/div[1]/div[2]/span[1]");
+            WebElement subscriptionStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusOfSubscription));
+
+            // Step 3: Scroll the element into view (optional, if needed)
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", subscriptionStatus);
+
+            // Step 4: Extract and print the status
+            String status = subscriptionStatus.getText();
+            System.out.println("Status of the first card: " + status);
+
+            // Step 5: Assert the status
+            Assert.assertEquals(status, "Ended");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while checking the active tenant.");
+        }
+
+    }
+
+    public void terminateSubscriptionAdmin() throws InterruptedException {
+
+        driver.findElement(statusList).click();
+
+        driver.findElement(terminatedStatus).click();
+
+        driver.findElement(terminateStatus).click();
+
+        Thread.sleep(2000);
+
+        driver.navigate().refresh();
+
+        Thread.sleep(2000);
+
+    }
+
+    public void checkTerminatedSubTenant() {
+
+        // Initialize WebDriverWait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        try {
+            // Step 1: Wait for the grid container to load
+            By gridContainer = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[4]");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(gridContainer));
+
+            // Step 2: Locate the first card's status
+            By statusOfSubscription = By.xpath("//body/div/main[@dir='ltr']/div/div/div/a[1]/div[1]/div[2]/span[1]");
+            WebElement subscriptionStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusOfSubscription));
+
+            // Step 3: Scroll the element into view (optional, if needed)
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", subscriptionStatus);
+
+            // Step 4: Extract and print the status
+            String status = subscriptionStatus.getText();
+            System.out.println("Status of the first card: " + status);
+
+            // Step 5: Assert the status
+            Assert.assertEquals(status, "Terminated");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while checking the active tenant.");
+        }
+
+    }
+
+    public void cancelledSubscriptionAdmin() throws InterruptedException {
+
+        driver.findElement(statusList).click();
+
+        driver.findElement(cancelledSubStatus).click();
+
+        driver.findElement(cancelStatus).click();
+
+        Thread.sleep(2000);
+
+        driver.navigate().refresh();
+
+        Thread.sleep(2000);
+
+
+    }
+
+    public void checkCancelledSubTenant() {
+
+        // Initialize WebDriverWait
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        try {
+            // Step 1: Wait for the grid container to load
+            By gridContainer = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[4]");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(gridContainer));
+
+            // Step 2: Locate the first card's status
+            By statusOfSubscription = By.xpath("//body/div/main[@dir='ltr']/div/div/div/a[1]/div[1]/div[2]/span[1]");
+            WebElement subscriptionStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusOfSubscription));
+
+            // Step 3: Scroll the element into view (optional, if needed)
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", subscriptionStatus);
+
+            // Step 4: Extract and print the status
+            String status = subscriptionStatus.getText();
+            System.out.println("Status of the first card: " + status);
+
+            // Step 5: Assert the status
+            Assert.assertEquals(status, "Cancelled");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while checking the active tenant.");
+        }
 
     }
 
