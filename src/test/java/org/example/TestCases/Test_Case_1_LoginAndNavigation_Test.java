@@ -42,9 +42,7 @@ public class Test_Case_1_LoginAndNavigation_Test extends ClickUpNotifier {
             driver.quit();
         }
 
-        String resultMessage = generateTestResultsMessage();
-        ClickUpNotifier.sendNotification(resultMessage);
-        System.out.println("Test");
+        
     }
 
     private String generateTestResultsMessage() {

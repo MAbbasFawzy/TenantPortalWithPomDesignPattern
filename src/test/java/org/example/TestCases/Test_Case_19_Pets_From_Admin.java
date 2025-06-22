@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class Test_Case_17_Documents_Tenant {
+public class Test_Case_19_Pets_From_Admin {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -112,26 +112,31 @@ public class Test_Case_17_Documents_Tenant {
 
     }
 
-    @Test (priority = 0)
-    public void openTenantsAndView() {
+    @Test(priority = 0)
+    public void openTenantsAndView() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
         Tenants_Admin ta = new Tenants_Admin(driver);
+
+        Thread.sleep(4000);
 
         ta.openTenantsAndView();
 
 
     }
 
-    @Test (priority = 1)
-    public void uploadFiles() throws InterruptedException {
+    @Test(priority = 1)
+    public void addPetsFromAdmin() throws InterruptedException {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
 
-        ta.uploadDocuments();
+        Thread.sleep(2000);
+
+        ta.addPetsFromAdminAndGetPetData();
 
         adminWindow = driver.getWindowHandle();
+
     }
 
     @Test (priority = 2)
@@ -155,25 +160,11 @@ public class Test_Case_17_Documents_Tenant {
         lp.clickLogin();
     }
 
-    @Test (priority = 3)
-    public void checkDocsAddedInTenant() {
+    @Test(priority = 3)
+    public void checkPetsDataFromTenant() throws InterruptedException {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
-
-        ta.checkDocumentsInTenant();
-
-        tenantWindow = driver.getWindowHandle();
-
-    }
-
-    @Test (priority = 4)
-    public void deleteDocumentsFromAdmin() {
-
-        driver.switchTo().window(adminWindow);
-
-        Tenants_Admin ta = new Tenants_Admin(driver);
-
-        ta.deleteDocumentsFromAdmin();
+        ta.checkPetFromTenant();
 
     }
 
