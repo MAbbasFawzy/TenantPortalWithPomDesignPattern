@@ -164,8 +164,7 @@ public class Test_Case_19_Pets_From_Admin {
     public void checkPetsDataFromTenant() throws InterruptedException {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
-        ta.checkPetFromTenant();
+        ta.checkPetFromTenant(Tenants_Admin.nameOfPet);
 
     }
-
 }

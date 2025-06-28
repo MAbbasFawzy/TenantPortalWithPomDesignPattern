@@ -9,7 +9,6 @@ import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -18,8 +17,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class Test_Case_20_VehiclesAddedFromAdmin {
-
+public class Test_Case_18_Dependant_Test {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -116,19 +114,31 @@ public class Test_Case_20_VehiclesAddedFromAdmin {
     }
 
     @Test(priority = 0)
-    public void addVehicleFromAdmin() throws InterruptedException {
+    public void openTenantsAndView() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        Tenants_Admin ta = new Tenants_Admin(driver);
+
+        Thread.sleep(4000);
+
+        ta.openTenantsAndView();
+    }
+
+    @Test(priority = 1)
+    public void addDependentsFromAdmin() throws InterruptedException {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
 
         Thread.sleep(2000);
 
-        ta.addVehicleFromAdmin();
+        ta.addDependentFromAdminAndGetData();
 
         adminWindow = driver.getWindowHandle();
 
     }
 
-    @Test (priority = 1)
+    @Test (priority = 2)
     public void login() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
@@ -149,16 +159,13 @@ public class Test_Case_20_VehiclesAddedFromAdmin {
         lp.clickLogin();
     }
 
-
-    @Test(priority = 2)
-    public void checkVehicleFromTenant() throws InterruptedException {
+    @Test(priority = 3)
+    public void checkDependentsDataFromTenant() throws InterruptedException {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
-
-        Thread.sleep(2000);
-
-        ta.checkVehicleFromTenant(Tenants_Admin.vehiclePlateNumber);
+        ta.checkDependentFromTenant(Tenants_Admin.nameOfDependent);
 
     }
+
 
 }
