@@ -3,7 +3,6 @@ package org.example.TestCases;
 import org.example.PageObjects.ContactUs_Admin;
 import org.example.PageObjects.Invoices_Admin;
 import org.example.PageObjects.LoginAndNavigation;
-import org.example.PageObjects.Tenants_Admin;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WindowType;
@@ -18,8 +17,7 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class Test_Case_14_InvoicesDue {
-
+public class Test_Case_15_InvoicePaid {
 
     WebDriver driver;
     WebDriverWait wait;
@@ -191,6 +189,43 @@ public class Test_Case_14_InvoicesDue {
         Invoices_Admin in = new Invoices_Admin(driver);
 
         in.checkInvoiceInTenant(Invoices_Admin.invoiceNumber);
+
+        tenantWindow = driver.getWindowHandle();
+
+    }
+
+    @Test(priority = 5)
+
+    public void registerPayment() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        Invoices_Admin in = new Invoices_Admin(driver);
+
+        driver.switchTo().window(erpWindow);
+
+        in.registerPaymentFromErp();
+    }
+
+
+    @Test(priority = 6)
+
+    public void checkInvoiceInPaid() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        Invoices_Admin in = new Invoices_Admin(driver);
+
+        driver.switchTo().window(tenantWindow);
+
+        Thread.sleep(2000);
+
+        driver.navigate().refresh();
+
+        Thread.sleep(2000);
+
+        in.checkInvoiceInPaid(Invoices_Admin.invoiceNumber);
+
 
     }
 
