@@ -25,9 +25,9 @@ public class Visitor extends randomGenerator {
 
     // Locators
 
-    By addVisitor = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/button[1]");
+    By addVisitor = By.xpath("//button[@type='button']");
 
-    By visitType = By.xpath("//div[@data-pc-name='dropdown' and @optionvalueisobject='true' and .//span[@role='combobox' and @aria-controls] and .//div[contains(@class, 'p-dropdown-trigger')]]");
+    By visitType = By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]");
 
     By visitTypeOption = By.xpath("//ul[@class='p-dropdown-items']/li");
 
@@ -40,25 +40,25 @@ public class Visitor extends randomGenerator {
 
     By visitDate = By.xpath("//div[@class='vdatetime-calendar__month']");
 
-    By visitorFirstName = By.xpath("//body/div/main[@dir='ltr']/div/div/div/div/form/div[@data-pc-name='accordion']/div[@data-pc-section='root']/div[@role='region']/div[@data-pc-section='content']/div/div[1]/div[1]/input[1]");
+    By visitorFirstName = By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/form[1]/div[3]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/input[1]");
 
-    By visitorSecondName = By.xpath("//body//div//div[@data-pc-section='content']//div//div//div[2]//input[1]");
+    By visitorSecondName = By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/form[1]/div[3]/div[1]/div[2]/div[1]/div[1]/div[1]/div[2]/input[1]");
 
-    By documentType = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[3]/div[1]/div[2]/div[1]/div[1]/div[1]/div[3]/div[1]");
+    By documentType = By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/form[1]/div[3]/div[1]/div[2]/div[1]/div[1]/div[1]/div[3]/div[1]");
 
     By documentTypeOption = By.xpath("//ul[contains(@class, 'p-dropdown-items')]/li");
 
     By documentNumber = By.xpath("//body//div//div[@data-pc-section='content']//div//div//div[4]//input[1]");
 
-    By nationalityList = By.xpath("/html/body/div[1]/main/div/div/div[2]/div/form/div[3]/div/div[2]/div/div/div[1]/div[5]/div[1]/div");
+    By nationalityList = By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/form[1]/div[3]/div[1]/div[2]/div[1]/div[1]/div[1]/div[5]/div[1]");
 
     By nationalityListOption = By.xpath("//ul[contains(@class, 'p-dropdown-items')]/li");
 
-    By genderList = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[3]/div[1]/div[2]/div[1]/div[1]/div[1]/div[6]/div[1]");
+    By genderList = By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/form[1]/div[3]/div[1]/div[2]/div[1]/div[1]/div[1]/div[6]/div[1]");
 
     By genderListOption = By.xpath("//ul[contains(@class, 'p-dropdown-items')]/li");
 
-    By submitVisitor = By.xpath("//button[@type='submit']");
+    By submitVisitor = By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/form[1]/div[4]/button[2]");
 
     By visitorStatus = By.xpath("//span[contains(@class, 'py-1 px-2') and text()='Pending']");
 
@@ -80,10 +80,37 @@ public class Visitor extends randomGenerator {
 
     By vehicleExtraVisitor = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[2]/div[1]/form[1]/div[3]/div[2]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/span[2]");
 
+    By visitorsMenuItem = By.xpath("/html[1]/body[1]/div[2]/div[1]/nav[1]/div[1]/div[3]/div[6]/div[1]/div[1]/div[1]/div[1]/div[1]/a[1]");
 
-    String documentOption;
+    By visitorIDColumn = By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/table[1]/thead[1]/tr[1]/th[4]/div[1]");
 
-    String docNumber;
+    By viewVisitor = By.xpath("//tbody/tr[1]/td[36]/a[1]");
+
+    By actionMenu = By.xpath("//button[@id='visitorStatusDropdownMenuButton']");
+
+    By expiredStatus = By.xpath("//button[normalize-space()='Expired']");
+
+    By unwelcomeStatus = By.xpath("//button[normalize-space()='Unwelcome']");
+
+    By confirmExpiredStatus = By.xpath("//button[@type='button'][normalize-space()='Expired']");
+
+    By confirmUnwelcomeStatus = By.xpath("//button[@type='button'][normalize-space()='Unwelcome']");
+
+    By resubmit = By.xpath("//button[normalize-space()='Resubmit']");
+
+    By visitStartDate = By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/form[1]/div[2]/div[1]/div[1]/input[1]");
+
+    By continueButton = By.xpath("//div[@class='vdatetime-popup__actions__button vdatetime-popup__actions__button--confirm']");
+
+    By submitExpiredVisitor = By.xpath("//button[normalize-space()='Submit']");
+
+    By unwelcomeAlert = By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[1]/div[1]");
+
+    public static String documentOption;
+
+    public static String docNumber;
+
+
 
 
     // Action Methods
@@ -93,9 +120,11 @@ public class Visitor extends randomGenerator {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         randomGenerator.Visitor visitor = randomGenerator.generateRandomContact();
 
-
+        Thread.sleep(6000);
         driver.findElement(addVisitor).click();
-        Thread.sleep(1000);
+
+
+        Thread.sleep(6000);
         driver.findElement(visitType).click();
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
@@ -119,10 +148,17 @@ public class Visitor extends randomGenerator {
 
         driver.findElement(entryTypeSingle).click();
 
+        Thread.sleep(6000);
         driver.findElement(visitorFirstName).sendKeys(visitor.firstName);
+
+        Thread.sleep(6000);
         driver.findElement(visitorSecondName).sendKeys(visitor.lastName);
 
+
+
         /*---------------------------------------------------------*/
+
+        Thread.sleep(6000);
         driver.findElement(documentType).click();
         // Wait for the dropdown options to be visible
         List<WebElement> optionsDocument = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(documentTypeOption));
@@ -140,11 +176,13 @@ public class Visitor extends randomGenerator {
 
         docNumber = visitor.numbers;
         driver.findElement(documentNumber).sendKeys(docNumber);
+
+        
         /*---------------------------------------------------------*/
 
 
 
-        Thread.sleep(500);
+        Thread.sleep(6000);
         // Scroll to the dropdown element
         WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(nationalityList));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdown);
@@ -168,7 +206,7 @@ public class Visitor extends randomGenerator {
         Thread.sleep(500); // Optional: wait for the scroll to complete
         selectedOptionCountry.click();
 
-        Thread.sleep(500);
+        Thread.sleep(6000);
         // Scroll to the dropdown element
         WebElement dropdownGender = wait.until(ExpectedConditions.elementToBeClickable(genderList));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownGender);
@@ -198,9 +236,7 @@ public class Visitor extends randomGenerator {
 
         Assert.assertEquals("Pending", driver.findElement(visitorStatus).getText());
 
-
     }
-
 
     public void addNewVisitorsGroup() throws InterruptedException {
 
@@ -641,5 +677,285 @@ public class Visitor extends randomGenerator {
          */
 
 
+    }
+
+    public void openVisitorsAndExpireVisitor() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        driver.findElement(visitorsMenuItem).click();
+
+        Thread.sleep(2000);
+        driver.findElement(visitorIDColumn).click();
+
+        Thread.sleep(2000);
+        driver.findElement(visitorIDColumn).click();
+
+        Thread.sleep(2000);
+        driver.findElement(viewVisitor).click();
+
+        driver.findElement(actionMenu).click();
+
+        driver.findElement(expiredStatus).click();
+
+        driver.findElement(confirmExpiredStatus).click();
+
+    }
+
+    public void openVisitorsAndUnwelcomeVisitor() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        driver.findElement(visitorsMenuItem).click();
+
+        Thread.sleep(2000);
+        driver.findElement(visitorIDColumn).click();
+
+        Thread.sleep(2000);
+        driver.findElement(visitorIDColumn).click();
+
+        Thread.sleep(2000);
+        driver.findElement(viewVisitor).click();
+
+        driver.findElement(actionMenu).click();
+
+        driver.findElement(unwelcomeStatus).click();
+
+        driver.findElement(confirmUnwelcomeStatus).click();
+
+    }
+
+    public void resubmitVisitor(String documentOption, String docNumber) throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        randomGenerator.Visitor visitor = randomGenerator.generateRandomContact();
+
+        Thread.sleep(6000);
+        driver.findElement(addVisitor).click();
+
+
+        Thread.sleep(6000);
+        driver.findElement(visitType).click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        Thread.sleep(500);
+
+        // Wait for the dropdown options to be visible
+        List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(visitTypeOption));
+
+        // Generate a random index to select an option
+        Random random = new Random();
+        int randomIndex = random.nextInt(options.size());
+
+        // Scroll to the selected option
+        WebElement selectedOption = options.get(randomIndex);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectedOption);
+        Thread.sleep(500); // Optional: wait for the scroll to complete
+
+        // Select the random option
+        selectedOption.click();
+
+        driver.findElement(entryTypeSingle).click();
+
+        Thread.sleep(6000);
+        driver.findElement(visitorFirstName).sendKeys(visitor.firstName);
+
+        Thread.sleep(6000);
+        driver.findElement(visitorSecondName).sendKeys(visitor.lastName);
+
+        /*---------------------------------------------------------*/
+
+        Thread.sleep(6000);
+        driver.findElement(documentType).click();
+
+        // Wait for dropdown options to be visible
+        List<WebElement> optionsDocument = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(documentTypeOption));
+
+        // Find the option that matches the saved documentOption
+        WebElement selectedDocOption = null;
+        for (WebElement option : optionsDocument) {
+            if (option.getText().trim().equals(documentOption)) {
+                selectedDocOption = option;
+                break;
+            }
+        }
+
+        if (selectedDocOption != null) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectedDocOption);
+            Thread.sleep(500); // Optional: wait after scrolling
+            selectedDocOption.click();
+        } else {
+            throw new RuntimeException("Saved document type not found in dropdown: " + documentOption);
+        }
+
+        // Now enter the previously used document number
+        driver.findElement(documentNumber).sendKeys(docNumber);
+
+        // Press TAB to move focus away
+        driver.findElement(documentNumber).sendKeys(Keys.TAB);
+
+        Thread.sleep(6000);
+        driver.findElement(resubmit).click();
+
+        Thread.sleep(6000);
+        driver.findElement(visitStartDate).click();
+
+        Thread.sleep(3000);
+        driver.findElement(continueButton).click();
+
+        Thread.sleep(3000);
+        driver.findElement(continueButton).click();
+
+        Thread.sleep(3000);
+        driver.findElement(submitExpiredVisitor).click();
+
+
+    }
+
+    public void enterUnwelcomeVisitor(String documentOption, String docNumber) throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        randomGenerator.Visitor visitor = randomGenerator.generateRandomContact();
+
+        Thread.sleep(6000);
+        driver.findElement(addVisitor).click();
+
+
+        Thread.sleep(6000);
+        driver.findElement(visitType).click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        Thread.sleep(500);
+
+        // Wait for the dropdown options to be visible
+        List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(visitTypeOption));
+
+        // Generate a random index to select an option
+        Random random = new Random();
+        int randomIndex = random.nextInt(options.size());
+
+        // Scroll to the selected option
+        WebElement selectedOption = options.get(randomIndex);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectedOption);
+        Thread.sleep(500); // Optional: wait for the scroll to complete
+
+        // Select the random option
+        selectedOption.click();
+
+        driver.findElement(entryTypeSingle).click();
+
+        Thread.sleep(6000);
+        driver.findElement(visitorFirstName).sendKeys(visitor.firstName);
+
+        Thread.sleep(6000);
+        driver.findElement(visitorSecondName).sendKeys(visitor.lastName);
+
+        /*---------------------------------------------------------*/
+
+        Thread.sleep(6000);
+        driver.findElement(documentType).click();
+
+        // Wait for dropdown options to be visible
+        List<WebElement> optionsDocument = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(documentTypeOption));
+
+        // Find the option that matches the saved documentOption
+        WebElement selectedDocOption = null;
+        for (WebElement option : optionsDocument) {
+            if (option.getText().trim().equals(documentOption)) {
+                selectedDocOption = option;
+                break;
+            }
+        }
+
+        if (selectedDocOption != null) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectedDocOption);
+            Thread.sleep(500); // Optional: wait after scrolling
+            selectedDocOption.click();
+        } else {
+            throw new RuntimeException("Saved document type not found in dropdown: " + documentOption);
+        }
+
+        // Now enter the previously used document number
+        driver.findElement(documentNumber).sendKeys(docNumber);
+
+        // Press TAB to move focus away
+        driver.findElement(documentNumber).sendKeys(Keys.TAB);
+
+
+        Thread.sleep(6000);
+        // Scroll to the dropdown element
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(nationalityList));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdown);
+
+        // Wait for the dropdown to be clickable
+        wait.until(ExpectedConditions.elementToBeClickable(nationalityList));
+
+        // Click the dropdown using JavaScript
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", dropdown);
+
+        // Wait for the dropdown options to be visible
+        List<WebElement> countryOptions = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(nationalityListOption));
+
+        // Generate a random index to select an option
+        Random randomCountry = new Random();
+        int randomIndexCountry = random.nextInt(countryOptions.size());
+
+        // Select the random option
+        WebElement selectedOptionCountry = countryOptions.get(randomIndexCountry);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectedOptionCountry); // Scroll to the selected option
+        Thread.sleep(500); // Optional: wait for the scroll to complete
+        selectedOptionCountry.click();
+
+        Thread.sleep(6000);
+        // Scroll to the dropdown element
+        WebElement dropdownGender = wait.until(ExpectedConditions.elementToBeClickable(genderList));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownGender);
+
+        // Wait for the dropdown to be clickable
+        wait.until(ExpectedConditions.elementToBeClickable(genderList));
+
+        // Click the dropdown using JavaScript
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", dropdownGender);
+
+        // Wait for the dropdown options to be visible
+        List<WebElement> genderOptions = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(genderListOption));
+
+        // Generate a random index to select an option
+        Random randomGender = new Random();
+        int randomIndexGender = randomGender.nextInt(genderOptions.size());
+
+        // Select the random option
+        WebElement selectedOptionGender = genderOptions.get(randomIndexGender); // Fixed: Use genderOptions here
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", selectedOptionGender); // Scroll to the selected option
+        Thread.sleep(500); // Optional: wait for the scroll to complete
+        selectedOptionGender.click(); // Click the selected gender option
+
+        driver.findElement(submitVisitor).click();
+    }
+
+    public void checkUnwelcomeVisitorFromAdmin() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+
+        driver.navigate().refresh();
+
+        driver.findElement(visitorsMenuItem).click();
+
+        /*
+        Thread.sleep(2000);
+        driver.findElement(visitorIDColumn).click();
+
+        Thread.sleep(2000);
+        driver.findElement(visitorIDColumn).click();
+
+         */
+
+        Thread.sleep(2000);
+        driver.findElement(viewVisitor).click();
+
+        Thread.sleep(2000);
+        driver.findElement(unwelcomeAlert).getText();
     }
 }

@@ -1,13 +1,14 @@
 package org.example.TestCases;
 
+import org.example.PageObjects.ContactUs_Admin;
 import org.example.PageObjects.LoginAndNavigation;
 import org.example.PageObjects.Visitor;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -16,16 +17,21 @@ import java.io.InputStream;
 import java.time.Duration;
 import java.util.Properties;
 
-public class Test_Case_6_AddNewVisitor_Test {
+public class Test_Case_10_Blacklisted_Visitor {
 
     WebDriver driver;
     WebDriverWait wait;
+
+    public String adminWindow;
+    public String tenantWindow;
 
     private String baseUrl;
     private String tenantusername;
     private String tenantpassword;
     private String tenant;
     private String tenantUrl;
+    private String username;
+    private String password;
     private String version;
 
     @BeforeClass
@@ -48,7 +54,6 @@ public class Test_Case_6_AddNewVisitor_Test {
 
      */
 
-
     public void loadProperties() {
         Properties properties = new Properties();
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
@@ -61,6 +66,8 @@ public class Test_Case_6_AddNewVisitor_Test {
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
             tenant = properties.getProperty("tenant");
+            password = properties.getProperty("password");
+            username = properties.getProperty("username");
             version = properties.getProperty("version");
         } catch (IOException e) {
             e.printStackTrace();
@@ -100,6 +107,8 @@ public class Test_Case_6_AddNewVisitor_Test {
         lp.clickLogin();
         lp.myVisitorsPage();
 
+        tenantWindow = driver.getWindowHandle();
+
     }
 
     @Test(priority = 0)
@@ -107,7 +116,77 @@ public class Test_Case_6_AddNewVisitor_Test {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         Visitor visitor = new Visitor(driver);
-
         visitor.addVisitor();
+
+    }
+
+    @Test(priority = 1)
+    public void loginAdmin() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        adminWindow = driver.getWindowHandle();
+
+        driver.switchTo().newWindow(WindowType.TAB);
+
+        driver.get("https://automation.yarncloud.dev/");
+
+        ContactUs_Admin ad = new ContactUs_Admin(driver);
+
+        ad.setUsername(username);
+        ad.setPassword(password);
+        ad.clickLogin();
+
+    }
+
+    @Test(priority = 2)
+    public void openVisitorsAndUnwelcome() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        Visitor visit = new Visitor(driver);
+        visit.openVisitorsAndUnwelcomeVisitor();
+
+        adminWindow = driver.getWindowHandle();
+
+        Thread.sleep(6000);
+    }
+
+    @Test(priority = 3)
+    public void enterUnwelcomeVisitor() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        Thread.sleep(6000);
+
+        driver.switchTo().window(tenantWindow);
+
+        LoginAndNavigation lp = new LoginAndNavigation(driver);
+
+        lp.myVisitorsPage();
+
+        Visitor visitor = new Visitor(driver);
+
+        visitor.enterUnwelcomeVisitor(Visitor.documentOption, Visitor.docNumber);
+
+        tenantWindow = driver.getWindowHandle();
+
+        Thread.sleep(6000);
+
+    }
+
+    @Test(priority = 4)
+    public void checkUnwelcomeVisitorFromAdmin() throws InterruptedException {
+
+        Thread.sleep(6000);
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        driver.switchTo().window(adminWindow);
+
+        Visitor visitor = new Visitor(driver);
+
+        visitor.checkUnwelcomeVisitorFromAdmin();
+
     }
 }
