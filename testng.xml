@@ -3,7 +3,7 @@
     <test name="TestGroup">
         <classes>
             <class name="org.example.TestCases.Test_Case_1_LoginAndNavigation_Test"/>
-            <!--
+
             <class name="org.example.TestCases.Test_Case_2_SubmitRequest_Test"/>
             <class name="org.example.TestCases.Test_Case_3_ContactUs_Tenant_Test"/>
             <class name="org.example.TestCases.Test_Case_4_ServiceSubscription_Test"/>
@@ -21,7 +21,7 @@
 
             <class name="org.example.TestCases.Test_Case_13_ChangeCredentials_Test"/>
             <class name="org.example.TestCases.Test_Case_26_UserCreds_Test"/>
-            -->
+
         </classes>
     </test>
 </suite>
