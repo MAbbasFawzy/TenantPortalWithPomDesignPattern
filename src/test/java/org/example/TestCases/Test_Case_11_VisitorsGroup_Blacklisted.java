@@ -103,18 +103,7 @@ public class Test_Case_11_VisitorsGroup_Blacklisted {
         lp.setPassword(tenantpassword);
 
         lp.clickLogin();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30)); // Short timeout
-        try {
-            WebElement skipButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='Skip']")));
-            skipButton.click();
 
-            WebElement okayButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='Okay']")));
-            okayButton.click();
-
-            System.out.println("✅ Skip button appeared and clicked.");
-        } catch (org.openqa.selenium.TimeoutException e) {
-            System.out.println("⏭️ Skip button did not appear within 5 seconds, continuing...");
-        }
         lp.myVisitorsPage();
 
         tenantWindow = driver.getWindowHandle();
