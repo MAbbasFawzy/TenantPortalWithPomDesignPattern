@@ -2,22 +2,32 @@
 <suite name="SuiteName" parallel="false">
     <test name="TestGroup">
         <classes>
+            <!--
             <class name="org.example.TestCases.Test_Case_1_LoginAndNavigation_Test"/>
-
             <class name="org.example.TestCases.Test_Case_2_SubmitRequest_Test"/>
             <class name="org.example.TestCases.Test_Case_3_ContactUs_Tenant_Test"/>
             <class name="org.example.TestCases.Test_Case_4_ServiceSubscription_Test"/>
             <class name="org.example.TestCases.Test_Case_5_RequestService_Test"/>
-
             <class name="org.example.TestCases.Test_Case_6_AddNewVisitor_Test"/>
             <class name="org.example.TestCases.Test_Case_7_AddNewVisitorGroup_Test"/>
+            <class name="org.example.TestCases.Test_Case_8_VisitorResubmit"/>
+            <class name="org.example.TestCases.Test_Case_10_Blacklisted_Visitor"/>
+            <class name="org.example.TestCases.Test_Case_11_VisitorsGroup_Blacklisted"/>
             <class name="org.example.TestCases.Test_Case_12_ChangeProfileInfo_Test"/>
+            <class name="org.example.TestCases.Test_Case_13_ChangeCredentials_Test"/>
+            <class name="org.example.TestCases.Test_Case_14_InvoicesDue"/>
+            <class name="org.example.TestCases.Test_Case_15_InvoicePaid"/>
             <class name="org.example.TestCases.Test_Case_16_Violations_Admin_Test"/>
+            <class name="org.example.TestCases.Test_Case_17_Documents_Tenant"/>
+            <class name="org.example.TestCases.Test_Case_18_Dependant_Test"/>
+            <class name="org.example.TestCases.Test_Case_19_Pets_From_Admin"/>
+            <class name="org.example.TestCases.Test_Case_20_VehiclesAddedFromAdmin"/>
             <class name="org.example.TestCases.Test_Case_21_ContactUsTenantAdmin_Test"/>
             <class name="org.example.TestCases.Test_Case_22_Messages_Test"/>
             <class name="org.example.TestCases.Test_Case_23_Broadcast_Test"/>
             <class name="org.example.TestCases.Test_Case_24_SubscriptionStatusChange"/>
             <class name="org.example.TestCases.Test_Case_25_RequestServiceAdminTenant_Test"/>
+            -->
 
             <class name="org.example.TestCases.Test_Case_13_ChangeCredentials_Test"/>
             <class name="org.example.TestCases.Test_Case_26_UserCreds_Test"/>

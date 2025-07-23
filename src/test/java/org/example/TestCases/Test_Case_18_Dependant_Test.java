@@ -3,12 +3,12 @@ package org.example.TestCases;
 import org.example.PageObjects.ContactUs_Admin;
 import org.example.PageObjects.LoginAndNavigation;
 import org.example.PageObjects.Tenants_Admin;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WindowType;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -47,7 +47,7 @@ public class Test_Case_18_Dependant_Test {
     }
 
 
-    /*
+
     @AfterClass
     public void tearDown() {
         if (driver != null) {
@@ -55,7 +55,7 @@ public class Test_Case_18_Dependant_Test {
         }
     }
 
-     */
+
 
 
     public void loadProperties() {
@@ -111,6 +111,19 @@ public class Test_Case_18_Dependant_Test {
         ad.setPassword(password);
         ad.clickLogin();
 
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30)); // Short timeout
+        try {
+            WebElement skipButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='Skip']")));
+            skipButton.click();
+
+            WebElement okayButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='Okay']")));
+            okayButton.click();
+
+            System.out.println("✅ Skip button appeared and clicked.");
+        } catch (org.openqa.selenium.TimeoutException e) {
+            System.out.println("⏭️ Skip button did not appear within 5 seconds, continuing...");
+        }
+
     }
 
     @Test(priority = 0)
@@ -133,6 +146,8 @@ public class Test_Case_18_Dependant_Test {
         Thread.sleep(2000);
 
         ta.addDependentFromAdminAndGetData();
+
+        Thread.sleep(2000);
 
         adminWindow = driver.getWindowHandle();
 
@@ -164,6 +179,18 @@ public class Test_Case_18_Dependant_Test {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
         ta.checkDependentFromTenant(Tenants_Admin.nameOfDependent);
+
+    }
+
+    @Test(priority = 4)
+    public void deleteDependantFromAdmin() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        driver.switchTo().window(adminWindow);
+
+        Tenants_Admin ta = new Tenants_Admin(driver);
+        ta.deleteDependantFromAdmin();
 
     }
 

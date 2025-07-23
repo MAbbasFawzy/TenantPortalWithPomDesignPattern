@@ -5,6 +5,7 @@ import org.example.PageObjects.LoginAndNavigation;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -45,11 +46,6 @@ public class Test_Case_1_LoginAndNavigation_Test extends ClickUpNotifier {
         
     }
 
-    private String generateTestResultsMessage() {
-        // Logic to generate a summary of test results
-        // You can read the test-output/index.html or use TestNG's IReporter interface
-        return "Test results summary: ..."; // Replace with actual results
-    }
 
     public void loadProperties() {
         Properties properties = new Properties();
@@ -90,7 +86,6 @@ public class Test_Case_1_LoginAndNavigation_Test extends ClickUpNotifier {
 
     public void login() throws InterruptedException {
 
-
         ((JavascriptExecutor) driver).executeScript("localStorage.setItem('app_version', arguments[0]);", version);
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
@@ -102,6 +97,19 @@ public class Test_Case_1_LoginAndNavigation_Test extends ClickUpNotifier {
         lp.setPassword(tenantpassword);
 
         lp.clickLogin();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30)); // Short timeout
+        try {
+            WebElement skipButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='Skip']")));
+            skipButton.click();
+
+            WebElement okayButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='Okay']")));
+            okayButton.click();
+
+            System.out.println("✅ Skip button appeared and clicked.");
+        } catch (org.openqa.selenium.TimeoutException e) {
+            System.out.println("⏭️ Skip button did not appear within 5 seconds, continuing...");
+        }
 
     }
 

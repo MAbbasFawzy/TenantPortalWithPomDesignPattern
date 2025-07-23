@@ -73,7 +73,11 @@ public class Connect_Admin extends randomGenerator {
 
     By broadcast = By.xpath("//a[@href='/tenant/broadcast']");
 
-    String message = "Welcome to Yarn.%" + " " + visitor.numbers;
+    public String message = "Welcome to Yarn." + " " + visitor.numbers;
+
+    public static String messageFromAdmin;
+
+    public static String broadcastFromAdmin;
 
     // Action methods
 
@@ -96,7 +100,8 @@ public class Connect_Admin extends randomGenerator {
         Thread.sleep(500);
         driver.findElement(recipientListOption).click();
 
-        driver.findElement(subject).sendKeys("Welcome to Yarn.");
+        messageFromAdmin = "Welcome to Yarn." + " " + visitor.numbers;
+        driver.findElement(subject).sendKeys(messageFromAdmin);
 
         driver.findElement(topic).sendKeys(message);
         System.out.println("Message Content Admin: " + message);
@@ -110,35 +115,49 @@ public class Connect_Admin extends randomGenerator {
 
     }
 
-    public void openMessagesTenant() throws InterruptedException {
+    public void openMessagesTenant(String messageFromAdmin) throws InterruptedException {
 
         // Click on the messages tenant element
         driver.findElement(messagesTenant).click();
         Thread.sleep(4000);
 
-        // Locate the first row (most recently added row)
-        List<WebElement> rows = driver.findElements(By.cssSelector(".grid > div"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        if (!rows.isEmpty()) {
-            // Click on the first row's clickable element (e.g., checkbox or link)
-            WebElement firstRow = rows.get(0); // Get the first row
+        // Wait for the first message row to be present
+        WebElement firstMessageRow = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("(//div[contains(@class, 'py-2') and contains(@class, 'bg-[var(--c1)]') and .//a[contains(@href, '/tenant/message/view?id=')]])[1]")
+        ));
 
-            // Alternatively, click on a link or button in the first row
-            WebElement linkInFirstRow = firstRow.findElement(By.tagName("a"));
-            linkInFirstRow.click();
-        }
+        // Extract sender name
+        String sender = firstMessageRow.findElement(By.xpath(".//span[contains(@class, 'font-500') and contains(text(), 'Yarn Support')]")).getText();
 
-        Thread.sleep(4000);
-        // Wait for the message container to load
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Wait up to 10 seconds
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("div.flex.justify-between.gap-4")));
+        // Extract date
+        String date = firstMessageRow.findElement(By.xpath(".//div[contains(@class, 'inline-flex')]/span[@class='text-nowrap'][1]")).getText();
 
-        // Step 4: Extract Message Content
-        String messageContent = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[2]/p[1]"))
-                .getText();
-        System.out.println("Message Content: " + messageContent);
+        // Extract time
+        String time = firstMessageRow.findElement(By.xpath(".//div[contains(@class, 'inline-flex')]/span[@class='text-nowrap'][2]")).getText();
 
-        Assert.assertEquals(messageContent, messageContent);
+        // Full datetime
+        String dateTime = date + " " + time;
+
+        // Extract message preview
+        String messagePreview = firstMessageRow.findElement(By.xpath(".//div[contains(@class, 'line-clamp-1')]//span")).getText();
+
+        // Extract view link (href)
+        String messageLink = firstMessageRow.findElement(By.xpath(".//a[contains(@href, '/tenant/message/view?id=')]")).getAttribute("href");
+
+        // Extract message ID from URL (e.g., id=82)
+        String messageId = messageLink.substring(messageLink.indexOf("id=") + 3);
+
+        // Print all extracted data
+        System.out.println("✅ First Message Data:");
+        System.out.println("Sender: " + sender);
+        System.out.println("Date & Time: " + dateTime);
+        System.out.println("Message Preview: " + messagePreview);
+        System.out.println("Message ID: " + messageId);
+        System.out.println("View Link: " + messageLink);
+
+        Assert.assertEquals(messagePreview, messageFromAdmin);
     }
 
 
@@ -182,10 +201,11 @@ public class Connect_Admin extends randomGenerator {
         wait.until(ExpectedConditions.elementToBeClickable(closeIconRecipientList)).click();
 
         // Step 9: Fill in Broadcast Subject
-        wait.until(ExpectedConditions.visibilityOfElementLocated(broadcastSubject)).sendKeys("Welcome to Yarn.");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(broadcastSubject)).sendKeys("Broadcast: Welcome to Yarn." + visitor.numbers);
 
+        broadcastFromAdmin = "Broadcast: Welcome to Yarn." + visitor.numbers;
         // Step 10: Fill in Broadcast Topic
-        wait.until(ExpectedConditions.visibilityOfElementLocated(broadcastTopic)).sendKeys(message);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(broadcastTopic)).sendKeys(broadcastFromAdmin);
 
         // Step 11: Scroll to the bottom of the page
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -196,34 +216,36 @@ public class Connect_Admin extends randomGenerator {
 
     }
 
-    public void checkBroadcastFromTenant() throws InterruptedException {
+    public void checkBroadcastFromTenant(String broadcastFromAdmin) throws InterruptedException {
 
         // Click on the messages tenant element
-        driver.findElement(broadcast).click();
+        driver.findElement(messagesTenant).click();
         Thread.sleep(4000);
 
-        // Locate the first row (most recently added row)
-        List<WebElement> rows = driver.findElements(By.cssSelector(".grid > div"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        if (!rows.isEmpty()) {
-            // Click on the first row's clickable element (e.g., checkbox or link)
-            WebElement firstRow = rows.get(0); // Get the first row
+        // Wait for the first message row to be present
+        WebElement firstMessageRow = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("(//div[contains(@class, 'py-2') and contains(@class, 'bg-[var(--c1)]') and .//a[contains(@href, '/tenant/message/view?id=')]])[1]")
+        ));
 
-            // Alternatively, click on a link or button in the first row
-            WebElement linkInFirstRow = firstRow.findElement(By.tagName("a"));
-            linkInFirstRow.click();
+        // Extract message preview
+        String broadcastPreview = firstMessageRow.findElement(By.xpath(".//div[contains(@class, 'line-clamp-1')]//span")).getText();
 
-        }
+        // Extract view link (href)
+        String broadcastLink = firstMessageRow.findElement(By.xpath(".//a[contains(@href, '/tenant/message/view?id=')]")).getAttribute("href");
 
-        Thread.sleep(4000);
-        // Wait for the message container to load
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Wait up to 10 seconds
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#__nuxt > main > div > div > div.overflow-visible.bg-\\[var\\(--c1\\)\\].p-4.rounded-xl > div.message-thread.mb-4 > div > div > div.mb-4.whitespace-break-spaces > p")));
+        // Extract message ID from URL (e.g., id=82)
+        String broadcastId = broadcastLink.substring(broadcastLink.indexOf("id=") + 3);
 
-        // Step 4: Extract Message Content
-        String broadcastContent = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[2]/div[3]/div[1]/div[1]/div[2]/p[1]"))
-                .getText();
-        System.out.println("Broadcast Content: " + broadcastContent);
+        // Print all extracted data
+        System.out.println("✅ First broadcast Data:");
+
+        System.out.println("Broadcast Preview: " + broadcastPreview);
+        System.out.println("Broadcast ID: " + broadcastId);
+        System.out.println("View Link: " + broadcastLink);
+
+        Assert.assertEquals(broadcastPreview, broadcastFromAdmin);
 
     }
 }

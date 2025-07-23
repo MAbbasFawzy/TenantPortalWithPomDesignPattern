@@ -84,7 +84,7 @@ public class Request_Admin {
 
     By idColumn = By.xpath("//th[2]//div[1]");
 
-    By viewButton = By.xpath("//tbody/tr[1]/td[36]/a[1]");
+    By viewButton = By.xpath("//body[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[8]/div[1]/table[1]/tbody[1]/tr[1]/td[40]/a[1]");
 
     By assignedToDropDownList = By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[3]/div[1]/div[2]/div[1]/div[1]/div[1]");
 
@@ -108,7 +108,7 @@ public class Request_Admin {
 
     By confirmStartButton = By.xpath("//button[@class='swal2-confirm swal2-styled swal2-default-outline']");
 
-    By statusBadge = By.xpath("//body/div/main[@dir='ltr']/div/div/div/a[1]/div[1]/div[2]/span[1]");
+    By statusBadge = By.xpath(".//span[contains(@class, 'capitalize') and contains(@class, 'min-w-20')]");
 
     By statusMenu = By.xpath("//div[@class='dropdown print:hidden']//button[@id='dropdownMenuButton']");
 
@@ -126,9 +126,9 @@ public class Request_Admin {
 
     By subscriptionsModule = By.xpath("//span[normalize-space()='Subscriptions']");
 
-    By subscriptionIDColumn = By.xpath("//th[2]//div[1]");
+    By subscriptionIDColumn = By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[7]/div[1]/table[1]/thead[1]/tr[1]/th[2]/div[1]");
 
-    By viewSubscriptionButton = By.xpath("//tbody/tr[1]/td[42]/a[1]");
+    By viewSubscriptionButton = By.xpath("//tbody/tr[1]/td[43]/a[1]");
 
     By startSubscriptionButton = By.xpath("//button[normalize-space()='Start']");
 
@@ -171,6 +171,8 @@ public class Request_Admin {
     By cancelStatus = By.xpath("//button[@type='button'][normalize-space()='Cancel']");
 
     String requestSubscriptionDescription = "Test!...." + visitor.numbers;
+
+    By skipButton = By.xpath("//button[normalize-space()='Skip']");
 
 
 
@@ -501,7 +503,10 @@ public class Request_Admin {
 
         driver.findElement(confirmPause).click();
 
+        /*
         driver.findElement(okayPauseTenant).click();
+
+         */
     }
 
     public void checkPauseTenant() {
@@ -576,16 +581,13 @@ public class Request_Admin {
 
     public void openSubscriptions() throws InterruptedException {
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
-        Thread.sleep(1000);
+
         driver.findElement(requestsAdminModule).click();
 
-        Thread.sleep(1000);
-        driver.findElement(subscriptionsModule).click();
 
-        Thread.sleep(1000);
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("window.scrollTo(0, 0)");
+        driver.findElement(subscriptionsModule).click();
 
         Thread.sleep(3000);
         driver.findElement(subscriptionIDColumn).click();
@@ -672,13 +674,14 @@ public class Request_Admin {
         // Initialize WebDriverWait
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
+
         try {
             // Step 1: Wait for the grid container to load
-            By gridContainer = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[4]");
+            By gridContainer = By.cssSelector("div[class='grid md:grid-cols-2 xl:grid-cols-3 gap-8 mb-20 pb-10']");
             wait.until(ExpectedConditions.visibilityOfElementLocated(gridContainer));
 
             // Step 2: Locate the first card's status
-            By statusOfSubscription = By.xpath("//body/div/main[@dir='ltr']/div/div/div/a[1]/div[1]/div[2]/span[1]");
+            By statusOfSubscription = By.xpath("//span[normalize-space()='Active']");
             WebElement subscriptionStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusOfSubscription));
 
             // Step 3: Scroll the element into view (optional, if needed)
@@ -690,6 +693,7 @@ public class Request_Admin {
 
             // Step 5: Assert the status
             Assert.assertEquals(status, "Active");
+            System.out.println("the status is active " + status);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -722,11 +726,11 @@ public class Request_Admin {
 
         try {
             // Step 1: Wait for the grid container to load
-            By gridContainer = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[4]");
+            By gridContainer = By.cssSelector("div[class='grid md:grid-cols-2 xl:grid-cols-3 gap-8 mb-20 pb-10']");
             wait.until(ExpectedConditions.visibilityOfElementLocated(gridContainer));
 
             // Step 2: Locate the first card's status
-            By statusOfSubscription = By.xpath("//body/div/main[@dir='ltr']/div/div/div/a[1]/div[1]/div[2]/span[1]");
+            By statusOfSubscription = By.xpath("//span[normalize-space()='Paused']");
             WebElement subscriptionStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusOfSubscription));
 
             // Step 3: Scroll the element into view (optional, if needed)
@@ -735,6 +739,7 @@ public class Request_Admin {
             // Step 4: Extract and print the status
             String status = subscriptionStatus.getText();
             System.out.println("Status of the first card: " + status);
+            System.out.println("the status is Paused " + status);
 
             // Step 5: Assert the status
             Assert.assertEquals(status, "Paused");
@@ -762,7 +767,6 @@ public class Request_Admin {
 
     }
 
-
     public void checkEndSubTenant() {
 
         // Initialize WebDriverWait
@@ -770,11 +774,11 @@ public class Request_Admin {
 
         try {
             // Step 1: Wait for the grid container to load
-            By gridContainer = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[4]");
+            By gridContainer = By.cssSelector("div[class='grid md:grid-cols-2 xl:grid-cols-3 gap-8 mb-20 pb-10']");
             wait.until(ExpectedConditions.visibilityOfElementLocated(gridContainer));
 
             // Step 2: Locate the first card's status
-            By statusOfSubscription = By.xpath("//body/div/main[@dir='ltr']/div/div/div/a[1]/div[1]/div[2]/span[1]");
+            By statusOfSubscription = By.xpath("//span[normalize-space()='Ended']");
             WebElement subscriptionStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusOfSubscription));
 
             // Step 3: Scroll the element into view (optional, if needed)
@@ -786,6 +790,8 @@ public class Request_Admin {
 
             // Step 5: Assert the status
             Assert.assertEquals(status, "Ended");
+
+            System.out.println("the status is Ended " + status);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -817,11 +823,11 @@ public class Request_Admin {
 
         try {
             // Step 1: Wait for the grid container to load
-            By gridContainer = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[4]");
+            By gridContainer = By.cssSelector("div[class='grid md:grid-cols-2 xl:grid-cols-3 gap-8 mb-20 pb-10']");
             wait.until(ExpectedConditions.visibilityOfElementLocated(gridContainer));
 
             // Step 2: Locate the first card's status
-            By statusOfSubscription = By.xpath("//body/div/main[@dir='ltr']/div/div/div/a[1]/div[1]/div[2]/span[1]");
+            By statusOfSubscription = By.xpath("//span[normalize-space()='Terminated']");
             WebElement subscriptionStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusOfSubscription));
 
             // Step 3: Scroll the element into view (optional, if needed)
@@ -833,6 +839,8 @@ public class Request_Admin {
 
             // Step 5: Assert the status
             Assert.assertEquals(status, "Terminated");
+
+            System.out.println("the status is Terminated " + status);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -865,11 +873,11 @@ public class Request_Admin {
 
         try {
             // Step 1: Wait for the grid container to load
-            By gridContainer = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[4]");
+            By gridContainer = By.cssSelector("div[class='grid md:grid-cols-2 xl:grid-cols-3 gap-8 mb-20 pb-10']");
             wait.until(ExpectedConditions.visibilityOfElementLocated(gridContainer));
 
             // Step 2: Locate the first card's status
-            By statusOfSubscription = By.xpath("//body/div/main[@dir='ltr']/div/div/div/a[1]/div[1]/div[2]/span[1]");
+            By statusOfSubscription = By.xpath("//span[normalize-space()='Cancelled']");
             WebElement subscriptionStatus = wait.until(ExpectedConditions.visibilityOfElementLocated(statusOfSubscription));
 
             // Step 3: Scroll the element into view (optional, if needed)
@@ -881,6 +889,7 @@ public class Request_Admin {
 
             // Step 5: Assert the status
             Assert.assertEquals(status, "Cancelled");
+            System.out.println("the status is Cancelled " + status);
 
         } catch (Exception e) {
             e.printStackTrace();

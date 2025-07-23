@@ -66,10 +66,10 @@ public class Test_Case_26_UserCreds_Test {
             }
             properties.load(input);
             tenantUrl = properties.getProperty("tenant.url");
-            tenantusername = properties.getProperty("tenantusername");
-            tenantpassword = properties.getProperty("tenantpassword");
-            newtenantusername = properties.getProperty("newtenantusername");
-            newtenantpassword = properties.getProperty("newpassword");
+            tenantusername = properties.getProperty("newtenantusername");
+            tenantpassword = properties.getProperty("newpassword");
+            newtenantusername = properties.getProperty("tenantusername");
+            newtenantpassword = properties.getProperty("tenantpassword");
             tenant = properties.getProperty("tenant");
             password = properties.getProperty("password");
             username = properties.getProperty("username");

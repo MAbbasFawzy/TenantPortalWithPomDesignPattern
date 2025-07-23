@@ -2,10 +2,13 @@ package org.example.TestCases;
 
 import org.example.PageObjects.LoginAndNavigation;
 import org.example.PageObjects.Profile;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -101,15 +104,17 @@ public class Test_Case_13_ChangeCredentials_Test {
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();
+
+
     }
 
     @Test(priority = 0)
     public void openProfile() throws InterruptedException {
 
-        Thread.sleep(6000);
+
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         Profile pr = new Profile(driver);
-
+        Thread.sleep(6000);
         pr.openProfile();
     }
 

@@ -116,10 +116,10 @@ public class Violations_Admin {
         driver.findElement(involvedPeople).click();
 
         Thread.sleep(1000);
-        driver.findElement(involvedSearchInput).sendKeys("Yarn Support");
+        driver.findElement(involvedSearchInput).sendKeys("yarn.user.tenant");
 
         // Step 13: Locate and click the matching option from the dropdown
-        String involvedOptionXPath = "//li[contains(@role, 'option') and contains(., '" + "Yarn Support" + "')]";
+        String involvedOptionXPath = "//li[contains(@role, 'option') and contains(., '" + "yarn.user.tenant" + "')]";
         WebElement involvedOption = driver.findElement(By.xpath(involvedOptionXPath));
         involvedOption.click();
 

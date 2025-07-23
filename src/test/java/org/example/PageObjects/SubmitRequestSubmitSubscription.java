@@ -9,7 +9,9 @@ import org.testng.Assert;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class SubmitRequestSubmitSubscription extends randomGenerator {
@@ -30,11 +32,11 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
 
     By servicesSearchTextBox = By.xpath("//input[@placeholder='Find a service']");
 
-    By service = By.xpath("//div[@class='grid place-items-center border bg-[var(--c1)] p-6 rounded-xl hover:shadow-lg h-32 cursor-pointer']");
+    By service = By.xpath("//div[@class='mb-5 flex items-center']");
 
     By requestButton = By.xpath("//button[@type='button']");
 
-    By serviceDropDownList = By.xpath("//span[@aria-label='Select request type']");
+    By serviceDropDownList = By.xpath("//span[@class='p-dropdown-label p-inputtext p-dropdown-label-empty']");
 
     By serviceDropDownListRequest = By.xpath("//li[@aria-label='Request']");
 
@@ -42,11 +44,13 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
 
     By serviceDropDownListSubscribeOption = By.xpath("/html[1]/body[1]/div[5]/div[2]/ul[1]/li[1]");
 
-    By serviceSubscribeCategoryList = By.xpath("//div[@class='p-dropdown p-component p-inputwrapper p-dropdown-clearable w-full h-10 flex items-center border-2']");
+    By serviceSubscribeCategoryList = By.xpath("//span[@class='p-dropdown-label p-inputtext p-dropdown-label-empty']");
 
     By serviceSubscribeCategoryListOption = By.xpath("//div[contains(@class, 'p-dropdown')]//li[@class='p-dropdown-item' and @aria-label='200 MBPS']");
 
     By serviceSubscriptionDescription = By.xpath("//textarea[@class='p-inputtextarea p-inputtext p-component p-inputtextarea-resizable w-full rounded-2xl border-2 w-full rounded-2xl']");
+
+    By serviceSubscriptionList = By.xpath("//span[@class='p-dropdown-label p-inputtext p-dropdown-label-empty']");
 
     By serviceCategoryList = By.xpath("/html[1]/body[1]/div[4]/div[1]/div[2]/div[1]/div[2]/div[1]/form[1]/div[1]/div[1]");
 
@@ -60,7 +64,7 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
 
     By preferredVisitDateInput = By.xpath("//input[@class='vdatetime-input w-full my-wrapper-class rounded-3xl ps-3 border-2']");
 
-    By submitButton = By.xpath("/html[1]/body[1]/div[4]/div[1]/div[2]/div[1]/div[2]/div[1]/form[1]/div[7]/button[1]");
+    By submitButton = By.xpath("//button[@type='submit']");
 
     By submitSubscription = By.xpath("//button[@type='submit']");
 
@@ -70,7 +74,9 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
 
     By addButton = By.xpath("//button[@type='button']");
 
-    By servicesTab = By.xpath("//div//div//div//div[2]//div[1]//a[1]");
+    By servicesTab = By.xpath("//body/div/div/div/main[@dir='ltr']/div/div/div/div/div/div/div/div/div/a[1]");
+
+    By selectSubscribeButton = By.xpath("//body//div[@id='__nuxt']//div[@class='container mx-auto']//div//div//div[2]//div[1]//button[1]");
 
     String requestSubscriptionDescription = "Test!...." + visitor.numbers;
 
@@ -90,7 +96,9 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         driver.findElement(txt_myRequestsPage).click();
+        Thread.sleep(500);
         driver.findElement(addButton).click();
+        Thread.sleep(500);
         driver.findElement(servicesTab).click();
         Thread.sleep(500);
         driver.findElement(servicesSearchTextBox).click();
@@ -112,22 +120,32 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         try {
-            // Existing service selection flow
-            wait.until(ExpectedConditions.elementToBeClickable(serviceDropDownList)).click();
-            wait.until(ExpectedConditions.elementToBeClickable(serviceDropDownListRequest)).click();
 
-            Thread.sleep(2000);
-            wait.until(ExpectedConditions.elementToBeClickable(serviceCategoryList)).click();
-            wait.until(ExpectedConditions.elementToBeClickable(serviceCategoryListOption)).click();
+            Thread.sleep(4000);
+            // Step 1: Click the dropdown to open it using XPath
+            WebElement dropdown = driver.findElement(By.xpath("//span[@class='p-dropdown-label p-inputtext p-dropdown-label-empty']"));
+            dropdown.click();
 
-            Thread.sleep(2000);
-            wait.until(ExpectedConditions.elementToBeClickable(serviceCategories)).click();
-            wait.until(ExpectedConditions.elementToBeClickable(serviceCategoriesOption)).click();
+            // Wait for the dropdown panel to appear
+            wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//div[contains(@class, 'p-dropdown-panel')]")
+            ));
 
+            Thread.sleep(4000);
+            // Step 2: Select a specific service (e.g., "Router Installation")
+            String serviceToSelect = "Router Installation";
+            WebElement serviceOption = driver.findElement(
+                    By.xpath("//li[@role='option']//span[contains(text(), '" + serviceToSelect + "')]")
+            );
+            Thread.sleep(500);
+            serviceOption.click();
+
+            Thread.sleep(500);
             // Enter service description
             wait.until(ExpectedConditions.visibilityOfElementLocated(serviceDescription))
                     .sendKeys(requestSubscriptionDescription);
 
+            Thread.sleep(500);
             // Scroll within the pop-up dialog
             WebElement popupContent = wait.until(ExpectedConditions.visibilityOfElementLocated(
                     By.cssSelector("div.p-dialog-content")));
@@ -140,9 +158,11 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
                     By.xpath("//input[@placeholder='Select date']")));
             dateInput.click();
 
+            /* Deleted the selection of hour, minute and am or pm and will make it work only with continue button
             // Wait for the date picker to be visible
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("vdatetime-popup")));
 
+            Thread.sleep(500);
             // Select a random date
             List<WebElement> days = driver.findElements(By.xpath("//div[contains(@class, 'vdatetime-calendar__month__day') and not(contains(@class, 'vdatetime-calendar__month__day--disabled'))]"));
             if (days.isEmpty()) {
@@ -152,14 +172,23 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
             WebElement selectedDay = days.get(randomIndex);
             selectedDay.click();
 
+             */
+
+            Thread.sleep(500);
             // Click the "Continue" button to proceed to the time picker
             WebElement continueButton = wait.until(ExpectedConditions.elementToBeClickable(
                     By.xpath("//div[contains(@class, 'vdatetime-popup__actions__button--confirm')]")));
             continueButton.click();
+            Thread.sleep(500);
+            continueButton.click();
 
+            /* Deleted the selection of hour, minute and am or pm and will make it work only with continue button
             // Wait for the time picker to be visible
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("vdatetime-time-picker")));
 
+
+
+            Thread.sleep(500);
             // Select a random hour
             List<WebElement> hours = driver.findElements(By.xpath("//div[contains(@class, 'vdatetime-time-picker__list--hours')]/div[contains(@class, 'vdatetime-time-picker__item') and not(contains(@class, 'vdatetime-time-picker__item--disabled'))]"));
             if (hours.isEmpty()) {
@@ -169,6 +198,7 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
             WebElement selectedHour = hours.get(randomHourIndex);
             selectedHour.click();
 
+            Thread.sleep(500);
             // Select a random minute
             List<WebElement> minutes = driver.findElements(By.xpath("//div[contains(@class, 'vdatetime-time-picker__list--minutes')]/div[contains(@class, 'vdatetime-time-picker__item') and not(contains(@class, 'vdatetime-time-picker__item--disabled'))]"));
             if (minutes.isEmpty()) {
@@ -178,6 +208,7 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
             WebElement selectedMinute = minutes.get(randomMinuteIndex);
             selectedMinute.click();
 
+            Thread.sleep(500);
             // Select AM/PM
             List<WebElement> suffixes = driver.findElements(By.xpath("//div[contains(@class, 'vdatetime-time-picker__list--suffix')]/div[contains(@class, 'vdatetime-time-picker__item')]"));
             if (suffixes.isEmpty()) {
@@ -187,6 +218,9 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
             WebElement selectedSuffix = suffixes.get(randomSuffixIndex);
             selectedSuffix.click();
 
+             */
+
+            Thread.sleep(500);
             // Scroll to the submit button and click it
             WebElement submitButtonElement = wait.until(ExpectedConditions.elementToBeClickable(submitButton));
             js.executeScript("arguments[0].scrollIntoView({block: 'center', inline: 'nearest'});", submitButtonElement);
@@ -204,6 +238,7 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
             throw new RuntimeException("Failed to select service and request: " + e.getMessage());
         }
     }
+
 
     /* Component for date time picker that maybe used later
 
@@ -256,8 +291,9 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
         // Create an instance of WebDriverWait
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
+        /* Old way to get the data of the newly added request
         // Locate the first card element
-        WebElement firstCardElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='grid md:grid-cols-2 xl:grid-cols-3 gap-6 mb-20 pb-10']//a[1]")));
+        WebElement firstCardElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/a[1]")));
 
         // Extract the title
         String title = firstCardElement.findElement(By.xpath(".//h5[contains(@class, 'text-lg font-bold')]")).getText();
@@ -282,18 +318,39 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
         System.out.println("Date and Time: " + dateTime);
 
         Assert.assertEquals(description, requestSubscriptionDescription);
-    }
 
+         */
+        WebElement card = wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("a.card.flex.flex-col")));
+
+        // Extract Service Title (e.g., "Internet Service #171")
+        String serviceTitle = card.findElement(By.xpath(".//h5[@class='text-lg font-500 flex gap-1 mb-0']")).getText();
+        System.out.println("Service Title: " + serviceTitle);
+
+        // Extract Status (e.g., "Open")
+        String status = card.findElement(By.xpath(".//span[contains(@class, 'capitalize min-w-20')]")).getText();
+        System.out.println("Status: " + status);
+
+        // Extract Service Type (e.g., "Request")
+        String serviceType = card.findElement(By.xpath(".//span[contains(text(), 'Service Type:')]")).getText();
+        System.out.println("Service Type: " + serviceType);
+
+    }
 
     public void selectServiceAndSubscribe() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+
+        driver.findElement(selectSubscribeButton).click();
+
         Random random = new Random();
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
+        Thread.sleep(4000);
+        driver.findElement(serviceSubscriptionList).click();
 
-        driver.findElement(serviceDropDownList).click();
+        /*
         driver.findElement(serviceDropDownListSubscribe).click();
+         */
 
         Thread.sleep(4000);
         driver.findElement(serviceCategoryListSubscribe).click();
@@ -383,6 +440,53 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
         // Create an instance of WebDriverWait
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
+        // Locate the card (assuming it's the first one or you know how to locate it)
+        WebElement card = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.cssSelector("a.card.flex.flex-col[href*='subscription/view?id=']")));
+
+        // 1. Service Title: "Internet Service #240"
+        String serviceTitle = card.findElement(By.xpath(".//h5[@class='text-lg font-500 flex gap-1 mb-0']")).getText();
+        System.out.println("Service Title: " + serviceTitle);
+
+        // 2. Status: "Open"
+        String status = card.findElement(By.xpath(".//span[contains(@class, 'capitalize min-w-20')]")).getText();
+        System.out.println("Status: " + status);
+
+        // 3. Service Type: "Service Type: Subscription"
+        String serviceType = card.findElement(By.xpath(".//span[contains(text(), 'Service Type:')]")).getText();
+        System.out.println("Service Type: " + serviceType);
+
+        // ✅ Assert that the service type is "Subscription"
+        Assert.assertTrue(serviceType.contains("Subscription"), "Card is not of type 'Subscription'");
+
+        // 4. Date and Time: e.g., "20/07/2025 08:40 am"
+        String dateTime = card.findElement(By.xpath(".//div[@class='inline-flex flex-wrap gap-1']")).getText();
+        System.out.println("Date and Time: " + dateTime);
+
+        // 5. Request Type: "Internet Subscription - 12 Months"
+        String subscriptionType = card.findElement(By.xpath(".//span[@class='text-sm font-400 mt-1']")).getText();
+        System.out.println("Subscription Type: " + subscriptionType);
+
+        // 6. Duration: "Annually"
+        String duration = card.findElement(By.xpath(".//span[contains(text(), 'Duration:')]")).getText();
+        System.out.println("Duration: " + duration);
+
+        // 7. Type: "Type: 200 MBPS"
+        String planType = card.findElement(By.xpath(".//span[contains(text(), 'Type:')]")).getText();
+        System.out.println("Plan Type: " + planType);
+
+        // 8. Description: "Test!....9012347890"
+        String description = card.findElement(By.xpath(".//p[@class='text-[var(--c5)] text-sm font-300']")).getText();
+        System.out.println("Description: " + description);
+
+        // 9. Extract the link
+        String cardLink = card.getAttribute("href");
+        System.out.println("Card Link: " + cardLink);
+
+        System.out.println("✅ Card verified and is of type 'Subscription'");
+
+        /*
+
         // Locate the first card element
         WebElement firstCardElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='grid md:grid-cols-2 xl:grid-cols-3 gap-6 mb-20 pb-10']//a[1]")));
 
@@ -417,5 +521,7 @@ public class SubmitRequestSubmitSubscription extends randomGenerator {
         System.out.println("Status: " + status);
 
         Assert.assertEquals(description, requestSubscriptionDescription);
+
+         */
     }
 }

@@ -100,6 +100,18 @@ public class Tenants_Admin extends randomGenerator {
 
     By dependentsTabTenant = By.xpath("//a[normalize-space()='My Dependents']");
 
+    By viewDependant = By.xpath("//a[@class='btn btn-outline btn-primary mb-1']//i[@class='fa fa-long-arrow-right icon-right']");
+
+    By actionMenu = By.xpath("//button[@role='button']");
+
+    By deleteDependant = By.xpath("//a[normalize-space()='Delete']");
+
+    By confirmDelete = By.xpath("//button[normalize-space()='Delete']");
+
+
+
+
+
     // Action Methods
 
     public void openTenantsAndView() {
@@ -258,9 +270,8 @@ public class Tenants_Admin extends randomGenerator {
         driver.findElement(petsTabTenant).click();
         Thread.sleep(6000); // Wait for the page to load
 
-        // Refresh the page
-        driver.navigate().refresh();
-        Thread.sleep(6000); // Wait for the page to refresh
+
+
 
         // Scroll down by pixel count
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -269,6 +280,9 @@ public class Tenants_Admin extends randomGenerator {
 
         // Locate the last row of the pet list
         List<WebElement> petRows = driver.findElements(By.cssSelector(".grid.grid-cols-6.gap-2.items-center"));
+
+
+
 
         // Check if petRows is not empty
         if (!petRows.isEmpty()) {
@@ -414,16 +428,13 @@ public class Tenants_Admin extends randomGenerator {
 
     public void checkVehicleFromTenant(String vehiclePlateNumber) {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
         driver.findElement(carTabTenant).click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-
-
+        /*
         // Find the last card in the grid
         WebElement lastCard = driver.findElement(By.xpath(
-                "(//div[contains(@class, 'bg-[var(--c1)]') and contains(@class, 'rounded-lg')])[last()]"
+                "//div[@class='card flex flex-col gap-3 yarn-shadow']"
         ));
 
         // Extract the plate number from the last card
@@ -437,6 +448,48 @@ public class Tenants_Admin extends randomGenerator {
         assert plateNumber.equals(vehiclePlateNumber) : "Vehicle plate number does not match! Expected: " + vehiclePlateNumber + ", Found: " + plateNumber;
         System.out.println("Car plate number matches successfully.");
 
+         */
+
+        // Wait for grid to be present
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//div[contains(@class, 'grid') and contains(@class, 'sm:grid-cols-3') and contains(@class, 'gap-4') and contains(@class, 'mb-4')]")));
+
+        // Retry fetching cards and reading data to avoid stale reference
+        String plateNumber = null;
+        int maxRetries = 3;
+
+        for (int i = 0; i < maxRetries; i++) {
+            try {
+                // Re-locate the grid fresh
+                WebElement grid = driver.findElement(By.xpath(
+                        "//div[contains(@class, 'grid') and contains(@class, 'sm:grid-cols-3') and contains(@class, 'gap-4') and contains(@class, 'mb-4')]"));
+
+                // Re-locate all cards fresh
+                List<WebElement> cards = grid.findElements(By.xpath(
+                        ".//div[contains(@class, 'card') and contains(@class, 'flex') and contains(@class, 'flex-col') and contains(@class, 'gap-3') and contains(@class, 'yarn-shadow')]"));
+
+                if (cards.isEmpty()) {
+                    throw new RuntimeException("No vehicle cards found.");
+                }
+
+                // Get last card
+                WebElement latestCard = cards.get(cards.size() - 1);
+
+                // Extract plate number immediately after locating
+                plateNumber = latestCard.findElement(By.xpath(".//label[text()='Plate:']/following-sibling::h4")).getText();
+
+                break; // Success → exit loop
+            } catch (StaleElementReferenceException e) {
+                System.out.println("Stale element encountered, retrying... Attempt " + (i + 1));
+                try {
+                    Thread.sleep(1000); // brief pause before retry
+                } catch (InterruptedException ie) { Thread.currentThread().interrupt(); }
+            }
+        }
+
+        if (plateNumber == null) {
+            throw new RuntimeException("Failed to retrieve plate number after multiple retries.");
+        }
 
     }
 
@@ -529,7 +582,9 @@ public class Tenants_Admin extends randomGenerator {
             System.out.println("No gender options found.");
         }
 
+
         driver.findElement(submitDependent).click();
+        Thread.sleep(2000);
     }
 
     public void checkDependentFromTenant(String nameOfDependent) throws InterruptedException {
@@ -556,6 +611,22 @@ public class Tenants_Admin extends randomGenerator {
         } else {
             System.out.println("No dependents found.");
         }
+
+    }
+
+    public void deleteDependantFromAdmin() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        driver.findElement(viewDependant).click();
+
+        Thread.sleep(4000);
+
+        driver.findElement(actionMenu).click();
+
+        driver.findElement(deleteDependant).click();
+
+        driver.findElement(confirmDelete).click();
 
     }
 }

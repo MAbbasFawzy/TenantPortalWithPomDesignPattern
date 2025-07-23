@@ -2,10 +2,13 @@ package org.example.TestCases;
 
 import org.example.PageObjects.ContactUs_Tenant;
 import org.example.PageObjects.LoginAndNavigation;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -97,6 +100,19 @@ public class Test_Case_3_ContactUs_Tenant_Test {
 
         lp.clickLogin();
 
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30)); // Short timeout
+        try {
+            WebElement skipButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='Skip']")));
+            skipButton.click();
+
+            WebElement okayButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='Okay']")));
+            okayButton.click();
+
+            System.out.println("✅ Skip button appeared and clicked.");
+        } catch (org.openqa.selenium.TimeoutException e) {
+            System.out.println("⏭️ Skip button did not appear within 5 seconds, continuing...");
+        }
+
     }
 
 
@@ -114,7 +130,7 @@ public class Test_Case_3_ContactUs_Tenant_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
         ContactUs_Tenant cu = new ContactUs_Tenant(driver);
 
-        Thread.sleep(2000);
+        Thread.sleep(4000);
         cu.clickCategoryList();
     }
 

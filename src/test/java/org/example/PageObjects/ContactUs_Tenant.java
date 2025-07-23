@@ -21,7 +21,7 @@ public class ContactUs_Tenant extends randomGenerator {
 
     By listOption = By.xpath("//li[@aria-label='Suggestion']");
 
-    By txt_SubjectInput = By.xpath("//input[@class='p-inputtext p-component flex w-full h-10 rounded-[40px] border-2 w-full']");
+    By txt_SubjectInput = By.xpath("//input[@class='p-inputtext p-component flex w-full h-12 p-4 rounded-full border-2 font-normal w-full']");
 
     By txt_Message = By.xpath("//textarea[@class='w-full']");
 
