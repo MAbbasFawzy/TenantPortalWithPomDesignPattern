@@ -1,0 +1,16 @@
+<suite name="Suite_4_Communications_Admin" parallel="false">
+
+    <test name="CommunicationAndAdminTests">
+        <classes>
+            <class name="org.example.TestCases.Test_Case_3_ContactUs_Tenant_Test"/>
+            <class name="org.example.TestCases.Test_Case_14_InvoicesDue"/>
+            <class name="org.example.TestCases.Test_Case_15_InvoicePaid"/>
+            <class name="org.example.TestCases.Test_Case_16_Violations_Admin_Test"/>
+            <class name="org.example.TestCases.Test_Case_17_Documents_Tenant"/>
+            <class name="org.example.TestCases.Test_Case_21_ContactUsTenantAdmin_Test"/>
+            <class name="org.example.TestCases.Test_Case_22_Messages_Test"/>
+            <class name="org.example.TestCases.Test_Case_23_Broadcast_Test"/>
+        </classes>
+    </test>
+
+</suite>

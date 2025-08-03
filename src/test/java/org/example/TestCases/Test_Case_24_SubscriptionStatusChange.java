@@ -117,7 +117,7 @@ public class Test_Case_24_SubscriptionStatusChange {
         SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
 
         lp.servicesPage();
-        Thread.sleep(2000);
+        Thread.sleep(8000);
         sr.servicesPageOpenAndSearch();
 
     }

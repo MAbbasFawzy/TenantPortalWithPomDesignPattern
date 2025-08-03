@@ -1,0 +1,12 @@
+<suite name="Suite_1_Authentication_Profile" parallel="false">
+
+    <test name="AuthAndProfileTests">
+        <classes>
+            <class name="org.example.TestCases.Test_Case_1_LoginAndNavigation_Test"/>
+            <class name="org.example.TestCases.Test_Case_12_ChangeProfileInfo_Test"/>
+            <class name="org.example.TestCases.Test_Case_13_ChangeCredentials_Test"/>
+            <class name="org.example.TestCases.Test_Case_26_UserCreds_Test"/>
+        </classes>
+    </test>
+
+</suite>

@@ -114,11 +114,13 @@ public class Test_Case_17_Documents_Tenant {
     }
 
     @Test (priority = 0)
-    public void openTenantsAndView() {
+    public void openTenantsAndView() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
         Tenants_Admin ta = new Tenants_Admin(driver);
+
+        Thread.sleep(6000);
 
         ta.openTenantsAndView();
 

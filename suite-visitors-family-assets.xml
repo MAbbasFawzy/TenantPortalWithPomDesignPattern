@@ -1,0 +1,16 @@
+<suite name="Suite_3_Visitors_Family_Assets" parallel="false">
+
+    <test name="VisitorAndAssetTests">
+        <classes>
+            <class name="org.example.TestCases.Test_Case_6_AddNewVisitor_Test"/>
+            <class name="org.example.TestCases.Test_Case_7_AddNewVisitorGroup_Test"/>
+            <class name="org.example.TestCases.Test_Case_8_VisitorResubmit"/>
+            <class name="org.example.TestCases.Test_Case_10_Blacklisted_Visitor"/>
+            <class name="org.example.TestCases.Test_Case_11_VisitorsGroup_Blacklisted"/>
+            <class name="org.example.TestCases.Test_Case_18_Dependant_Test"/>
+            <class name="org.example.TestCases.Test_Case_19_Pets_From_Admin"/>
+            <class name="org.example.TestCases.Test_Case_20_VehiclesAddedFromAdmin"/>
+        </classes>
+    </test>
+
+</suite>

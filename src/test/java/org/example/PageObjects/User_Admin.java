@@ -96,7 +96,11 @@ public class User_Admin {
 
         driver.findElement(userCredentials).click();
 
+        Thread.sleep(2000);
+
         driver.findElement(newusername).sendKeys(newtenantuser);
+
+        Thread.sleep(2000);
 
         driver.findElement(confirmnewusername).sendKeys(newtenantuser);
 

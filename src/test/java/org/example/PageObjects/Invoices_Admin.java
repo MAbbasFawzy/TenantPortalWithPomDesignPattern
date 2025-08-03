@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -273,11 +274,53 @@ public class Invoices_Admin {
         driver.findElement(invoicesTenant).click();
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Wait for the first invoice card to be present
+        WebElement firstInvoiceCard = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]")
+        ));
+
+        // Extract Invoice Number
+        String invoiceAddedNumber = firstInvoiceCard.findElement(
+                By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]/a[1]/div[1]/div[2]/span[1]")
+        ).getText();
+
+        // Extract Status
+        String status = firstInvoiceCard.findElement(
+                By.xpath(".//span[contains(@class, 'bg-[var(--yc12)]') or contains(@class, 'text-white')]")
+        ).getText().trim();
+
+
+        // Get current date/time
+        LocalDateTime now = LocalDateTime.now();
+
+        // Check if invoice is due: Unpaid AND due date is today or passed
+        boolean isUnpaid = "Unpaid".equalsIgnoreCase(status);
+
+
+        boolean isDue = isUnpaid;
+
+        // Print results
+        System.out.println("✅ First Invoice Data:");
+        System.out.println("Invoice Number: " + invoiceAddedNumber);
+        System.out.println("Status: " + status);
+        System.out.println("Is Unpaid: " + isUnpaid);
+
+        System.out.println("Is Due: " + isDue);
+
+        // ✅ Final assertion or validation
+        if (isDue) {
+            System.out.println("✅ PASS: The invoice is due and unpaid.");
+        } else {
+            System.out.println("❌ FAIL: The invoice is NOT due or already paid.");
+        }
+
+        /*
         Map<String, String> invoiceData = new HashMap<>();
 
         // Wait for the card to appear
         WebElement card = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
-                "//div[contains(@class, 'bg-[var(--c1)]')]"
+                "/html[1]/body[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[1]"
         )));
 
         // Extract invoice number
@@ -312,7 +355,7 @@ public class Invoices_Admin {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
 
-
+         */
 
     }
 

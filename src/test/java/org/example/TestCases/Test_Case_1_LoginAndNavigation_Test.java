@@ -112,66 +112,74 @@ public class Test_Case_1_LoginAndNavigation_Test extends ClickUpNotifier {
     }
 
     @Test
-    public void checkMyInvoicesPageOpen() {
+    public void checkMyInvoicesPageOpen() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
+        Thread.sleep(500);
         lp.myInvoicesPage();
     }
 
     @Test
-    public void checkMyVisitorsPageOpen() {
+    public void checkMyVisitorsPageOpen() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
+        Thread.sleep(500);
         lp.myVisitorsPage();
     }
 
     @Test
-    public void checkMyViolationsPageOpen() {
+    public void checkMyViolationsPageOpen() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
+        Thread.sleep(500);
         lp.myViolationsPage();
     }
 
     @Test
-    public void checkMyDocumentsPageOpen() {
+    public void checkMyDocumentsPageOpen() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
+        Thread.sleep(500);
         lp.myDocumentsPage();
     }
 
     @Test
-    public void checkMyDependentsPageOpen() {
+    public void checkMyDependentsPageOpen() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
+        Thread.sleep(500);
         lp.myDependents();
     }
 
     @Test
-    public void checkMyPetsPageOpen() {
+    public void checkMyPetsPageOpen() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
+        Thread.sleep(500);
         lp.myPetsPage();
     }
 
     @Test
-    public void checkMyVehiclesPageOpen() {
+    public void checkMyVehiclesPageOpen() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
+        Thread.sleep(500);
         lp.myVehiclesPage();
     }
 
     @Test
-    public void checkContactUsPageOpen() {
+    public void checkContactUsPageOpen() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
+        Thread.sleep(500);
 
         try {
             lp.contactUsPage();
@@ -184,17 +192,19 @@ public class Test_Case_1_LoginAndNavigation_Test extends ClickUpNotifier {
     }
 
     @Test
-    public void checkCommunityChatPageOpen() {
+    public void checkCommunityChatPageOpen() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
+        Thread.sleep(500);
         lp.communityNewsPage();
     }
 
     @Test
-    public void checkMyRequestsPageOpen() {
+    public void checkMyRequestsPageOpen() throws InterruptedException {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
+        Thread.sleep(500);
         lp.myRequestsPage();
     }
 }

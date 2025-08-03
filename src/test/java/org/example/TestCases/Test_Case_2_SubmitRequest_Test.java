@@ -110,7 +110,7 @@ public class Test_Case_2_SubmitRequest_Test {
         SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
 
         lp.servicesPage();
-        Thread.sleep(4000);
+        Thread.sleep(8000);
         sr.servicesPageOpenAndSearch();
 
     }

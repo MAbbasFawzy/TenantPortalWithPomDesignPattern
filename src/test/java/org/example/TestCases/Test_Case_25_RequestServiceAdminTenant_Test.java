@@ -117,7 +117,7 @@ public class Test_Case_25_RequestServiceAdminTenant_Test {
         SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
 
         lp.myRequestsPage();
-        Thread.sleep(4000);
+        Thread.sleep(8000);
         sr.servicesPageOpenAndSearcFromMyRequests();
 
     }

@@ -108,9 +108,21 @@ public class Tenants_Admin extends randomGenerator {
 
     By confirmDelete = By.xpath("//button[normalize-space()='Delete']");
 
+    By viewPets = By.xpath("//tbody/tr/td[7]/a[1]");
+
+    By actionMenuForPets = By.xpath("//i[@class='fa-lg fa fa-ellipsis-v']");
+
+    By deletePets = By.xpath("//a[normalize-space()='Delete']");
+
+    By confirmDeletePet = By.xpath("//button[normalize-space()='Delete']");
 
 
 
+    By vehicleActionMenu = By.xpath("//i[@class='fa-solid fa-ellipsis-vertical']");
+
+    By deleteVehicle = By.xpath("//button[@class='dropdown-item text-danger py-2 px-3']");
+
+    By confirmDeleteVehicle = By.xpath("//button[normalize-space()='Delete']");
 
     // Action Methods
 
@@ -270,9 +282,6 @@ public class Tenants_Admin extends randomGenerator {
         driver.findElement(petsTabTenant).click();
         Thread.sleep(6000); // Wait for the page to load
 
-
-
-
         // Scroll down by pixel count
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
@@ -280,9 +289,6 @@ public class Tenants_Admin extends randomGenerator {
 
         // Locate the last row of the pet list
         List<WebElement> petRows = driver.findElements(By.cssSelector(".grid.grid-cols-6.gap-2.items-center"));
-
-
-
 
         // Check if petRows is not empty
         if (!petRows.isEmpty()) {
@@ -304,6 +310,25 @@ public class Tenants_Admin extends randomGenerator {
         } else {
             System.out.println("No pets found.");
         }
+    }
+
+    public void deletePetsFromAdmin() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        driver.findElement(viewPets).click();
+
+        driver.findElement(actionMenuForPets).click();
+
+        Thread.sleep(2000);
+
+        driver.findElement(deletePets).click();
+
+        Thread.sleep(2000);
+
+        driver.findElement(confirmDeletePet).click();
+
+
     }
 
     /*==========================================================*/
@@ -490,6 +515,26 @@ public class Tenants_Admin extends randomGenerator {
         if (plateNumber == null) {
             throw new RuntimeException("Failed to retrieve plate number after multiple retries.");
         }
+
+    }
+
+    public void deleteVehicleFromAdmin() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+
+        driver.findElement(vehicleActionMenu).click();
+
+        Thread.sleep(2000);
+
+        driver.findElement(deleteVehicle).click();
+
+        Thread.sleep(2000);
+
+        driver.findElement(confirmDeleteVehicle).click();
+
+        Thread.sleep(2000);
+
 
     }
 

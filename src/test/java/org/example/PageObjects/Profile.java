@@ -49,6 +49,8 @@ public class Profile {
 
     By submitUserInfo = By.xpath("//button[@type='submit']");
 
+    By saveUserInfo = By.xpath("//button[@type='submit']");
+
     // Action Methods
     public void openProfile() throws InterruptedException {
 
@@ -111,7 +113,8 @@ public class Profile {
 
         driver.findElement(userInfo).sendKeys("Test");
         Thread.sleep(6000);
-        driver.findElement(submitUserInfo).click();
+        driver.findElement(saveUserInfo).click();
+        Thread.sleep(2000);
 
     }
 }

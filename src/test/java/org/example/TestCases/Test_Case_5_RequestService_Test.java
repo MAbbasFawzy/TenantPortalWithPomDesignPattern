@@ -108,7 +108,7 @@ public class Test_Case_5_RequestService_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
         SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
-        Thread.sleep(4000);
+        Thread.sleep(6000);
         lp.myRequestsPage();
         Thread.sleep(4000);
         sr.servicesPageOpenAndSearcFromMyRequests();

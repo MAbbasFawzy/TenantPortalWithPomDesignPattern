@@ -1,0 +1,13 @@
+<suite name="Suite_2_Requests_Services" parallel="false">
+
+    <test name="RequestAndServiceTests">
+        <classes>
+            <class name="org.example.TestCases.Test_Case_2_SubmitRequest_Test"/>
+            <class name="org.example.TestCases.Test_Case_4_ServiceSubscription_Test"/>
+            <class name="org.example.TestCases.Test_Case_5_RequestService_Test"/>
+            <class name="org.example.TestCases.Test_Case_24_SubscriptionStatusChange"/>
+            <class name="org.example.TestCases.Test_Case_25_RequestServiceAdminTenant_Test"/>
+        </classes>
+    </test>
+
+</suite>

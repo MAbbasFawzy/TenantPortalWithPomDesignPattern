@@ -57,6 +57,7 @@ public class Test_Case_19_Pets_From_Admin {
 
 
 
+
     public void loadProperties() {
         Properties properties = new Properties();
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
@@ -109,8 +110,6 @@ public class Test_Case_19_Pets_From_Admin {
         ad.setUsername(username);
         ad.setPassword(password);
         ad.clickLogin();
-
-
 
     }
 
@@ -167,6 +166,20 @@ public class Test_Case_19_Pets_From_Admin {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
         ta.checkPetFromTenant(Tenants_Admin.nameOfPet);
+        tenantWindow = driver.getWindowHandle();
+
+    }
+
+    @Test(priority = 4)
+    public void deletePetsFromAdmin() throws InterruptedException {
+
+        driver.switchTo().window(adminWindow);
+
+
+        Tenants_Admin ta = new Tenants_Admin(driver);
+        Thread.sleep(4000);
+        ta.deletePetsFromAdmin();
+
 
     }
 }

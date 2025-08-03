@@ -159,6 +159,21 @@ public class Test_Case_20_VehiclesAddedFromAdmin {
 
         ta.checkVehicleFromTenant(Tenants_Admin.vehiclePlateNumber);
 
+        tenantWindow = driver.getWindowHandle();
+
     }
 
+    @Test(priority = 3)
+    public void deleteVehicleFromAdmin() throws InterruptedException {
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
+        driver.switchTo().window(adminWindow);
+
+        Tenants_Admin ta = new Tenants_Admin(driver);
+
+        Thread.sleep(2000);
+
+        ta.deleteVehicleFromAdmin();
+    }
 }

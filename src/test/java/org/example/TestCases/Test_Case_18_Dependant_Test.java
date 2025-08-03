@@ -122,21 +122,25 @@ public class Test_Case_18_Dependant_Test {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
 
-        Thread.sleep(4000);
+        Thread.sleep(6000);
 
         ta.openTenantsAndView();
+
+        Thread.sleep(4000);
     }
 
     @Test(priority = 1)
     public void addDependentsFromAdmin() throws InterruptedException {
 
+        Thread.sleep(2000);
+
         Tenants_Admin ta = new Tenants_Admin(driver);
 
-        Thread.sleep(2000);
+        Thread.sleep(4000);
 
         ta.addDependentFromAdminAndGetData();
 
-        Thread.sleep(2000);
+        Thread.sleep(4000);
 
         adminWindow = driver.getWindowHandle();
 
