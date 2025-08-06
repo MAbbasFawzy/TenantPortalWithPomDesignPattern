@@ -29,7 +29,7 @@ public class Test_Case_1_LoginAndNavigation_Test extends ClickUpNotifier {
 
     @BeforeClass
     public void setup() throws InterruptedException {
-        loadProperties();
+        loadProperties(); /**/
         initializeDriver();
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(60));
