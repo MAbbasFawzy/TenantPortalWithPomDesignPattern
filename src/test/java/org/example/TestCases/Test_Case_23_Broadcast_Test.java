@@ -105,7 +105,7 @@ public class Test_Case_23_Broadcast_Test {
         driver.get("https://automation.yarncloud.dev/");
 
         ContactUs_Admin ad = new ContactUs_Admin(driver);
-
+        Thread.sleep(8000);
         ad.setUsername(username);
         ad.setPassword(password);
         ad.clickLogin();
@@ -120,14 +120,14 @@ public class Test_Case_23_Broadcast_Test {
         Connect_Admin cd = new Connect_Admin(driver);
 
         cd.openBroadcast();
-        Thread.sleep(2000);
+        Thread.sleep(8000);
         cd.fillInBroadcastDetails(property, tenantusername);
 
     }
 
 
     @Test(priority = 1)
-    public void loginTenant() {
+    public void loginTenant() throws InterruptedException {
 
         tenantWindow = driver.getWindowHandle();
 
@@ -140,7 +140,7 @@ public class Test_Case_23_Broadcast_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
 
         lp.setPassword(tenantpassword);

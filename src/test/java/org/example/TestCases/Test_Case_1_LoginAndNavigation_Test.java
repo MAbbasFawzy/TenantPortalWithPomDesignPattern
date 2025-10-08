@@ -90,13 +90,15 @@ public class Test_Case_1_LoginAndNavigation_Test extends ClickUpNotifier {
 
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
+        Thread.sleep(8000);
+
         lp.setUsername(tenantusername);
 
         lp.setPassword(tenantpassword);
 
         lp.clickLogin();
 
-
+        Thread.sleep(8000);
 
     }
 

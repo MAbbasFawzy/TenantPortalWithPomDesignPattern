@@ -53,7 +53,7 @@ public class Invoices_Admin {
 
     By invoicesTenant = By.xpath("//a[normalize-space()='My Invoices']");
 
-    By paidInvoices = By.xpath("/html[1]/body[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[2]/button[2]");
+    By paidInvoices = By.xpath("//div[@aria-label='paid']");
 
     public static String invoiceNumber;
 
@@ -62,24 +62,28 @@ public class Invoices_Admin {
 
     public void openInvoicesAndAddInvoice() throws InterruptedException {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
 
         driver.findElement(invoicesMenuItem).click();
 
+        Thread.sleep(10000);
         driver.findElement(addInvoiceButton).click();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
         // Locate and click the dropdown trigger
-        By dropdownLocator = By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[2]/form[1]/div[1]/div[1]/div[2]/div[1]");
+        Thread.sleep(10000);
+        By dropdownLocator = By.xpath("//span[@aria-label='- Select Property -']");
         WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(dropdownLocator));
         dropdown.click();
 
         // Wait for dropdown options to appear
+        Thread.sleep(10000);
         By optionsListLocator = By.xpath("//ul[@class='p-dropdown-items' and @role='listbox']");
         wait.until(ExpectedConditions.visibilityOfElementLocated(optionsListLocator));
 
         // Select "Property 1" from the dropdown
+        Thread.sleep(10000);
         By property1Option = By.xpath("//li[@role='option']//span[@class='p-dropdown-item-label' and text()='Property 1']");
         WebElement property1Element = wait.until(ExpectedConditions.elementToBeClickable(property1Option));
         property1Element.click();
@@ -87,18 +91,22 @@ public class Invoices_Admin {
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         // Locate and click the unit dropdown (the one currently showing "1")
-        By unitDropdownLocator = By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[2]/form[1]/div[1]/div[2]/div[2]/div[1]");
+        Thread.sleep(10000);
+        By unitDropdownLocator = By.xpath("//span[@aria-label='- Select Unit -']");
         WebElement unitDropdown = wait.until(ExpectedConditions.elementToBeClickable(unitDropdownLocator));
 
-        Thread.sleep(3000);
+        Thread.sleep(6000);
         js.executeScript("arguments[0].click();", unitDropdown);
 
         // Wait for dropdown options to appear
+        Thread.sleep(6000);
         By unitOptionsListLocator = By.xpath("//ul[@class='p-dropdown-items' and @role='listbox']");
         wait.until(ExpectedConditions.visibilityOfElementLocated(unitOptionsListLocator));
 
         // Select the option with text "1" (note: there might be multiple elements with "1")
         // This XPath finds the exact match for the text "1" (not containing "1")
+        Thread.sleep(6000);
+
         By unit1Option = By.xpath("//li[@role='option']//span[@class='p-dropdown-item-label' and normalize-space()='1']");
 
         // Wait for the specific option to be clickable
@@ -107,37 +115,45 @@ public class Invoices_Admin {
         // Click using JavaScript to avoid any interception issues
         js.executeScript("arguments[0].click();", unit1Element);
 
-        Thread.sleep(3000);
+
+
 
         // Locate and click the tenant dropdown (the one showing "- Select Tenant -")
-        By tenantDropdownLocator = By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[2]/form[1]/div[1]/div[3]/div[2]/div[1]");
+        By tenantDropdownLocator = By.xpath("//span[@aria-label='- Select Tenant -']");
         WebElement tenantDropdown = wait.until(ExpectedConditions.elementToBeClickable(tenantDropdownLocator));
 
 
         js.executeScript("arguments[0].click();", tenantDropdown);
 
+        Thread.sleep(6000);
+        /*
         // Wait for dropdown options to appear
         wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//ul[@class='p-dropdown-items' and @role='listbox']")
+                By.xpath("//span[@aria-label='- Select Tenant -']")
         ));
 
         // Select the tenant with name "yarn.user.tenant"
         By tenantOptionLocator = By.xpath("//li[@role='option']//span[contains(@class, 'p-dropdown-item-label') and normalize-space()='yarn.user.tenant']");
 
         // Wait for the specific option to be clickable
+        Thread.sleep(10000);
         WebElement tenantOption = wait.until(ExpectedConditions.elementToBeClickable(tenantOptionLocator));
 
         // Click using JavaScript to avoid any interception issues
         js.executeScript("arguments[0].click();", tenantOption);
 
+         */
+
+
+
         Random random = new Random();
 
-        Thread.sleep(3000);
+        Thread.sleep(6000);
 
         try {
             // 1. Click the services dropdown
             WebElement servicesDropdown = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[2]/form[1]/div[1]/div[5]/div[2]/div[1]")
+                    By.xpath("//span[@aria-label='- Select Service -']")
             ));
 
             js.executeScript("arguments[0].click();", servicesDropdown);
@@ -170,29 +186,29 @@ public class Invoices_Admin {
             e.printStackTrace();
         }
 
-        Thread.sleep(4000);
+        Thread.sleep(6000);
 
         // Create an instance of WebDriverWait
         WebDriverWait waitDate = new WebDriverWait(driver, Duration.ofSeconds(60));
 
         // Click on the Preferred visit date input to open the date picker
-        WebElement dateInput = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[2]/form[1]/div[1]/div[7]/div[2]/div[1]")));
+        WebElement dateInput = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='ej2-datepicker_0']")));
         dateInput.click();
 
-        Thread.sleep(4000);
+        Thread.sleep(6000);
         WebElement todayButton = driver.findElement(By.xpath("//button[@aria-label='Today']"));
         todayButton.click();
 
-        WebElement dueDateInput = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/div[2]/form[1]/div[1]/div[8]/div[2]/div[1]/div[1]")));
+        WebElement dueDateInput = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='ej2-datepicker_1']")));
         dueDateInput.click();
 
-        Thread.sleep(4000);
+        Thread.sleep(6000);
         WebElement todayDueDateInput = driver.findElement(By.xpath("//button[@aria-label='Today']"));
         todayDueDateInput.click();
 
         driver.findElement(amount).sendKeys("1500");
 
-        Thread.sleep(4000);
+        Thread.sleep(10000);
 
 
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
@@ -383,7 +399,66 @@ public class Invoices_Admin {
 
         driver.findElement(paidInvoices).click();
 
+        // Wait for the grid container to be present
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//div[contains(@class, 'grid') and contains(@class, 'gap-7')]")
+        ));
 
+        // Locate the FIRST invoice card that contains the LATEST date "15/09/2025"
+        WebElement invoiceCard = driver.findElement(
+                By.xpath("//a[.//span[@class='text-nowrap' and text()='15/09/2025']][1]")
+        );
+
+        // Extract Invoice Number (look for 'bg-white' and 'text-black' classes)
+        String invoiceNumberTenant = invoiceCard.findElement(
+                By.xpath(".//span[contains(@class, 'bg-white') and contains(@class, 'text-black')]")
+        ).getText();
+
+        // Extract Status (look for 'bg-[var(--yc11)]' for Paid or 'bg-[var(--yc12)]' for Unpaid)
+        String status = invoiceCard.findElement(
+                By.xpath(".//span[contains(@class, 'bg-[var(--yc11)]') or contains(@class, 'bg-[var(--yc12)]')]")
+        ).getText();
+
+        // Extract Total Amount
+        String totalAmount = invoiceCard.findElement(
+                By.xpath(".//p[span[contains(text(), 'Total Amount:')]]/span[2]")
+        ).getText().trim();
+
+        // Extract Paid Amount
+        String paidAmount = invoiceCard.findElement(
+                By.xpath(".//p[span[contains(text(), 'Paid Amount:')]]/span[2]")
+        ).getText().trim();
+
+        // Extract Date
+        String date = invoiceCard.findElement(
+                By.xpath(".//p[span[contains(text(), 'Date:')]]//span[@class='text-nowrap']")
+        ).getText();
+
+        // Extract Payment Date (for Paid) or Due Date (for Unpaid) - check label text
+        String paymentOrDueDate;
+        try {
+            // Try to find "Payment date:"
+            paymentOrDueDate = invoiceCard.findElement(
+                    By.xpath(".//p[span[contains(text(), 'Payment date:')]]//span[@class='text-nowrap']")
+            ).getText();
+        } catch (Exception e) {
+            // If not found, find "Due date:"
+            paymentOrDueDate = invoiceCard.findElement(
+                    By.xpath(".//p[span[contains(text(), 'Due date:')]]//span[@class='text-nowrap']")
+            ).getText();
+        }
+
+        // Print the extracted data
+        System.out.println("=== Most Recent Invoice Data ===");
+        System.out.println("Invoice Number: " + invoiceNumberTenant);
+        System.out.println("Status: " + status);
+        System.out.println("Total Amount: " + totalAmount);
+        System.out.println("Paid Amount: " + paidAmount);
+        System.out.println("Date: " + date);
+        System.out.println("Payment/Due Date: " + paymentOrDueDate);
+
+        /*
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         Map<String, String> invoiceData = new HashMap<>();
 
@@ -433,6 +508,8 @@ public class Invoices_Admin {
         } else {
             System.out.println("No invoice cards found.");
         }
+
+         */
     }
 }
 

@@ -101,7 +101,7 @@ public class Test_Case_24_SubscriptionStatusChange {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();
@@ -146,7 +146,7 @@ public class Test_Case_24_SubscriptionStatusChange {
         driver.get("https://automation.yarncloud.dev/");
 
         Request_Admin ra = new Request_Admin(driver);
-
+        Thread.sleep(8000);
         ra.setUsername(username);
 
         ra.setPassword(password);
@@ -158,10 +158,10 @@ public class Test_Case_24_SubscriptionStatusChange {
     @Test(priority = 3)
     public void openSubscriptionsAndView() throws InterruptedException {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        Thread.sleep(10000);
         Request_Admin ra = new Request_Admin(driver);
-
+        Thread.sleep(10000);
         ra.openSubscriptions();
 
     }
@@ -172,7 +172,7 @@ public class Test_Case_24_SubscriptionStatusChange {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
         Request_Admin ra = new Request_Admin(driver);
-
+        Thread.sleep(8000);
         ra.startSubscription();
 
         Thread.sleep(2000);

@@ -54,7 +54,7 @@ public class User_Admin {
 
     public void openPeopleModuleAndViewUser(String tenantusername) throws InterruptedException {
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
         // Step 1: Click on the People Module
         WebElement peopleModuleElement = wait.until(ExpectedConditions.elementToBeClickable(peopleModule));
@@ -64,7 +64,7 @@ public class User_Admin {
         WebElement peopleSubModuleElement = wait.until(ExpectedConditions.elementToBeClickable(peopleSubModule));
         peopleSubModuleElement.click();
 
-        Thread.sleep(2000);
+        Thread.sleep(10000);
 
         // Step 1: Locate the search box and enter the tenant username
         driver.findElement(search).sendKeys("yarn.user.tenant");
@@ -73,7 +73,7 @@ public class User_Admin {
         // Wait for the search results to load
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[contains(text(), 'yarn.user.tenant')]")));
 
-        Thread.sleep(2000);
+        Thread.sleep(10000);
 
         // Scroll up by a specific number of pixels
         JavascriptExecutor js = (JavascriptExecutor)driver;
@@ -82,7 +82,7 @@ public class User_Admin {
         js.executeScript("window.scrollTo(0, 0)");
 
 
-        Thread.sleep(2000);
+        Thread.sleep(10000);
         // Step 2: Locate the "View" button for the tenant
         driver.findElement(viewButton).click();
 
@@ -90,36 +90,42 @@ public class User_Admin {
 
     public void changeCreds(String newtenantuser, String newtenantpass) throws InterruptedException {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
 
         driver.findElement(userAccountInfo).click();
 
         driver.findElement(userCredentials).click();
 
-        Thread.sleep(2000);
+        Thread.sleep(10000);
 
         driver.findElement(newusername).sendKeys(newtenantuser);
 
-        Thread.sleep(2000);
+        Thread.sleep(10000);
 
         driver.findElement(confirmnewusername).sendKeys(newtenantuser);
+        Thread.sleep(10000);
 
         driver.findElement(submitusername).click();
 
-        Thread.sleep(6000);
+        Thread.sleep(10000);
 
         driver.navigate().refresh();
 
-        Thread.sleep(6000);
+        Thread.sleep(10000);
         driver.findElement(userAccountInfo).click();
+        Thread.sleep(10000);
 
         driver.findElement(userCredentials).click();
+        Thread.sleep(10000);
 
         driver.findElement(changepassword).click();
+        Thread.sleep(10000);
 
         driver.findElement(newpassword).sendKeys(newtenantpass);
+        Thread.sleep(10000);
 
         driver.findElement(confirmnewpassword).sendKeys(newtenantpass);
+        Thread.sleep(10000);
 
         driver.findElement(submitpassword).click();
 

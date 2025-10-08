@@ -93,7 +93,7 @@ public class Test_Case_5_RequestService_Test {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
 
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
@@ -108,9 +108,9 @@ public class Test_Case_5_RequestService_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
         SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
-        Thread.sleep(6000);
+        Thread.sleep(10000);
         lp.myRequestsPage();
-        Thread.sleep(4000);
+        Thread.sleep(10000);
         sr.servicesPageOpenAndSearcFromMyRequests();
 
     }

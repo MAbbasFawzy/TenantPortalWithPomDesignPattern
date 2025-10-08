@@ -100,7 +100,7 @@ public class Test_Case_13_ChangeCredentials_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        Thread.sleep(6000);
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();
@@ -136,7 +136,9 @@ public class Test_Case_13_ChangeCredentials_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         Thread.sleep(2000);
         Profile pr = new Profile(driver);
+        Thread.sleep(6000);
         pr.editPassword(tenantpassword, tenantnewpassword, confirmtenantnewpassword);
+        Thread.sleep(6000);
         pr.editUsername(newtenantusername, confirmnewtenantusername);
     }
 
@@ -144,7 +146,7 @@ public class Test_Case_13_ChangeCredentials_Test {
     public void loginWithNewCreds() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-        Thread.sleep(2000);
+        Thread.sleep(6000);
         Profile pr = new Profile(driver);
         pr.logoutAndLoginWithNewCreds();
 

@@ -98,14 +98,14 @@ public class Test_Case_10_Blacklisted_Visitor {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
 
         lp.setPassword(tenantpassword);
 
         lp.clickLogin();
 
-
+        Thread.sleep(8000);
         lp.myVisitorsPage();
 
         tenantWindow = driver.getWindowHandle();
@@ -119,6 +119,7 @@ public class Test_Case_10_Blacklisted_Visitor {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         Visitor visitor = new Visitor(driver);
+        Thread.sleep(8000);
         visitor.addVisitor();
 
     }
@@ -135,7 +136,7 @@ public class Test_Case_10_Blacklisted_Visitor {
         driver.get("https://automation.yarncloud.dev/");
 
         ContactUs_Admin ad = new ContactUs_Admin(driver);
-
+        Thread.sleep(8000);
         ad.setUsername(username);
         ad.setPassword(password);
         ad.clickLogin();
@@ -148,6 +149,7 @@ public class Test_Case_10_Blacklisted_Visitor {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
         Visitor visit = new Visitor(driver);
+        Thread.sleep(8000);
         visit.openVisitorsAndUnwelcomeVisitor();
 
         adminWindow = driver.getWindowHandle();
@@ -165,7 +167,7 @@ public class Test_Case_10_Blacklisted_Visitor {
         driver.switchTo().window(tenantWindow);
 
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.myVisitorsPage();
 
         Visitor visitor = new Visitor(driver);
@@ -181,15 +183,15 @@ public class Test_Case_10_Blacklisted_Visitor {
     @Test(priority = 4)
     public void checkUnwelcomeVisitorFromAdmin() throws InterruptedException {
 
-        Thread.sleep(6000);
+        Thread.sleep(10000);
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
 
         driver.switchTo().window(adminWindow);
 
         Visitor visitor = new Visitor(driver);
 
-        Thread.sleep(6000);
+        Thread.sleep(10000);
         visitor.checkUnwelcomeVisitorFromAdmin();
 
     }

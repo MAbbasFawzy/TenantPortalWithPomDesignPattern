@@ -100,7 +100,7 @@ public class Test_Case_25_RequestServiceAdminTenant_Test {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();
@@ -115,9 +115,9 @@ public class Test_Case_25_RequestServiceAdminTenant_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
         SubmitRequestSubmitSubscription sr = new SubmitRequestSubmitSubscription(driver);
-
+        Thread.sleep(10000);
         lp.myRequestsPage();
-        Thread.sleep(8000);
+        Thread.sleep(10000);
         sr.servicesPageOpenAndSearcFromMyRequests();
 
     }
@@ -145,7 +145,7 @@ public class Test_Case_25_RequestServiceAdminTenant_Test {
         driver.get("https://automation.yarncloud.dev/");
 
         Request_Admin ra = new Request_Admin(driver);
-
+        Thread.sleep(8000);
         ra.setUsername(username);
 
         ra.setPassword(password);
@@ -157,11 +157,15 @@ public class Test_Case_25_RequestServiceAdminTenant_Test {
     @Test(priority = 3)
     public void openRequests() throws InterruptedException {
 
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
+
         Request_Admin ra = new Request_Admin(driver);
+
+        Thread.sleep(8000);
 
         ra.openRequests();
 
-        Thread.sleep(2000);
+        Thread.sleep(8000);
 
         ra.searchRequestAndView();
 

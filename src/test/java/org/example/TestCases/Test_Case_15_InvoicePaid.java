@@ -104,7 +104,7 @@ public class Test_Case_15_InvoicePaid {
         driver.get("https://automation.yarncloud.dev/");
 
         ContactUs_Admin ad = new ContactUs_Admin(driver);
-
+        Thread.sleep(8000);
         ad.setUsername(username);
         ad.setPassword(password);
         ad.clickLogin();
@@ -129,10 +129,10 @@ public class Test_Case_15_InvoicePaid {
     }
 
     @Test(priority = 1)
-    public void openErp() {
+    public void openErp() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
+        Thread.sleep(8000);
         erpWindow = driver.getWindowHandle();
 
         driver.switchTo().newWindow(WindowType.TAB);
@@ -177,7 +177,7 @@ public class Test_Case_15_InvoicePaid {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();
