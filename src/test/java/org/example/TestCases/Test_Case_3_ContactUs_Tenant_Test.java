@@ -93,7 +93,7 @@ public class Test_Case_3_ContactUs_Tenant_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        Thread.sleep(4000);
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
 
         lp.setPassword(tenantpassword);

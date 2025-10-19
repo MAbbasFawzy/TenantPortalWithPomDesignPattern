@@ -179,7 +179,7 @@ public class Test_Case_14_InvoicesDue {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();

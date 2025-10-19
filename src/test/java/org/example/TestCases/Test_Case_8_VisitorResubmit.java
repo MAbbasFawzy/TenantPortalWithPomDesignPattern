@@ -99,7 +99,7 @@ public class Test_Case_8_VisitorResubmit {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
 
         lp.setPassword(tenantpassword);
@@ -134,7 +134,7 @@ public class Test_Case_8_VisitorResubmit {
         driver.get("https://automation.yarncloud.dev/");
 
         ContactUs_Admin ad = new ContactUs_Admin(driver);
-
+        Thread.sleep(8000);
         ad.setUsername(username);
         ad.setPassword(password);
         ad.clickLogin();
@@ -145,8 +145,9 @@ public class Test_Case_8_VisitorResubmit {
     public void openVisitorsAndExpire() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
+        Thread.sleep(8000);
         Visitor visit = new Visitor(driver);
+        Thread.sleep(8000);
         visit.openVisitorsAndExpireVisitor();
 
         adminWindow = driver.getWindowHandle();

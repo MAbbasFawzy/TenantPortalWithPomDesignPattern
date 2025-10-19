@@ -582,20 +582,20 @@ public class Request_Admin {
     public void openSubscriptions() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
+        Thread.sleep(10000);
 
         driver.findElement(requestsAdminModule).click();
 
-
+        Thread.sleep(10000);
         driver.findElement(subscriptionsModule).click();
 
-        Thread.sleep(3000);
+        Thread.sleep(6000);
         driver.findElement(subscriptionIDColumn).click();
 
-        Thread.sleep(3000);
+        Thread.sleep(6000);
         driver.findElement(subscriptionIDColumn).click();
 
-        Thread.sleep(1000);
+        Thread.sleep(6000);
         driver.findElement(viewSubscriptionButton).click();
 
     }

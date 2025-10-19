@@ -106,7 +106,7 @@ public class Test_Case_18_Dependant_Test {
         driver.get("https://automation.yarncloud.dev/");
 
         ContactUs_Admin ad = new ContactUs_Admin(driver);
-
+        Thread.sleep(8000);
         ad.setUsername(username);
         ad.setPassword(password);
         ad.clickLogin();
@@ -122,21 +122,21 @@ public class Test_Case_18_Dependant_Test {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
 
-        Thread.sleep(6000);
+        Thread.sleep(10000);
 
         ta.openTenantsAndView();
 
-        Thread.sleep(4000);
+        Thread.sleep(10000);
     }
 
     @Test(priority = 1)
     public void addDependentsFromAdmin() throws InterruptedException {
 
-        Thread.sleep(2000);
+        Thread.sleep(4000);
 
         Tenants_Admin ta = new Tenants_Admin(driver);
 
-        Thread.sleep(4000);
+        Thread.sleep(10000);
 
         ta.addDependentFromAdminAndGetData();
 
@@ -161,7 +161,7 @@ public class Test_Case_18_Dependant_Test {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();
@@ -171,6 +171,7 @@ public class Test_Case_18_Dependant_Test {
     public void checkDependentsDataFromTenant() throws InterruptedException {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
+        Thread.sleep(8000);
         ta.checkDependentFromTenant(Tenants_Admin.nameOfDependent);
 
     }

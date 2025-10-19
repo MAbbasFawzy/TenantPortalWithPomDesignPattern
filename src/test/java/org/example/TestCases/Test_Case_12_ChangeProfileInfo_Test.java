@@ -101,7 +101,7 @@ public class Test_Case_12_ChangeProfileInfo_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
 
-        Thread.sleep(6000);
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();

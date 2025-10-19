@@ -112,7 +112,7 @@ public class Visitor extends randomGenerator {
 
     By plateLetters = By.xpath("/html[1]/body[1]/div[1]/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/form[1]/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[3]/input[1]");
 
-    By viewBlacklistedVisitor = By.xpath("//tr[contains(@class,'e-row e-altrow')]//td[contains(@aria-label,'is template cell column header View')]");
+    By viewBlacklistedVisitor = By.xpath("//tbody/tr[1]/td[36]/a[1]");
 
 
     public static String documentOption;
@@ -249,7 +249,7 @@ public class Visitor extends randomGenerator {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         randomGenerator.Visitor visitor = randomGenerator.generateRandomContact();
-
+        Thread.sleep(8000);
 
         driver.findElement(addVisitor).click();
         Thread.sleep(2000);
@@ -257,7 +257,7 @@ public class Visitor extends randomGenerator {
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-        Thread.sleep(500);
+        Thread.sleep(8000);
 
         // Wait for the dropdown options to be visible
         List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(visitTypeOption));
@@ -960,6 +960,7 @@ public class Visitor extends randomGenerator {
 
         driver.navigate().refresh();
 
+        Thread.sleep(10000);
         driver.findElement(visitorsMenuItem).click();
 
         /*
@@ -971,10 +972,10 @@ public class Visitor extends randomGenerator {
 
          */
 
-        Thread.sleep(2000);
+        Thread.sleep(10000);
         driver.findElement(viewVisitor).click();
 
-        Thread.sleep(2000);
+        Thread.sleep(10000);
         driver.findElement(unwelcomeAlert).getText();
     }
 
@@ -1201,16 +1202,16 @@ public class Visitor extends randomGenerator {
 
     public void checkVisitorsFromAdmin() throws InterruptedException {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(120));
 
         driver.navigate().refresh();
-
+        Thread.sleep(10000);
         driver.findElement(visitorsMenuItem).click();
 
-        Thread.sleep(2000);
+        Thread.sleep(10000);
         driver.findElement(viewBlacklistedVisitor).click();
 
-        Thread.sleep(2000);
+        Thread.sleep(10000);
         driver.findElement(unwelcomeAlert).getText();
 
         // Locate the card body

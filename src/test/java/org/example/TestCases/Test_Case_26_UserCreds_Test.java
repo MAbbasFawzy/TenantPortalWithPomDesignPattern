@@ -106,10 +106,12 @@ public class Test_Case_26_UserCreds_Test {
         driver.get("https://automation.yarncloud.dev/");
 
         ContactUs_Admin ad = new ContactUs_Admin(driver);
-
+        Thread.sleep(8000);
         ad.setUsername(username);
         ad.setPassword(password);
         ad.clickLogin();
+        Thread.sleep(10000);
+
 
     }
 
@@ -117,10 +119,11 @@ public class Test_Case_26_UserCreds_Test {
     public void openPeopleModule() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
+        Thread.sleep(10000);
         User_Admin ud = new User_Admin(driver);
-
+        Thread.sleep(10000);
         ud.openPeopleModuleAndViewUser(tenantusername);
+        Thread.sleep(10000);
         ud.changeCreds(newtenantusername, newtenantpassword);
         Thread.sleep(2000);
     }
@@ -128,7 +131,7 @@ public class Test_Case_26_UserCreds_Test {
     @Test(priority = 1)
     public void loginWithNewCreds() throws InterruptedException {
 
-        Thread.sleep(2000);
+        Thread.sleep(10000);
         tenantWindow = driver.getWindowHandle();
 
         driver.switchTo().newWindow(WindowType.TAB);
@@ -140,7 +143,7 @@ public class Test_Case_26_UserCreds_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(newtenantusername);
 
         lp.setPassword(newtenantpassword);

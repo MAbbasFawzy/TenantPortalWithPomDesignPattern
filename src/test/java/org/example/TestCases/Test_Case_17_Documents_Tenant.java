@@ -104,7 +104,7 @@ public class Test_Case_17_Documents_Tenant {
         driver.get("https://automation.yarncloud.dev/");
 
         ContactUs_Admin ad = new ContactUs_Admin(driver);
-
+        Thread.sleep(8000);
         ad.setUsername(username);
         ad.setPassword(password);
         ad.clickLogin();
@@ -120,7 +120,7 @@ public class Test_Case_17_Documents_Tenant {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
 
-        Thread.sleep(6000);
+        Thread.sleep(8000);
 
         ta.openTenantsAndView();
 
@@ -131,7 +131,7 @@ public class Test_Case_17_Documents_Tenant {
     public void uploadFiles() throws InterruptedException {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
-
+        Thread.sleep(8000);
         ta.uploadDocuments();
 
         adminWindow = driver.getWindowHandle();
@@ -152,7 +152,7 @@ public class Test_Case_17_Documents_Tenant {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();

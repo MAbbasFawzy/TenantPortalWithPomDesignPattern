@@ -99,7 +99,7 @@ public class Test_Case_21_ContactUsTenantAdmin_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
 
         lp.setPassword(tenantpassword);
@@ -112,10 +112,11 @@ public class Test_Case_21_ContactUsTenantAdmin_Test {
 
 
     @Test(priority = 0)
-    public void checkContactUsPageOpen() {
+    public void checkContactUsPageOpen() throws InterruptedException {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
+        Thread.sleep(8000);
         lp.contactUsPage();
     }
 
@@ -125,7 +126,7 @@ public class Test_Case_21_ContactUsTenantAdmin_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
         ContactUs_Tenant cu = new ContactUs_Tenant(driver);
 
-        Thread.sleep(2000);
+        Thread.sleep(8000);
         cu.clickCategoryList();
     }
 
@@ -137,7 +138,7 @@ public class Test_Case_21_ContactUsTenantAdmin_Test {
 
         cu.enterDataInContactUsForm();
 
-        Thread.sleep(2000);
+        Thread.sleep(8000);
 
         cu.openContactUsHistoryPage();
 
@@ -157,7 +158,7 @@ public class Test_Case_21_ContactUsTenantAdmin_Test {
         driver.get("https://automation.yarncloud.dev/");
 
         ContactUs_Admin ad = new ContactUs_Admin(driver);
-
+        Thread.sleep(8000);
         ad.setUsername(username);
         ad.setPassword(password);
         ad.clickLogin();
@@ -170,7 +171,7 @@ public class Test_Case_21_ContactUsTenantAdmin_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
         ContactUs_Admin ad = new ContactUs_Admin(driver);
-
+        Thread.sleep(8000);
         ad.openContactUsPage();
         ad.openContactUsRequestDetails();
 

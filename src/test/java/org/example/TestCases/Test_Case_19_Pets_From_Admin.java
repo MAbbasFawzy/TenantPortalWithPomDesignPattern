@@ -106,7 +106,7 @@ public class Test_Case_19_Pets_From_Admin {
         driver.get("https://automation.yarncloud.dev/");
 
         ContactUs_Admin ad = new ContactUs_Admin(driver);
-
+        Thread.sleep(8000);
         ad.setUsername(username);
         ad.setPassword(password);
         ad.clickLogin();
@@ -132,7 +132,7 @@ public class Test_Case_19_Pets_From_Admin {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
 
-        Thread.sleep(2000);
+        Thread.sleep(8000);
 
         ta.addPetsFromAdminAndGetPetData();
 
@@ -155,7 +155,7 @@ public class Test_Case_19_Pets_From_Admin {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();
@@ -165,6 +165,7 @@ public class Test_Case_19_Pets_From_Admin {
     public void checkPetsDataFromTenant() throws InterruptedException {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
+        Thread.sleep(8000);
         ta.checkPetFromTenant(Tenants_Admin.nameOfPet);
         tenantWindow = driver.getWindowHandle();
 
@@ -177,7 +178,7 @@ public class Test_Case_19_Pets_From_Admin {
 
 
         Tenants_Admin ta = new Tenants_Admin(driver);
-        Thread.sleep(4000);
+        Thread.sleep(10000);
         ta.deletePetsFromAdmin();
 
 

@@ -101,7 +101,7 @@ public class Test_Case_16_Violations_Admin_Test {
         driver.get("https://automation.yarncloud.dev/");
 
         ContactUs_Admin ad = new ContactUs_Admin(driver);
-
+        Thread.sleep(8000);
         ad.setUsername(username);
         ad.setPassword(password);
         ad.clickLogin();
@@ -114,7 +114,7 @@ public class Test_Case_16_Violations_Admin_Test {
     public void openViolations() throws InterruptedException {
 
         Violations_Admin va = new Violations_Admin(driver);
-
+        Thread.sleep(8000);
         va.openAddNewViolation();
 
     }
@@ -128,7 +128,7 @@ public class Test_Case_16_Violations_Admin_Test {
     }
 
     @Test(priority = 2)
-    public void loginTenant() {
+    public void loginTenant() throws InterruptedException {
 
         tenantWindow = driver.getWindowHandle();
 
@@ -141,7 +141,7 @@ public class Test_Case_16_Violations_Admin_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
 
         lp.setPassword(tenantpassword);

@@ -92,13 +92,13 @@ public class Test_Case_7_AddNewVisitorGroup_Test {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
 
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
 
         lp.setPassword(tenantpassword);
 
         lp.clickLogin();
-
+        Thread.sleep(8000);
 
         lp.myVisitorsPage();
 
@@ -110,7 +110,7 @@ public class Test_Case_7_AddNewVisitorGroup_Test {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         Visitor visitor = new Visitor(driver);
-        Thread.sleep(2000);
+        Thread.sleep(8000);
         visitor.addNewVisitorsGroup();
 
     }

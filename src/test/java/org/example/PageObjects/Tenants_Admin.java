@@ -126,16 +126,16 @@ public class Tenants_Admin extends randomGenerator {
 
     // Action Methods
 
-    public void openTenantsAndView() {
+    public void openTenantsAndView() throws InterruptedException {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(120));
+        Thread.sleep(10000);
         driver.findElement(manageContracts).click();
-
+        Thread.sleep(10000);
         driver.findElement(tenants).click();
-
+        Thread.sleep(10000);
         driver.findElement(allTab).click();
-
+        Thread.sleep(10000);
         driver.findElement(viewButton).click();
 
     }
@@ -314,10 +314,10 @@ public class Tenants_Admin extends randomGenerator {
 
     public void deletePetsFromAdmin() throws InterruptedException {
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
-
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(120));
+        Thread.sleep(2000);
         driver.findElement(viewPets).click();
-
+        Thread.sleep(2000);
         driver.findElement(actionMenuForPets).click();
 
         Thread.sleep(2000);
@@ -544,11 +544,11 @@ public class Tenants_Admin extends randomGenerator {
 
         randomGenerator.Visitor visitor = randomGenerator.generateRandomContact();
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120));
         JavascriptExecutor js = (JavascriptExecutor) driver;
         Random rand = new Random();
 
-        Thread.sleep(6000);
+        Thread.sleep(10000);
 
         // Scroll to Pets Tab and click
         WebElement dependentsTabElement = driver.findElement(dependentsTab);
@@ -563,7 +563,7 @@ public class Tenants_Admin extends randomGenerator {
 
         // Step 1: Locate and click the dropdown trigger icon
         WebElement dropdownTrigger = waitRelationList.until(ExpectedConditions.elementToBeClickable(By.xpath(
-                "/html[1]/body[1]/div[10]/div[1]/div[2]/div[1]/form[1]/div[1]/div[1]"
+                "/html[1]/body[1]/div[10]/div[1]/div[2]/div[1]/form[1]/div[1]/div[1]/span[1]"
         )));
         dropdownTrigger.click();
 
@@ -593,11 +593,11 @@ public class Tenants_Admin extends randomGenerator {
 
         Thread.sleep(6000);
 
-        nameOfDependent = visitor.firstName;
+        nameOfDependent = visitor.firstName + visitor.lastName;
 
         driver.findElement(dependentName).sendKeys(nameOfDependent);
 
-        driver.findElement(dependentEmail).sendKeys(visitor.firstName + "@gmail.com");
+        driver.findElement(dependentEmail).sendKeys(visitor.firstName + visitor.lastName + "@gmail.com");
 
 
         WebDriverWait waitGenderList = new WebDriverWait(driver, Duration.ofSeconds(10));

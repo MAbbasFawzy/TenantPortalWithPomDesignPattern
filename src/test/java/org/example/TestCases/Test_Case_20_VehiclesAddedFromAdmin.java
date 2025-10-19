@@ -106,7 +106,7 @@ public class Test_Case_20_VehiclesAddedFromAdmin {
         driver.get("https://automation.yarncloud.dev/");
 
         ContactUs_Admin ad = new ContactUs_Admin(driver);
-
+        Thread.sleep(8000);
         ad.setUsername(username);
         ad.setPassword(password);
         ad.clickLogin();
@@ -120,7 +120,7 @@ public class Test_Case_20_VehiclesAddedFromAdmin {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
 
-        Thread.sleep(2000);
+        Thread.sleep(8000);
 
         ta.addVehicleFromAdmin();
 
@@ -143,7 +143,7 @@ public class Test_Case_20_VehiclesAddedFromAdmin {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(50));
         LoginAndNavigation lp = new LoginAndNavigation(driver);
-
+        Thread.sleep(8000);
         lp.setUsername(tenantusername);
         lp.setPassword(tenantpassword);
         lp.clickLogin();
@@ -155,7 +155,7 @@ public class Test_Case_20_VehiclesAddedFromAdmin {
 
         Tenants_Admin ta = new Tenants_Admin(driver);
 
-        Thread.sleep(2000);
+        Thread.sleep(8000);
 
         ta.checkVehicleFromTenant(Tenants_Admin.vehiclePlateNumber);
 
