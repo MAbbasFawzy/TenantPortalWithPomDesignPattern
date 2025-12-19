@@ -33,11 +33,7 @@ public class Test_Case_1_LoginAndNavigation_Test extends ClickUpNotifier {
     @BeforeClass
     public void setup() throws InterruptedException {
 
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        options.addArguments("--disable-gpu");
-        options.addArguments("--window-size=1920,1080");
-        WebDriver driver = new ChromeDriver(options);
+
 
 
         loadProperties(); /**/

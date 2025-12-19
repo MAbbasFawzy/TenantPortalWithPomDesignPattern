@@ -114,6 +114,8 @@ public class Visitor extends randomGenerator {
 
     By viewBlacklistedVisitor = By.xpath("//tbody/tr[1]/td[36]/a[1]");
 
+    By blacklistedVisitorView = By.xpath("//tbody/tr[2]/td[36]/a[1]");
+
 
     public static String documentOption;
 
@@ -1209,7 +1211,7 @@ public class Visitor extends randomGenerator {
         driver.findElement(visitorsMenuItem).click();
 
         Thread.sleep(10000);
-        driver.findElement(viewBlacklistedVisitor).click();
+        driver.findElement(blacklistedVisitorView).click();
 
         Thread.sleep(10000);
         driver.findElement(unwelcomeAlert).getText();

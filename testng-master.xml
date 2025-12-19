@@ -1,8 +1,0 @@
-<suite name="MasterSuite" parallel="false">
-    <suite-files>
-        <suite-file path="suite-auth-profile.xml"/>
-        <suite-file path="suite-requests-services.xml"/>
-        <suite-file path="suite-visitors-family-assets.xml"/>
-        <suite-file path="suite-communications-admin.xml"/>
-    </suite-files>
-</suite>
