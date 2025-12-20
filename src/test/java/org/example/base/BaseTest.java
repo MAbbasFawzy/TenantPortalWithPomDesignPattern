@@ -19,11 +19,25 @@ public abstract class BaseTest {
     protected WebDriverWait wait;
     protected Properties properties;
 
+    protected String adminWindow;
+    protected String tenantWindow;
+    protected String erpWindow;
+
     protected String tenantUrl;
     protected String tenantusername;
     protected String tenantpassword;
     protected String tenant;
+    protected String username;
+    protected String password;
     protected String version;
+
+    protected String tenantnewpassword;
+    protected String confirmtenantnewpassword;
+    protected String newtenantusername;
+    protected String confirmnewtenantusername;
+    protected String newtenantpassword;
+    protected String property;
+
 
     @BeforeClass(alwaysRun = true)
     public void setUp() {
@@ -61,6 +75,9 @@ public abstract class BaseTest {
             tenantusername = properties.getProperty("tenantusername");
             tenantpassword = properties.getProperty("tenantpassword");
             tenant = properties.getProperty("tenant");
+            password = properties.getProperty("password");
+            username = properties.getProperty("username");
+            property = properties.getProperty("property");
             version = properties.getProperty("version");
 
         } catch (Exception e) {
